@@ -1,0 +1,798 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>Micronaut session</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+    <link rel="stylesheet" href="../css/custom.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
+    <link rel="stylesheet" href="../css/highlight/agate.css">
+    <script src="../js/highlight.pack.js"></script>
+    <script src="../js/guide.js"></script>
+    <script src="../js/multi-language-sample.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../css/multi-language-sample.css"/>
+    <script src="../js/docs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.13/clipboard.min.js"></script>
+    <script type="text/javascript">
+        function addJsClass(el) {
+            var classes = document.body.className.split(" ");
+            classes.push("js");
+            document.body.className = classes.join(" ");
+        }
+    </script>
+
+</head>
+
+<body class="body" id="docs" onload="addJsClass();" onhashchange="highlightMenu()">
+
+<div id="table-of-content-nav-link" class="desktop">
+    <a id="theme-switcher" title="Switch to dark theme" href="javascript:switchTheme(true)"><i class="fa fa-moon-o"></i></a>
+    <a title="Collapse/Open Table of contents" title="Hide Table of Contents" href="javascript:hideTableOfContents();" class="button">[ + ]</a>
+</div>
+
+<div id="main">
+    <div id="navigation" class="no-print">
+        <div class="navTitle">
+            <span id="logo"><a href="http://micronaut.io" title="Go to Micronaut Website"><img src="../img/micronaut-logo-white.svg" alt="Micronaut"/></a></span>
+        </div>
+        <div class="navLinks">
+            <ul>
+                    <li><div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)" class="desktop">
+                            <a href="../guide/index.html" class="button">Table of contents</a>
+                            <div id="nav-summary-childs" style="display:none;">
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#sessions"><strong>2</strong><span>Http Sessions</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#releaseHistory"><strong>3</strong><span>Release History</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>4</strong><span>Repository</span></a></div>
+                                
+                            </div>
+                        </div>
+                    </li>
+
+                <li id="table-of-content-nav-link-mobile" class="mobile">
+                    <a title="Scroll to Table of contents" href="javascript:scrollToTop();" class="button">Toc</a>
+                </li>
+                <li class="desktop">
+                    <a title="Go to API documentation" href="../api/index.html" class="button">API Reference</a>
+                </li>
+                <li class="mobile">
+                    <a title="Go to API documentation" href="../api/index.html" class="button">API</a>
+                </li>
+                <li class="desktop">
+                    <a title="Go to Configuration Reference documentation" href="../guide/configurationreference.html" class="button">Configuration Reference</a>
+                </li>
+                <li class="mobile">
+                    <a title="Go to Configuration Reference documentation" href="../guide/configurationreference.html" class="button">Conf</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    
+    <div id="table-of-content">
+        <div class="toc-content">
+
+        <h2>Table of Contents</h2>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-introduction"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-sessions"><a href="#sessions"><strong>2</strong><span>Http Sessions</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-sessionFilter"><a href="#sessionFilter"><strong>2.1</strong><span>Session Filter</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-enablingSessions"><a href="#enablingSessions"><strong>2.2</strong><span>Enabling Sessions</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-redisSessions"><a href="#redisSessions"><strong>2.3</strong><span>Redis Sessions</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-configuringSessionResolution"><a href="#configuringSessionResolution"><strong>2.4</strong><span>Configuring Session Resolution</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-workingWithSessions"><a href="#workingWithSessions"><strong>2.5</strong><span>Working with Sessions</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-sessionClients"><a href="#sessionClients"><strong>2.6</strong><span>Session Clients</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-sessionValue"><a href="#sessionValue"><strong>2.7</strong><span>Using @SessionValue</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-sessionEvents"><a href="#sessionEvents"><strong>2.8</strong><span>Session Events</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-releaseHistory"><a href="#releaseHistory"><strong>3</strong><span>Release History</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>4</strong><span>Repository</span></a></div>
+        
+        </div>
+    </div>
+    
+    <div class="docs-content">
+    <div class="project">
+        <h1>Micronaut session</h1>
+        <p></p>
+        <p>HTTP Session support for Micronaut</p>
+        <p><strong>Version:</strong> 4.7.0 </p>
+    </div>
+    
+<h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-session/edit/4.7.x/src/main/docs/guide/introduction.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>By default, Micronaut is a stateless HTTP server, however depending on your application requirements you may need the notion of HTTP sessions.</p>
+</div>
+
+<h1 id="sessions"><a class="anchor" href="#sessions"></a>2 Http Sessions</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-session/edit/4.7.x/src/main/docs/guide/sessions.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Micronaut provides this module inspired by <a href="https://projects.spring.io/spring-session/">Spring Session</a> that enables this which currently has two implementations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In-Memory sessions - which you should combine with a sticky session proxy if you plan to run multiple instances.</p>
+</li>
+<li>
+<p>Redis sessions - In this case <a href="https://redis.io">Redis</a> stores sessions, and non-blocking I/O is used to read/write sessions to Redis.</p>
+</li>
+</ul>
+</div>
+
+<h2 id="sessionFilter"><a class="anchor" href="#sessionFilter"></a>2.1 Session Filter</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-session/edit/4.7.x/src/main/docs/guide/sessions/sessionFilter.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The core of Micronaut Session implementation is <code>io.micronaut.session.http.HttpSessionFilter</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following configuration options are available for the SessionFilter Filter:</p>
+</div>
+<a id="io.micronaut.session.http.HttpSessionFilterConfigurationProperties" href="#io.micronaut.session.http.HttpSessionFilterConfigurationProperties">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/session/http/HttpSessionFilterConfigurationProperties.html">HttpSessionFilterConfigurationProperties</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.session.filter.regex-pattern</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pattern the {@link HttpSessionFilter} should match. Default value "^.*$".</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.session.filter.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether the {@link HttpSessionFilter} is enabled. Default value true</p></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="enablingSessions"><a class="anchor" href="#enablingSessions"></a>2.2 Enabling Sessions</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-session/edit/4.7.x/src/main/docs/guide/sessions/enablingSessions.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>To enable support for in-memory sessions you just need the <code>micronaut-session</code> dependency:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.session:micronaut-session")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.session&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-session&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div></p>
+</div>
+
+<h2 id="redisSessions"><a class="anchor" href="#redisSessions"></a>2.3 Redis Sessions</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-session/edit/4.7.x/src/main/docs/guide/sessions/redisSessions.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>To store <a href="../api/io/micronaut/session/Session.html">Session</a> instances in Redis, use the <a href="https://micronaut-projects.github.io/micronaut-redis/latest/guide/#sessions">Micronaut Redis</a> module which includes detailed instructions.</p>
+</div>
+<div class="paragraph">
+<p>To quickly get up and running with Redis sessions you must also have the <code>redis-lettuce</code> dependency in your build:</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">compile "io.micronaut-session:micronaut-session"
+compile "io.micronaut.redis:micronaut-redis-lettuce"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And enable Redis sessions via configuration in the application configuration file:</p>
+</div>
+<div class="openblock">
+<div class="title">Enabling Redis Sessions</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">redis.uri=redis://localhost:6379
+micronaut.session.http.redis.enabled=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">redis:
+  uri: redis://localhost:6379
+micronaut:
+  session:
+    http:
+      redis:
+        enabled: true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[redis]
+  uri="redis://localhost:6379"
+[micronaut]
+  [micronaut.session]
+    [micronaut.session.http]
+      [micronaut.session.http.redis]
+        enabled=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">redis {
+  uri = "redis://localhost:6379"
+}
+micronaut {
+  session {
+    http {
+      redis {
+        enabled = true
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  redis {
+    uri = "redis://localhost:6379"
+  }
+  micronaut {
+    session {
+      http {
+        redis {
+          enabled = true
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "redis": {
+    "uri": "redis://localhost:6379"
+  },
+  "micronaut": {
+    "session": {
+      "http": {
+        "redis": {
+          "enabled": true
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+
+<h2 id="configuringSessionResolution"><a class="anchor" href="#configuringSessionResolution"></a>2.4 Configuring Session Resolution</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-session/edit/4.7.x/src/main/docs/guide/sessions/configuringSessionResolution.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p><a href="../api/io/micronaut/session/Session.html">Session</a> resolution can be configured with <a href="../api/io/micronaut/session/http/HttpSessionConfiguration.html">HttpSessionConfiguration</a>.</p>
+</div>
+<div class="paragraph">
+<p>By default, sessions are resolved using an <a href="../api/io/micronaut/session/http/HttpSessionFilter.html">HttpSessionFilter</a> that looks for session identifiers via either an HTTP header (using the <code>Authorization-Info</code> or <code>X-Auth-Token</code> headers) or via a Cookie named <code>SESSION</code>.</p>
+</div>
+<div class="paragraph">
+<p>You can disable either header resolution or cookie resolution via configuration in the application configuration file:</p>
+</div>
+<div class="openblock">
+<div class="title">Disabling Cookie Resolution</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.session.http.cookie=false
+micronaut.session.http.header=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  session:
+    http:
+      cookie: false
+      header: true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.session]
+    [micronaut.session.http]
+      cookie=false
+      header=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  session {
+    http {
+      cookie = false
+      header = true
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    session {
+      http {
+        cookie = false
+        header = true
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "session": {
+      "http": {
+        "cookie": false,
+        "header": true
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The above configuration enables header resolution, but disables cookie resolution. You can also configure header and cookie names.</p>
+</div>
+
+<h2 id="workingWithSessions"><a class="anchor" href="#workingWithSessions"></a>2.5 Working with Sessions</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-session/edit/4.7.x/src/main/docs/guide/sessions/workingWithSessions.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>A <a href="../api/io/micronaut/session/Session.html">Session</a> can be retrieved with a parameter of type <a href="../api/io/micronaut/session/Session.html">Session</a> in a controller method. For example consider the following controller:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
+import io.micronaut.session.Session;
+import io.micronaut.session.annotation.SessionValue;
+import io.micronaut.core.annotation.Nullable;
+
+@Controller("/shopping")
+public class ShoppingController {
+    private static final String ATTR_CART = "cart"; // <b class="conum">(1)</b>
+
+    @Post("/cart/{name}")
+    Cart addItem(Session session, String name) { // <b class="conum">(2)</b>
+        Cart cart = session.get(ATTR_CART, Cart.class).orElseGet(() -&gt; { // <b class="conum">(3)</b>
+            Cart newCart = new Cart();
+            session.put(ATTR_CART, newCart); // <b class="conum">(4)</b>
+            return newCart;
+        });
+        cart.getItems().add(name);
+        return cart;
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Post
+import io.micronaut.session.Session
+import io.micronaut.session.annotation.SessionValue
+
+import jakarta.annotation.Nullable
+
+@Controller("/shopping")
+class ShoppingController {
+    private static final String ATTR_CART = "cart" // <b class="conum">(1)</b>
+
+    @Post("/cart/{name}")
+    Cart addItem(Session session, String name) { // <b class="conum">(2)</b>
+        Cart cart = session.get(ATTR_CART, Cart).orElseGet({ -&gt; // <b class="conum">(3)</b>
+            Cart newCart = new Cart()
+            session.put(ATTR_CART, newCart) // <b class="conum">(4)</b>
+            newCart
+        })
+        cart.items &lt;&lt; name
+        cart
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Post
+import io.micronaut.session.Session
+import io.micronaut.session.annotation.SessionValue
+
+@Controller("/shopping")
+class ShoppingController {
+
+    companion object {
+        private const val ATTR_CART = "cart" // <b class="conum">(1)</b>
+    }
+
+    @Post("/cart/{name}")
+    internal fun addItem(session: Session, name: String): Cart { // <b class="conum">(2)</b>
+        require(name.isNotBlank()) { "Name cannot be blank" }
+        val cart = session.get(ATTR_CART, Cart::class.java).orElseGet { // <b class="conum">(3)</b>
+            val newCart = Cart()
+            session.put(ATTR_CART, newCart) // <b class="conum">(4)</b>
+            newCart
+        }
+        cart.items.add(name)
+        return cart
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>ShoppingController</code> declares a <a href="../api/io/micronaut/session/Session.html">Session</a> attribute named <code>cart</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <a href="../api/io/micronaut/session/Session.html">Session</a> is declared as a method parameter</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The <code>cart</code> attribute is retrieved</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Otherwise a new <code>Cart</code> instance is created and stored in the session</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Note that because the <a href="../api/io/micronaut/session/Session.html">Session</a> is declared as a required parameter, to execute the controller action a <a href="../api/io/micronaut/session/Session.html">Session</a> will be created and saved to the <a href="../api/io/micronaut/session/SessionStore.html">SessionStore</a>.</p>
+</div>
+<div class="paragraph">
+<p>If you don&#8217;t want to create unnecessary sessions, declare the <a href="../api/io/micronaut/session/Session.html">Session</a> as <code>@Nullable</code> in which case a session will not be created and saved unnecessarily. For example:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Using @Nullable with Sessions</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Post("/cart/clear")
+void clearCart(@Nullable Session session) {
+    if (session != null) {
+        session.remove(ATTR_CART);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Using @Nullable with Sessions</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@Post("/cart/clear")
+void clearCart(@Nullable Session session) {
+    session?.remove(ATTR_CART)
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Using @Nullable with Sessions</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@Post("/cart/clear")
+internal fun clearCart(session: Session?) {
+    session?.remove(ATTR_CART)
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The above method only injects a new <a href="../api/io/micronaut/session/Session.html">Session</a> if one already exists.</p>
+</div>
+
+<h2 id="sessionClients"><a class="anchor" href="#sessionClients"></a>2.6 Session Clients</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-session/edit/4.7.x/src/main/docs/guide/sessions/sessionClients.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>If the client is a web browser, sessions should work if cookies are enabled. However, for programmatic HTTP clients you need to propagate the session ID between HTTP calls.</p>
+</div>
+<div class="paragraph">
+<p>For example, when invoking the <code>viewCart</code> method of the <code>StoreController</code> in the previous example, the HTTP client receives by default a <code>AUTHORIZATION_INFO</code> header. The following example demonstrates this:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Retrieving the AUTHORIZATION_INFO header</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">when: "The shopping cart is retrieved"
+HttpResponse&lt;Cart&gt; response = client.exchange(HttpRequest.GET('/shopping/cart'), Cart) // <b class="conum">(1)</b>
+                                        .blockFirst()
+Cart cart = response.body()
+
+then: "The shopping cart is present as well as a session id header"
+response.header(HttpHeaders.AUTHORIZATION_INFO) != null // <b class="conum">(2)</b>
+cart != null
+cart.items.isEmpty()</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>A request is made to <code>/shopping/cart</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <code>AUTHORIZATION_INFO</code> header is present in the response</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can then pass this <code>AUTHORIZATION_INFO</code> in subsequent requests to reuse the existing <a href="../api/io/micronaut/session/Session.html">Session</a>:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Sending the AUTHORIZATION_INFO header</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">String sessionId = response.header(HttpHeaders.AUTHORIZATION_INFO) // <b class="conum">(1)</b>
+
+response = client.exchange(HttpRequest.POST('/shopping/cart/Apple', "")
+                 .header(HttpHeaders.AUTHORIZATION_INFO, sessionId), Cart) // <b class="conum">(2)</b>
+                 .blockFirst()
+cart = response.body()</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>AUTHORIZATION_INFO</code> is retrieved from the response</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>And then sent as a header in the subsequent request</td>
+</tr>
+</table>
+</div>
+
+<h2 id="sessionValue"><a class="anchor" href="#sessionValue"></a>2.7 Using @SessionValue</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-session/edit/4.7.x/src/main/docs/guide/sessions/sessionValue.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Rather than explicitly injecting the <a href="../api/io/micronaut/session/Session.html">Session</a> into a controller method, you can instead use <a href="../api/io/micronaut/session/annotation/SessionValue.html">@SessionValue</a>. For example:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Using @SessionValue</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Get("/cart")
+@SessionValue(ATTR_CART) // <b class="conum">(1)</b>
+Cart viewCart(@SessionValue @Nullable Cart cart) { // <b class="conum">(2)</b>
+    if (cart == null) {
+        cart = new Cart();
+    }
+    return cart;
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Using @SessionValue</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@Get("/cart")
+@SessionValue("cart") // <b class="conum">(1)</b>
+Cart viewCart(@SessionValue @Nullable Cart cart) { // <b class="conum">(2)</b>
+    cart ?: new Cart()
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Using @SessionValue</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@Get("/cart")
+@SessionValue(ATTR_CART) // <b class="conum">(1)</b>
+internal fun viewCart(@SessionValue cart: Cart?): Cart { // <b class="conum">(2)</b>
+    return cart ?: Cart()
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><a href="../api/io/micronaut/session/annotation/SessionValue.html">@SessionValue</a> is declared on the method resulting in the return value being stored in the <a href="../api/io/micronaut/session/Session.html">Session</a>. Note that you must specify the attribute name when used on a return value</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><a href="../api/io/micronaut/session/annotation/SessionValue.html">@SessionValue</a> is used on a <code>@Nullable</code> parameter which results in looking up the value from the <a href="../api/io/micronaut/session/Session.html">Session</a> in a non-blocking way and supplying it if present. In the case a value is not specified to <a href="../api/io/micronaut/session/annotation/SessionValue.html">@SessionValue</a> resulting in the parameter name being used to lookup the attribute.</td>
+</tr>
+</table>
+</div>
+
+<h2 id="sessionEvents"><a class="anchor" href="#sessionEvents"></a>2.8 Session Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-session/edit/4.7.x/src/main/docs/guide/sessions/sessionEvents.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>You can register <a href="../api/io/micronaut/context/event/ApplicationEventListener.html">ApplicationEventListener</a> beans to listen for <a href="../api/io/micronaut/session/Session.html">Session</a> related events located in the <a href="../api/io/micronaut/session/event/package-summary.html">io.micronaut.session.event</a> package.</p>
+</div>
+<div class="paragraph">
+<p>The following table summarizes the events:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Session Events</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/session/event/SessionCreatedEvent.html">SessionCreatedEvent</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fired when a <a href="../api/io/micronaut/session/Session.html">Session</a> is created</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/session/event/SessionDeletedEvent.html">SessionDeletedEvent</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fired when a <a href="../api/io/micronaut/session/Session.html">Session</a> is deleted</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/session/event/SessionExpiredEvent.html">SessionExpiredEvent</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fired when a <a href="../api/io/micronaut/session/Session.html">Session</a> expires</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/session/event/SessionDestroyedEvent.html">SessionDestroyedEvent</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Parent of both <code>SessionDeletedEvent</code> and <code>SessionExpiredEvent</code></p></td>
+</tr>
+</tbody>
+</table>
+
+<h1 id="releaseHistory"><a class="anchor" href="#releaseHistory"></a>3 Release History</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-session/edit/4.7.x/src/main/docs/guide/releaseHistory.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>For this project, you can find a list of releases (with release notes) here:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/micronaut-projects/micronaut-session/releases">https://github.com/micronaut-projects/micronaut-session/releases</a></p>
+</div>
+
+<h1 id="repository"><a class="anchor" href="#repository"></a>4 Repository</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-session/edit/4.7.x/src/main/docs/guide/repository.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>You can find the source code of this project in this repository:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/micronaut-projects/micronaut-session">https://github.com/micronaut-projects/micronaut-session</a></p>
+</div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+</script>
+</body>
+</html>
