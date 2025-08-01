@@ -1,5 +1,5 @@
 # micronaut-documentation
-Micronaut Documentation condensed in a single repository for AI consumption. 
+Micronaut Documentation [docs.micronaut.io](https://docs.micronaut.io), [Micronaut Guides](https://guides.micronaut.io), [GDK Guides](https://graal.cloud/gdk/guides/) condensed in a single repository for AI consumption. 
 
 The contents of this repository are generated with the script https://github.com/micronaut-projects/scripts/blob/main/fetch-latest-docs.sh
 
