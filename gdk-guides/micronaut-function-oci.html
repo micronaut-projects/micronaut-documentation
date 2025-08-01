@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en"><head><style type="text/css">.truste_caIcon_display {display: block !important;}</style><style type="text/css">.truste_cursor_pointer {cursor: pointer;}.truste_border_none {border: none;}</style>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:image" content="https://graal.cloud/gdk/resources/img/graalvm.png">
+    <meta name="twitter:widgets:border-color" content="#55acee">
+
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js">
+    <script src="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js"></script>
+
+    <title>Create and Deploy a Micronaut Gateway Function to Oracle Cloud Infrastructure</title>
+    <meta name="description" content="The Graal Development Kit for Micronaut (GDK) is a build of a curated set of Micronaut framework modules and their required libraries for building portable c...">
+    <meta name="last_modified" content="2024-10-10 16:30:05 +0000">
+    <meta name="last_built" content="2024-10-29 09:25:27 +0000">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/assets/main.css" >
+    <link rel="apple-touch-icon" sizes="180x180" href="https://graal.cloud/gdk/resources/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://graal.cloud/gdk/resources/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://graal.cloud/gdk/resources/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://graal.cloud/gdk/resources/img/favicon/site.webmanifest">
+    <link rel="stylesheet" type="text/css" href="https://graal.cloud/gdk/resources/styles/codicon.css" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="google-site-verification" content="-vRqwa9WYn6AaQGnl88xvrLw6ac4xoKVkZkhanmlRhU">
+    <link rel="canonical" href="https://www.graal.cloud/gdk/gdk-modules/database/micronaut-data-jdbc-repository/">
+
+    <!-- TODO: move to stylesheet -->
+    <style>
+        @media (min-width: 768px) {
+            .content {
+                padding-top: 60px;
+            }
+        }
+
+        .colist table {
+            border: 0;
+
+            td {
+                border: 0;
+            }
+
+            tr {
+                border: 0;
+            }
+        }
+
+        .imageblock {
+            max-width: 50%;
+        }
+
+        main{
+            padding-top: 50px !important;
+        }
+
+        .content{
+            padding-top: 0;
+        }
+
+        ul.sectlevel0 > li > a:first-of-type {
+            color: #F68831 !important;
+            font-weight: 700;
+        }
+
+        ul.sectlevel1 > li > a {
+            color: #dbe6ff;
+            font-weight: 400 !important;
+            padding-left: 20px;
+            font-size: 14px;
+        }
+
+            .conum[data-value]::after {
+                content: attr(data-value);
+                display: inline-block;
+                border: 1px solid;
+                -webkit-border-radius: 50%;
+                border-radius: 50%;
+                text-align: center;
+                font-size: .75em;
+                width: 1.67em;
+                height: 1.67em;
+                line-height: 1.67em;
+                font-family: "Open Sans", "DejaVu Sans", sans-serif;
+                font-style: normal;
+                font-weight: bold;
+            }
+            .conum[data-value]+b {
+                display: none;
+            }
+
+        .sectlevel1 a.active {
+            color: #F68831;
+            font-weight: bold;
+        }
+        a.external {
+            color: #d6d6d6   !important;
+        }
+        a.external:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
+    </style>
+
+    <!-- jQuery UI Tabs -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/jquery/jquery-ui.css">
+    <script type="text/javascript" id="www-widgetapi-script" src="https://www.youtube.com/s/player/a8476471/www-widgetapi.vflset/www-widgetapi.js" async=""></script><script src="https://www.youtube.com/iframe_api"></script><script async="" src="https://tags.bkrtx.com/js/bk-coretag.js"></script><script src="https://graal.cloud/gdk/resources/lib/jquery/jquery-3.7.1.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/bootstrap/js/bootstrap.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/resizeSensor.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/sticky-sidebar.min.js"></script><script async="" defer="" src="https://buttons.github.io/buttons.js"></script><script async="async" type="text/javascript" src="//consent.trustarc.com/notice?domain=oracle.com&amp;c=teconsent&amp;js=bb&amp;noticeType=bb&amp;text=true&amp;cdn=1&amp;pcookie&amp;gtm=1" crossorigin="" id="truste_0.9548969741402604"></script><script src="https://www.oracle.com/assets/truste-oraclelib.js"></script><script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script></head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const menuLinks = document.querySelectorAll(".sectlevel1 a");
+
+        function highlightMenu() {
+            let currentSection = null;
+
+            menuLinks.forEach(link => {
+                const section = document.querySelector(link.getAttribute("href"));
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                        currentSection = link;
+                    }
+                }
+            });
+
+            menuLinks.forEach(link => link.classList.remove("active"));
+
+            if (currentSection) {
+                currentSection.classList.add("active");
+            }
+        }
+
+        window.addEventListener("scroll", highlightMenu);
+        highlightMenu();
+
+        });</script>
+<!-- Add TRUSTe Consent Script and Analytics -->
+
+
+<!-- jQuery UI Tabs -->
+
+<body class="">
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<div class="wrapper wrapper--nofooter">
+
+    <header class="header header--content" role="banner">
+        <nav class="menu">
+            <div class="menu__row">
+                <div>
+                    <a href="/gdk/" class="activeMenuItem">
+                        <img class="logo-mobile" src="https://graal.cloud/gdk/resources/img/gdk-logo-new.svg" alt="Graal Development Kit for Micronaut logo" style="margin-left: 0px;">
+                    </a>
+                </div>
+                <div class="menu__container">
+                    <ul class="menu__list">
+                        <li class="menu__item">
+                            <a href="/gdk/about/" class="menu__link">About</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/gdk/get-started/" class="menu__link">Get Started</a>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Docs</a>
+                                <div class="stack-menu-learn">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/modules.svg">
+                                                <a href="/gdk/modules/" class="item-line">Modules</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/guides.svg">
+                                                <a href="/gdk/guides/" class="item-line">Guides</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/labs.svg">
+                                                <a href="/gdk/hands-on-labs/" class="item-line">Hands-On Labs</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/tools.svg">
+                                                <a href="/gdk/vscode-tools/" class="item-line">Tools</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Graal Projects</a>
+                                <div class="stack-menu">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalstack.svg">
+                                                <a href="/" class="item-line">Graal</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalvm.svg">
+                                                <a href="https://graalvm.org/" class="item-line">GraalVM</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalos.svg">
+                                                <a href="/graalos/" class="item-line">GraalOS</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__launch__mobile">
+                            <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu__launch">
+                    <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                </div>
+            </div>
+
+            <div role="button" class="menu-btn menu-btn--menu js-show-menu" tabindex="-1" title="sweet hamburger">
+                <div class="hamburger">
+                    <div class="inner"></div>
+                </div>
+            </div>
+            <button aria-label="hamburger mobile menu" class="btn btn-mobile-menu js-show-menu">
+                <div class="inner"></div>
+            </button>
+        </nav>
+
+
+    </header>
+
+
+    <main class="content" aria-label="Content">
+        <div class="wrapper wrapper-content">
+            <article>
+                <div class="row d-flex flex-wrap">
+                    <div class="col-sm-3 docsimpro col-bg">
+                        <div class="sidebar-wrap is-affixed" style="height: 473px; position: relative;"><div class="inner-wrapper-sticky" style="position: fixed; top: 74px; left: 0px; width: 300px;">
+                            <div class="sidebar">
+                                <div class="menuabout">
+                                    <img id="sidebarClose" src="https://graal.cloud/gdk/resources/img/arrow_sidebar(close).svg" alt="Expand or collapse sidebar" class="btn-color no-display">
+                                    <img id="sidebarOpen" src="https://graal.cloud/gdk/resources/img/arrow_sidebar.svg" alt="Expand or collapse sidebar">
+                                </div>
+
+                                                                <div class="toc-floating">
+                                <div class="toc-bullets">
+                                    <li class="toc-bullets-main">
+                                        <a href="/gdk/docs/gdk-modules/serverless/" class="_icon-book">
+                                            Serverless
+                                        </a>
+                                    </li>
+                                    <li class="toc-bullets-sub toc-bullets-highlight">
+                                        <a href="/gdk/gdk-modules/serverless/micronaut-function-oci/" class="activeMenuItem">
+                                            Create and Deploy a Micronaut Gateway Function to Oracle Cloud Infrastructure
+                                        </a>
+                                    </li>
+                                    <div id="toc" class="toc">
+<div id="toctitle"></div>
+<ul class="sectlevel1">
+<li><a href="#create-the-gateway-function">1. Create the Gateway Function</a></li>
+<li><a href="#run-the-tests">2. Run the Tests</a></li>
+<li><a href="#set-up-oracle-cloud-infrastructure">3. Set Up Oracle Cloud Infrastructure</a></li>
+<li><a href="#create-and-publish-a-container-image-of-the-gateway-function-to-container-registry">4. Create and Publish a Container Image of the Gateway Function to Container Registry</a></li>
+<li><a href="#create-the-oracle-function-from-the-container-image">5. Create the Oracle Function from the Container Image</a></li>
+<li><a href="#create-an-api-deployment">6. Create an API Deployment</a></li>
+<li><a href="#test-the-oracle-function">7. Test the Oracle Function</a></li>
+<li><a href="#publish-a-native-executable-to-oracle-cloud-infrastructure">8. Publish a Native Executable to Oracle Cloud Infrastructure</a></li>
+<li><a href="#update-the-oracle-cloud-infrastructure-function">9. Update the Oracle Cloud Infrastructure Function</a></li>
+<li><a href="#clean-up-cloud-resources">10. Clean Up Cloud Resources</a></li>
+</ul>
+</div>
+                                </div>
+                            </div>
+
+
+                            </div>
+                            <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div></div>
+                        <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div>
+
+                    <div class="col-sm-9 docsmod">
+                        <div id="content-wrapper" class="docs-content docs-content--with-sidebar"><h1>Create and Deploy a Micronaut Gateway Function to Oracle Cloud Infrastructure</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This guide describes how to use the Graal Development Kit for Micronaut (GDK) to create a Micronaut® Gateway Function, deploy it as a container image using Oracle Cloud Infrastructure Functions, and access it via Oracle Cloud Infrastructure API Gateway.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>A Micronaut Gateway Function acts as a serverless cloud (HTTP) API gateway function.</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Oracle Cloud Infrastructure Functions is a fully managed, multitenant, highly scalable, on-demand, Functions-as-a-Service platform.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>The guide consists of the following steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the GDK Launcher to create a Micronaut Gateway Function</p>
+</li>
+<li>
+<p>Create the code to implement the gateway function</p>
+</li>
+<li>
+<p>Deploy the gateway function as a container image to a <a href="https://docs.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm">Container Repository in Oracle Cloud Infrastructure Registry</a></p>
+</li>
+<li>
+<p>Create and deploy an Oracle Function based on the container image of the gateway function</p>
+</li>
+<li>
+<p>Create and deploy an Oracle Cloud Infrastructure <a href="https://docs.oracle.com/iaas/Content/APIGateway/home.htm">API Gateway</a> to access the Oracle Function</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Prerequisites</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>JDK 17 or higher. See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>.</p>
+</li>
+<li>
+<p>An Oracle Cloud Infrastructure account. See <a href="/gdk/get-started/setting-up-cloud-accounts/">Setting up Your Cloud Accounts</a>.</p>
+</li>
+<li>
+<p>A Docker-API compatible container runtime such as <a href="https://docs.rancherdesktop.io/getting-started/installation/">Rancher Desktop</a> or <a href="https://www.docker.io/gettingstarted/">Docker</a> installed and running.</p>
+</li>
+<li>
+<p>The GDK CLI. See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>. (Optional.)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Follow the steps below to create the application from scratch. However, you can also download the completed example:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_serverless_oci-serverless-demo-java-gradle.zip">Gradle OCI Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_serverless_oci-serverless-demo-java-maven.zip">Maven OCI Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+</div>
+<div class="paragraph">
+<p>The application ZIP file will be downloaded in your default downloads directory. Unzip it and proceed to the next steps.</p>
+</div>
+<h4 id="a-note-regarding-your-development-environment" class="discrete">A note regarding your development environment</h4>
+<div class="paragraph">
+<p>Consider using Visual Studio Code, which provides native support for developing applications with the <a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack">Graal Development Kit for Micronaut Extension Pack</a>.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: If you use IntelliJ IDEA, <a href="/gdk/resources/img/annotationprocessorsintellij.png">enable annotation processing</a>.</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Windows platform: The GDK guides are compatible with Gradle only. Maven support is coming soon.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>This section describes how to create a Micronaut gateway function for a simple online store. The store provides information about available items and enables the user to order items. An HTTP controller is responsible for the API implementation and a service stores the availability of items.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-the-gateway-function">1. Create the Gateway Function</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section describes how to create a Micronaut gateway function for a simple online store. The store provides information about available items and enables the user to order items. An HTTP controller is responsible for the API implementation and a service stores the availability of items.</p>
+</div>
+<p>Create an application using the GDK Launcher.</p>
+<ol>
+    <li>
+        <p>Open the <a href="https://graal.cloud/gdk/launcher/?advanced=true" target="_blank">GDK Launcher in advanced mode</a>.</p>
+    </li>
+    <li>Create a new project using the following selections.
+        <ul>
+            <li><strong>Project Type</strong>: <em>Gateway Function</em></li>
+            <li><strong>Project Name</strong>: <em>oci-serverless-demo</em></li>
+            <li><strong>Base Package</strong>: <em>com.example</em> (Default)</li>
+            <li><strong>Clouds</strong>: <em>OCI</em></li>
+            <li><strong>Build Tool</strong>: <em>Gradle (Groovy)</em> or <em>Maven</em></li>
+            <li><strong>Language</strong>: <em>Java</em> (Default)</li>
+            <li><strong>Test Framework</strong>: <em>JUnit</em> (Default)</li>
+            <li><strong>Java Version</strong>: <em>17</em> (Default)</li>
+            <li><strong>Micronaut Version</strong>: (Default)</li>
+            <li><strong>Cloud Services</strong>: </li>
+            <li><strong>Features</strong>: <em>GraalVM Native Image</em>, <em>Micronaut Validation</em></li>
+            <li><strong>Sample Code</strong>: <em>No</em></li>
+        </ul>
+    </li>
+    <li>Click <strong>Generate Project</strong>, then click <strong>Download Zip</strong>. The GDK Launcher creates an application with the package <code>com.example</code> in a directory named <em>oci-serverless-demo</em>. The application ZIP file will be downloaded to your default downloads directory. Unzip it, open it in your code editor, and proceed to the next steps.</li>
+</ol>
+<div class="paragraph">
+<p>Alternatively, use the  <a href="/gdk/get-started/using-gdk-cli/">GDK CLI</a> as follows:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">gdk create-gateway-function com.example.oci-serverless-demo \
+ --clouds=oci \
+ --features=graalvm,validation \
+ --example-code=false \
+ --build=gradle \
+ --jdk=17  \
+ --lang=java</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">gdk create-gateway-function com.example.oci-serverless-demo \
+ --clouds=oci \
+ --features=graalvm,validation \
+ --example-code=false \
+ --build=maven \
+ --jdk=17  \
+ --lang=java</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>Open the <em>micronaut-cli.yml</em> file, you can see what features are packaged with the application:</p>
+</div>
+<pre><code class="language-bash hljs" data-highlighted="yes">features: [app-name, gdk-bom, gdk-license, gdk-oci-cloud-gateway-function, graalvm, http-client, jackson-databind, java, java-application, junit, maven, maven-enforcer-plugin, micronaut-http-validation, oracle-function, oracle-function-http, properties, readme, serialization-jackson, shade, slf4j-simple, static-resources, validation]</code><button>Copy</button></pre>
+<div class="paragraph">
+<p>The GDK Launcher creates a multi-module project with two subprojects: <strong>oci</strong> for Oracle Cloud, and <strong>lib</strong> for common code and configuration shared across cloud platforms.
+You develop the application logic in the <strong>lib</strong> subproject, and keep the
+Oracle Cloud-specific configurations in the <strong>oci</strong> subproject.</p>
+</div>
+<div class="sect2">
+<h3 id="storeitem">1.1. StoreItem</h3>
+<div class="paragraph">
+<p>Create a <code>StoreItem</code> model to represent an item in the store in the file <em>lib/src/main/java/com/example/StoreItem.java</em> with the following contents:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.core.annotation.Introspected;
+import io.micronaut.core.annotation.NonNull;
+
+import io.micronaut.serde.annotation.Serdeable;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+
+@Serdeable
+@Introspected <i class="conum" data-value="1"></i><b>(1)</b>
+public class StoreItem {
+
+    @NotBlank
+    @NonNull
+    private final String name;
+
+    private final String description;
+
+    @Min(0)
+    private int numberInStorage;
+
+    public StoreItem(String name, String description, int numberInStorage) { <i class="conum" data-value="2"></i><b>(2)</b>
+        this.name = name;
+        this.description = description;
+        this.numberInStorage = numberInStorage;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Integer getNumberInStorage() {
+        return numberInStorage;
+    }
+
+    public void setNumberInStorage(Integer numberInStorage) {
+        this.numberInStorage = numberInStorage;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> The <a href="https://micronaut-projects.github.io/micronaut-core/latest/api/io/micronaut/core/annotation/Introspected.html"><code>@Introspected</code></a> annotation enables Micronaut to serialize and deserialize the model from different formats including <code>JSON</code>. This provides the ability to use the type inside HTTP requests or responses.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> The model has fields to store the item&#8217;s name, description, and number available.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="storecontroller">1.2. StoreController</h3>
+<div class="paragraph">
+<p>Create an HTTP controller in the file <em>lib/src/main/java/com/example/StoreController.java</em>, as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.PathVariable;
+import io.micronaut.http.annotation.Post;
+import io.micronaut.http.exceptions.HttpStatusException;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.util.Collection;
+import java.util.stream.Collectors;
+
+import static io.micronaut.http.HttpStatus.BAD_REQUEST;
+import static io.micronaut.http.HttpStatus.NOT_FOUND;
+
+@Controller("/store") <i class="conum" data-value="1"></i><b>(1)</b>
+class StoreController {
+
+    private final StorageService storageService;
+
+    StoreController(StorageService storageService) {
+        this.storageService = storageService;
+    } <i class="conum" data-value="2"></i><b>(2)</b>
+
+    @Get("/all") <i class="conum" data-value="3"></i><b>(3)</b>
+    Collection&lt;StoreItem&gt; listAllItems() {
+        return storageService.getItems();
+    }
+
+    @Get("/available") <i class="conum" data-value="4"></i><b>(4)</b>
+    Collection&lt;StoreItem&gt; listAvailableItems() {
+        return storageService.getItems().stream()
+                .filter(i -&gt; i.getNumberInStorage() &gt; 0)
+                .collect(Collectors.toList());
+    }
+
+    @Post(uri = "/order/{name}/{amount}", consumes = "*/*") <i class="conum" data-value="5"></i><b>(5)</b>
+    HttpResponse&lt;StoreItem&gt; orderItem(@NotBlank @PathVariable String name, @Min(1) int amount) {
+        if (storageService.findItem(name).isEmpty()) {
+            throw new HttpStatusException(NOT_FOUND, "Item '" + name + "' not found");
+        }
+        try {
+            storageService.orderItem(name, amount);
+        } catch (StorageService.StorageException e) {
+            throw new HttpStatusException(BAD_REQUEST, "Could not order item '" + name + "'. " + e.getMessage());
+        }
+        return HttpResponse.ok(storageService.findItem(name).orElse(null));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> The class is defined as a controller with the <a href="https://docs.micronaut.io/latest/api/io/micronaut/http/annotation/Controller.html"><code>@Controller</code></a> annotation mapped to the path <code>/store</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> Use <a href="https://docs.micronaut.io/latest/guide/#qualifiers">Micronaut argument injection</a> to inject a <code>StorageService</code> bean by defining it as the constructor argument. You will create the <code>StorageService</code> in next section.</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> The <a href="https://docs.micronaut.io/latest/api/io/micronaut/http/annotation/Get.html"><code>@Get</code></a> annotation maps the <code>listAllItems</code> method to an HTTP GET request on <code>/store/all</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>4</strong> The <a href="https://docs.micronaut.io/latest/api/io/micronaut/http/annotation/Get.html"><code>@Get</code></a> annotation maps the <code>listAvailableItems</code> method to an HTTP GET request on <code>/store/available</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>5</strong> The <a href="https://docs.micronaut.io/latest/api/io/micronaut/http/annotation/Post.html"><code>@Post</code></a> annotation maps the <code>orderItem</code> method to an HTTP POST request on <code>/store/order/{name}/{amount}</code>. Use the <code>consumes</code> argument to specify which content-types are allowed in the request. Throwing <code>HttpStatusException</code> will set the corresponding HTTP status in the response.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="storageservice">1.3. StorageService</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create an interface for a service that represents the store&#8217;s inventory in <em>lib/src/main/java/com/example/StorageService.java</em>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.core.annotation.NonNull;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import java.util.Collection;
+import java.util.Optional;
+
+public interface StorageService { <i class="conum" data-value="1"></i><b>(1)</b>
+    Collection&lt;StoreItem&gt; getItems();
+    Optional&lt;StoreItem&gt; findItem(@NonNull @NotBlank String name);
+    void orderItem(@NonNull @NotBlank String name, @Min(1) int amount);
+
+    class StorageException extends RuntimeException { <i class="conum" data-value="2"></i><b>(2)</b>
+        StorageException(String message) {
+            super(message);
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> The storage service provides information about all the items, finds an items by its name, and can place an order for an item.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> The class includes a custom exception that thrown in case of invalid requests to</p>
+</div>
+</li>
+<li>
+<p>Create an implementation of the service interface in <em>lib/src/main/java/com/example/DefaultStorageService.java</em>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.annotation.NonNull;
+import jakarta.inject.Singleton;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
+@Singleton <i class="conum" data-value="1"></i><b>(1)</b>
+@Requires(missingBeans = StorageService.class) <i class="conum" data-value="2"></i><b>(2)</b>
+class DefaultStorageService implements StorageService {
+
+    protected List&lt;StoreItem&gt; items = List.of( <i class="conum" data-value="3"></i><b>(3)</b>
+        new StoreItem("chair", "A black chair with 4 legs", 10),
+        new StoreItem("table", "A quality dining table", 6),
+        new StoreItem("sofa", "A grey sofa", 2),
+        new StoreItem("bookshelf", "A futuristic-looking bookshelf", 0)
+    );
+
+    @Override
+    public Collection&lt;StoreItem&gt; getItems() {
+        return items;
+    }
+
+    @Override
+    public Optional&lt;StoreItem&gt; findItem(@NonNull String name) {
+        return items.stream().filter(item -&gt; item.getName().equals(name)).findFirst();
+    }
+
+    @Override
+    public void orderItem(@NonNull String name, int amount) {
+        findItem(name).ifPresentOrElse(item -&gt; {
+            if (item.getNumberInStorage() &gt;= amount) {
+                item.setNumberInStorage(item.getNumberInStorage() - amount);
+            } else {
+                throw new StorageException("Insufficient amount in storage");
+            }
+        }, () -&gt; { throw new StorageException("Item not found in storage"); });
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> Use <code>jakarta.inject.Singleton</code> to designate a class as a singleton.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> The <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/annotation/Requires.html"><code>@Requires(missingBeans = StorageService.class)</code></a> annotation specifies that this implementation should only be used if no other implementations could be found.</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> The implementation stores the items in a <code>List</code> and populates some sample items in the list.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>If you wish to implement a more advanced <code>StorageService</code> to be used instead of this one, annotate your implementation with <code>@Singleton</code> as shown above. Use the <code>@Requires(env = "oraclecloud")</code> annotation to make it specific to AWS . Visit the <a href="/gdk/modules/#database">Database Module</a> for details about how to store and manipulate data in a database.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tests-to-verify-gateway-function-logic">1.4. Tests to Verify Gateway Function Logic</h3>
+<div class="paragraph">
+<p>The GDK Launcher created a test class for the controller in <em>oci/src/test/java/com/example/StoreControllerTest.java</em>, as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
+import io.micronaut.http.client.annotation.Client;
+import io.micronaut.http.client.exceptions.HttpClientResponseException;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static io.micronaut.http.HttpStatus.BAD_REQUEST;
+import static io.micronaut.http.HttpStatus.NOT_FOUND;
+import static io.micronaut.http.HttpStatus.OK;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@MicronautTest(environments = "test-storage-service") <i class="conum" data-value="1"></i><b>(1)</b>
+class StoreControllerTest {
+
+    @Inject
+    StoreClient client;
+
+    @Test
+    void testAvailableItems() {
+        List&lt;StoreItem&gt; availableItems = client.getAvailable();
+
+        assertEquals(2, availableItems.size());
+        assertEquals("pot", availableItems.get(1).getName());
+        assertEquals(10, availableItems.get(1).getNumberInStorage());
+        assertNotNull(availableItems.get(1).getDescription());
+    }
+
+    @Test
+    void testNotFoundException() {
+        HttpResponse&lt;?&gt; response = client.order("lamp", 1);
+
+        assertEquals(NOT_FOUND, response.getStatus());
+    }
+
+    @Test
+    void testNotSufficientException() {
+        HttpClientResponseException e = assertThrows(HttpClientResponseException.class, () -&gt; {
+            client.order("pot", 100);
+        });
+
+        assertEquals(BAD_REQUEST, e.getStatus());
+    }
+
+    @Test
+    void testOrderRequest() {
+        StoreItem plate = client.getAll().stream()
+            .filter(i -&gt; i.getName().equals("plate"))
+            .findFirst().orElse(null);
+        assertNotNull(plate);
+        assertEquals(100, plate.getNumberInStorage());
+
+        HttpResponse&lt;StoreItem&gt; response = client.order("plate", 10);
+        assertEquals(OK, response.getStatus());
+        assertNotNull(response.body());
+        assertEquals("plate", response.body().getName());
+        assertEquals(90, response.body().getNumberInStorage());
+    }
+
+    @Singleton
+    @Requires(env = "test-storage-service") <i class="conum" data-value="2"></i><b>(2)</b>
+    static class TestStorageService extends DefaultStorageService {
+        TestStorageService() {
+            items = List.of(
+                new StoreItem("plate", "A large plate", 100),
+                new StoreItem("pot", "A cooking pot", 10),
+                new StoreItem("pan", "A large pan", 0)
+            );
+        }
+    }
+
+    @Client("/store") <i class="conum" data-value="3"></i><b>(3)</b>
+    interface StoreClient {
+        @Get("/all") <i class="conum" data-value="4"></i><b>(4)</b>
+        List&lt;StoreItem&gt; getAll();
+
+        @Get("/available") <i class="conum" data-value="4"></i><b>(4)</b>
+        List&lt;StoreItem&gt; getAvailable();
+
+        @Post("/order/{name}/{amount}") <i class="conum" data-value="4"></i><b>(4)</b>
+        HttpResponse&lt;StoreItem&gt; order(String name, Integer amount);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> Annotate the class with <a href="https://micronaut-projects.github.io/micronaut-test/latest/api/io/micronaut/test/annotation/MicronautTest.html"><code>@MicronautTest</code></a> so the Micronaut framework will initialize the application context. This enables you to inject beans using the Jakarta <code>@Inject</code> annotation and to send requests to the <code>StoreController</code> defined in the application. Configure this test to use an identified environment using the <code>@MicronautTest(environments="test-storage-service")</code> annotation.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> Create a mock implementation of <code>StorageService</code> so that the test is independent of the current state of the storage. The <code>@Requires(env="test-storage-service")</code> annotation specifies that the bean should only be available in the identified environment. (In this case it matches the one identified in the <code>@MicronautTest</code> annotation.)</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> Create a <a href="https://docs.micronaut.io/latest/guide/#clientAnnotation">Micronaut Declarative Client</a> with the same <code>/store</code> path to send requests to the controller.</p>
+</div>
+<div class="paragraph">
+<p><strong>4</strong> Create three tests using the defined client and assuming that <code>TestStorageService</code> is used.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-the-tests">2. Run the Tests</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Although you created this gateway function to run on OCI Functions runtime, the tests should run successfully on your local machine.</p>
+</div>
+<div class="paragraph">
+<p>Furthermore, Micronaut has a test implementation that simulates the OCI Functions environment. Since sequential requests to a function may be processed by different instances, Micronaut creates a separate environment for each request in a test.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="set-up-oracle-cloud-infrastructure">3. Set Up Oracle Cloud Infrastructure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This guide requires the following Oracle Cloud Infrastructure resources:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A <a href="https://docs.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm">Container Repository in Oracle Cloud Infrastructure Registry</a> (named "gdk-function-demo&quot;)</p>
+</li>
+<li>
+<p>An Oracle <a href="https://docs.oracle.com/iaas/Content/Functions/Concepts/functionsconcepts.htm#applications">Application</a> (named "gdk-function-application&quot;) to deploy your Oracle Function</p>
+</li>
+<li>
+<p>An <a href="https://docs.oracle.com/iaas/Content/APIGateway/Concepts/apigatewayoverview.htm">API Gateway</a> (named "gdk-function-gateway&quot;) to provide access to your Oracle Function</p>
+</li>
+<li>
+<p>A <a href="https://docs.oracle.com/iaas/Content/GSG/Tasks/creatingnetwork.htm">Virtual Cloud Network</a> (named "GDK-function-VCN&quot;)</p>
+</li>
+<li>
+<p>A public subnet open to the internet</p>
+</li>
+<li>
+<p>A private subnet to the API Gateway</p>
+</li>
+<li>
+<p>An <a href="https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm">Identity and Access Management (IAM) Policy</a> (named "gdk-function-policy&quot;) to give the API Gateway permission to call your Oracle Function.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Instead of creating the stack manually, use the following steps to provision the resources using <a href="https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm">Oracle Cloud Infrastructure Resource Manager</a>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the Terraform configuration <a href="/gdk/resources/terraform/archives/serverless/gdk-function.zip">GDK Function <img class="download-img-guides" src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download Terraform Configuration"></a> to your default downloads directory.
+(For a general introduction to Terraform and the "infrastructure-as-code" model, see <a href="https://www.terraform.io" class="bare">https://www.terraform.io</a>.)</p>
+</li>
+<li>
+<p>Follow the instructions in <a href="https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/create-stack-local.htm">Creating a Stack from a Zip File</a>.</p>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: For <em>Linux/macOS AArch64</em> users, enter "GENERIC_ARM" in the "deployment_architecture" field of the <strong>Configure variables</strong> panel.</p>
+</div>
+</blockquote>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In the <strong>Review</strong> panel, click <strong>Run apply</strong>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Click <strong>Create</strong>.
+(It can take up to ten minutes to provision the stack.
+The <strong>Logs</strong> resource provides details of progress.)</p>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: These resources <strong>must not</strong> already exist in your Oracle Cloud Infrastructure tenancy, otherwise the Resource Manager will fail to provision the stack&mdash;in the Log you will see a message similar to <code>Error: 409-NAMESPACE_CONFLICT, Repository already exists.</code> Delete the conflicting resources before re-attempting to provision the stack.</p>
+</div>
+</blockquote>
+</div>
+</li>
+<li>
+<p>When the job completes, click <strong>Outputs</strong> in the list of the job&#8217;s resources and make note of the following values:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>gdk-function-demo_namespace</code> (the namespace for the container repository)</p>
+</li>
+<li>
+<p><code>gdk-function-gateway_hostname</code> (the hostname of the API Gateway)</p>
+</li>
+<li>
+<p><code>region</code> (your region identifier)</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="authenticate-with-oracle-cloud-infrastructure-registry">3.1. Authenticate with Oracle Cloud Infrastructure Registry</h3>
+<div class="paragraph">
+<p><a href="https://docs.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm">Oracle Cloud Infrastructure Registry</a> (Container Registry) is an Oracle-managed registry to store, share, and manage container images (such as Docker images).</p>
+</div>
+<div class="paragraph">
+<p>Before you can publish a container image to Container Registry, you must first authenticate with it. For this, create an authentication token.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>An authentication token is bound to a user, so first select a user. In the Oracle Cloud Console, open the navigation menu, click <strong>Identity &amp; Security</strong>. Under <strong>Identity</strong> click <strong>Users</strong>. Click the name of the user.</p>
+</li>
+<li>
+<p>From the <strong>User Details</strong> page, select <strong>Auth tokens</strong> in the Resources section. Click <strong>Generate Token</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Enter a description for the token and click <strong>Generate Token</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Copy</strong> to copy the generated token.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Authenticate with <code>docker</code> to Container Registry with your region identifier:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker login &lt;region&gt;.ocir.io</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Replace <code>&lt;region&gt;</code> with the output from the Terraform job.</p>
+</li>
+<li>
+<p>When asked for a username, provide <code>&lt;gdk-function-demo_namespace&gt;/&lt;username&gt;</code>, for example <code>aaaaaaaaaaaa/example@example.com</code>.</p>
+</li>
+<li>
+<p>When asked for a password, provide the Auth token.</p>
+<div class="paragraph">
+<p>The command should complete by printing "Login Succeeded". (It may take some time before your authentication token activates.)</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-and-publish-a-container-image-of-the-gateway-function-to-container-registry">4. Create and Publish a Container Image of the Gateway Function to Container Registry</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="publish-the-native-executable-to-container-registry">4.1. Publish the Native Executable to Container Registry</h3>
+<div class="paragraph">
+<p>To create and publish a container image containing a native executable to Container Registry, provide the path to a container repository in the build file.</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+<div class="paragraph">
+<p>Modify the <em>oci/build.gradle</em> file. Make sure it contains the following contents and that nothing overrides the set properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Modify the variables for <code>regionIdentifier</code> and <code>objectStorageNamespace</code>. Replace <code>[REGION IDENTIFIER]</code> and <code>[FUNCTION NAMESPACE]</code> with their corresponding values from the Terraform job (<code>&lt;region&gt;</code> and <code>&lt;gdk-function-demo_namespace&gt;</code>, respectively).</p>
+</li>
+<li>
+<p>Modify the <code>dockerBuild</code> task.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">var regionIdentifier = "[REGION IDENTIFIER]"
+var objectStorageNamespace = "[FUNCTION NAMESPACE]"
+tasks {
+    dockerBuild {
+        images = ["${regionIdentifier}.ocir.io/${objectStorageNamespace}/gdk-function-demo"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: the <code>micronaut.runtime </code>property is already set to <code>oracle_function</code>.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Save the build file, then run the following command to create and publish a container image to Container Registry:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./gradlew oci:dockerPush</code></pre>
+</div>
+</div>
+</div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="paragraph">
+<p>Modify the <em>oci/pom.xml</em> file.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Insert the <code>&lt;regionIdentifier&gt;</code>, <code>&lt;objectStorageNamespace&gt;</code>, <code>&lt;jib.docker.image&gt;</code>, and <code>&lt;jib.docker.tag&gt;</code> elements to the <code>&lt;properties&gt;</code> element.</p>
+</li>
+<li>
+<p>Replace <code>[REGION IDENTIFIER]</code> and <code>[FUNCTION NAMESPACE]</code> with their corresponding values from the Terraform job (<code>&lt;region&gt;</code> and <code>&lt;gdk-function-demo_namespace&gt;</code>, respectively).</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;properties&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+    ...
+    &lt;micronaut.runtime&gt;oracle_function&lt;/micronaut.runtime&gt;
+    ...
+    &lt;regionIdentifier&gt;[REGION IDENTIFIER]&lt;/regionIdentifier&gt;
+    &lt;objectStorageNamespace&gt;[FUNCTION NAMESPACE]&lt;/objectStorageNamespace&gt;
+    &lt;jib.docker.image&gt;${regionIdentifier}.ocir.io/${objectStorageNamespace}/gdk-function-demo&lt;/jib.docker.image&gt;
+    &lt;jib.docker.tag&gt;${project.version}&lt;/jib.docker.tag&gt;
+    ...
+&lt;/properties&gt;</code></pre>
+</div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: the <code>micronaut.runtime </code>property is already set to <code>oracle_function</code>.</p>
+</div>
+</blockquote>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./mvnw clean
+./mvnw install -pl lib -am
+./mvnw deploy -Dpackaging=docker -pl oci</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-the-oracle-function-from-the-container-image">5. Create the Oracle Function from the Container Image</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the Oracle Cloud Console, open the navigation menu, click <strong>Developer Services</strong>. Under <strong>Functions</strong>, click <strong>Applications</strong>.</p>
+</li>
+<li>
+<p>The table should contain an application named "gdk-function-application" (it was created for you by Oracle Resource Manager). Click its name.</p>
+</li>
+<li>
+<p>On the <strong>Application Details</strong> page, if necessary, click the <strong>Functions</strong> resource.
+Click <strong>Create function</strong> and select <strong>Create from existing image</strong> from the drop-down list. (If required, change compartment to select your published container image.)
+Use the following properties:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Name</strong>: <em>gdk-serverless-fn</em></p>
+</li>
+<li>
+<p><strong>Repository</strong>: <em>gdk-function-demo</em></p>
+</li>
+<li>
+<p><strong>Image</strong>: <em>…/gdk-function-demo:1.0-SNAPSHOT</em></p>
+</li>
+<li>
+<p><strong>Memory</strong>: <em>512</em></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Click <strong>Create</strong>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-an-api-deployment">6. Create an API Deployment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>An API Deployment is the means by which you deploy an API on an API Gateway. Before the API Gateway can handle requests to the API, you must create an API deployment.
+(For more information, see <a href="https://docs.oracle.com/iaas/Content/APIGateway/Concepts/apigatewayconcepts.htm#API_Deployments">API Deployments</a>.)</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the Oracle Cloud Console, open the navigation menu, click <strong>Developer Services</strong>. Under <strong>API Management</strong>, click <strong>Gateways</strong>.</p>
+</li>
+<li>
+<p>The table should contain a gateway named "gdk-function-gateway" (it was created for you by Oracle Resource Manager). Click its name.</p>
+</li>
+<li>
+<p>On the <strong>API Gateway Details</strong> page, click <strong>Deployments</strong> under <strong>Resources</strong>.
+Click <strong>Create deployment</strong>.
+Create a new deployment with the following properties, then click <strong>Create</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Basic information</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Name</strong>: <em>gdk-serverless-deployment</em></p>
+</li>
+<li>
+<p><strong>Path prefix</strong>: <em>/store</em></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Authentication</strong>: <em>No authentication</em></p>
+</li>
+<li>
+<p><strong>Routes</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Route1: Path</strong>: <em>/{path*}</em></p>
+</li>
+<li>
+<p><strong>Route1: Methods</strong>: <em>ANY</em></p>
+</li>
+<li>
+<p><strong>Route1: Backend Type</strong>: <em>Oracle functions</em></p>
+</li>
+<li>
+<p><strong>Route1: Application</strong>: <em>gdk-function-application</em></p>
+</li>
+<li>
+<p><strong>Route1: Function name</strong>: <em>gdk-serverless-fn</em></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="test-the-oracle-function">7. Test the Oracle Function</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When the deployment is active, test the function by sending it some requests.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Copy the hostname of the gateway from the <strong>Gateway information</strong> tab.
+Define an environment variable for the hostname:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export GATEWAY_HOSTNAME=aaaaaaaaaaaaaaaaaaaaa.apigateway.us-phoenix-1.oci.customer-oci.com</code></pre>
+</div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: For Windows PowerShell, use <code>$ENV:GATEWAY_HOSTNAME = "aaaaaaaaaaaaaaaaaaaaa.apigateway.us-phoenix-1.oci.customer-oci.com"</code> to set it, and <code>$ENV:GATEWAY_HOSTNAME</code> to access it. Or you can skip this step and paste the hostname to each of the following commands manually.</p>
+</div>
+</blockquote>
+</div>
+</li>
+<li>
+<p>Use <code>curl</code> to retrieve all the items:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl https://$GATEWAY_HOSTNAME/store/all</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">[
+  {
+    "name": "chair",
+    "description": "A black chair with 4 legs",
+    "numberInStorage": 10
+  },
+  {
+    "name": "table",
+    "description": "A quality dining table",
+    "numberInStorage": 6
+  },
+  {
+    "name": "sofa",
+    "description": "A grey sofa",
+    "numberInStorage": 2
+  },
+  {
+    "name": "bookshelf",
+    "description": "A futuristic-looking bookshelf",
+    "numberInStorage": 0
+  }
+]</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Get an error when attempting to order too many items:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X POST https://$GATEWAY_HOSTNAME/store/order/table/10</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{"message": "Bad Request",
+  "_embedded": {
+    "errors": [{
+      "message": "Could not order item 'table'. Insufficient amount in storage"
+    }]
+  }, ...
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Order an item and print the response status code:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X POST -w "\nStatus code: %{http_code}" https://$GATEWAY_HOSTNAME/store/order/table/6</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name":"table",
+  "description":"A quality dining table",
+  "numberInStorage":0
+}
+Status code: 200</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Get the available items:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl https://$GATEWAY_HOSTNAME/store/available</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">[
+  {
+    "name": "chair",
+    "description": "A black chair with 4 legs",
+    "numberInStorage": 10
+  },
+  {
+    "name": "sofa",
+    "description": "A grey sofa",
+    "numberInStorage": 2
+  }
+]</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="publish-a-native-executable-to-oracle-cloud-infrastructure">8. Publish a Native Executable to Oracle Cloud Infrastructure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To create and publish a container image containing a native executable to Container Registry, provide the path to a container repository in the build file.</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+<div class="paragraph">
+<p>Modify the oci/build.gradle file as follows (and as shown below):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Modify the <code>dockerBuildNative</code> and <code>dockerfileNative</code> tasks.</p>
+</li>
+<li>
+<p>Add a <code>dockerFile</code> task.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">tasks {
+    dockerBuild {
+        images = ["${regionIdentifier}.ocir.io/${objectStorageNamespace}/gdk-function-demo"]
+    }
+    dockerBuildNative {
+        images = ["${regionIdentifier}.ocir.io/${objectStorageNamespace}/gdk-function-demo"]
+    }
+    dockerfileNative {
+        args("-XX:MaximumHeapSizePercent=80")
+        baseImage('gcr.io/distroless/cc-debian10')
+    }
+    dockerfile {
+        baseImage('fnproject/fn-java-fdk:jre17-latest')
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>For Windows users only, remove baseImage('gcr.io/distroless/cc-debian10') from the <code>dockerfileNative</code> task.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Save the build file, then run the following command to create and publish a container image (of the native executable) to Container Registry:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./gradlew oci:dockerPushNative</code></pre>
+</div>
+</div>
+</div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="paragraph">
+<p>Modify the oci/pom.xml file. Add the following profile to the <code>&lt;profiles&gt;</code> element:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;profile&gt;
+    &lt;id&gt;docker-native&lt;/id&gt;
+    &lt;activation&gt;
+      &lt;property&gt;
+        &lt;name&gt;packaging&lt;/name&gt;
+        &lt;value&gt;docker-native&lt;/value&gt;
+      &lt;/property&gt;
+    &lt;/activation&gt;
+    &lt;properties&gt;
+      &lt;jib.docker.tag&gt;native&lt;/jib.docker.tag&gt;
+      &lt;jib.docker.image&gt;${regionIdentifier}.ocir.io/${objectStorageNamespace}/gdk-function-demo&lt;/jib.docker.image&gt;
+    &lt;/properties&gt;
+    &lt;build&gt;
+      &lt;plugins&gt;
+        &lt;plugin&gt;
+          &lt;groupId&gt;io.micronaut.build&lt;/groupId&gt;
+          &lt;artifactId&gt;micronaut-maven-plugin&lt;/artifactId&gt;
+          &lt;configuration&gt;
+            &lt;baseImageRun&gt;gcr.io/distroless/cc-debian10&lt;/baseImageRun&gt;
+            &lt;nativeImageBuildArgs&gt;
+              &lt;arg&gt;--initialize-at-build-time=com.example&lt;/arg&gt;
+            &lt;/nativeImageBuildArgs&gt;
+          &lt;/configuration&gt;
+        &lt;/plugin&gt;
+        &lt;plugin&gt;
+          &lt;groupId&gt;com.google.cloud.tools&lt;/groupId&gt;
+          &lt;artifactId&gt;jib-maven-plugin&lt;/artifactId&gt;
+          &lt;configuration&gt;
+            &lt;to&gt;
+              &lt;image&gt;${jib.docker.image}&lt;/image&gt;
+            &lt;/to&gt;
+          &lt;/configuration&gt;
+        &lt;/plugin&gt;
+      &lt;/plugins&gt;
+    &lt;/build&gt;
+  &lt;/profile&gt;</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use <code>&lt;jib.docker.image&gt;</code> to set the name of the container image created by the <code>docker-native </code>build command.</p>
+</li>
+<li>
+<p>Use <code>&lt;baseImageRun&gt;</code> to use a distroless base container image as the base runtime image.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Save the build file, then run the following commands to create publish a container image (of the native executable) to Container Registry:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./mvnw clean
+./mvnw install -pl lib -am
+./mvnw deploy -Dpackaging=docker-native -pl oci</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="update-the-oracle-cloud-infrastructure-function">9. Update the Oracle Cloud Infrastructure Function</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To update your Oracle Function to use the new container image, follow these steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the Oracle Cloud Console, open the navigation menu, click <strong>Developer Services</strong>. Under <strong>Functions</strong>, click <strong>Applications</strong>.</p>
+</li>
+<li>
+<p>The table contains your application named "gdk-function-application".
+Click its name.</p>
+</li>
+<li>
+<p>On the page that describes your application, if necessary click the <strong>Functions</strong> resource.
+In the table of Functions, click the name of your Oracle Function "gdk-serverless-fn".</p>
+</li>
+<li>
+<p>On the page that describes your Oracle Function, click <strong>Edit</strong>.</p>
+</li>
+<li>
+<p>Replace the current image with your new image named "…gdk-function-demo:latest".</p>
+</li>
+<li>
+<p>Click <strong>Save changes</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Once the function reloads, use the same API Gateway to access it and test it as described in section <strong>7</strong>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="clean-up-cloud-resources">10. Clean Up Cloud Resources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After you have finished this guide, clean up the resources you created:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the Oracle Cloud Console, open the navigation menu, click <strong>Developer Services</strong>. Under <strong>API Management</strong> click <strong>Gateways</strong>.</p>
+<div class="paragraph">
+<p>1.1 The table contains a gateway named "gdk-function-gateway". Click its name.</p>
+</div>
+<div class="paragraph">
+<p>1.2. On the <strong>API Gateway Details</strong> page, click <strong>Deployments</strong> under <strong>Resources</strong>. The table contains your deployment named "gdk-serverless-deployment". Click its name.</p>
+</div>
+<div class="paragraph">
+<p>1.3. On the <strong>Deployment Details</strong> page, click <strong>Delete</strong> to delete the deployment.</p>
+</div>
+</li>
+<li>
+<p>In the Oracle Cloud Console, open the navigation menu, click <strong>Developer Services</strong>. Under <strong>Functions</strong>, click <strong>Applications</strong>.</p>
+<div class="paragraph">
+<p>2.1. The table contains your application named "gdk-function-application". Click its name.</p>
+</div>
+<div class="paragraph">
+<p>2.2. On the page that describes your application, if necessary click the <strong>Functions</strong> resource. In the table of Functions, click the name of your Oracle Function "gdk-serverless-fn".</p>
+</div>
+<div class="paragraph">
+<p>2.3. On the page that describes your Oracle Function, click <strong>Delete</strong>.</p>
+</div>
+</li>
+<li>
+<p>Destroy the remaining resources associated with the stack by following the steps in <a href="https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/create-job-destroy.htm">Creating a Destroy Job</a>.</p>
+</li>
+<li>
+<p>Follow the instructions in <a href="https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/delete-stack.htm">Deleting a Stack</a> to delete the stack.</p>
+</li>
+</ol>
+</div>
+<h3 id="summary" class="discrete">Summary</h3>
+<div class="paragraph">
+<p>This guide demonstrated how to create a Micronaut Gateway Function, run it on Oracle Functions, and set up an API Gateway to provide access to the function. The guide also demonstrated how to create a native executable from the Gateway Function and deploy it in place of the original Java-based version.</p>
+</div>
+<h3 id="related-documentation" class="discrete">Related Documentation</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://micronaut-projects.github.io/micronaut-oracle-cloud/latest/guide/">Micronaut Oracle Cloud</a></p>
+</li>
+<li>
+<p><a href="https://docs.oracle.com/iaas/Content/APIGateway/Tasks/apigatewaycreatingpolicies.htm#usersfunctionspolicy">API Gateway: Create Policy to Give API Gateways Access to Functions</a>.</p>
+</li>
+<li>
+<p><a href="https://docs.oracle.com/iaas/developer-tutorials/tutorials/functions/func-api-gtw/01-summary.htm#setup-functions-dev">Oracle Functions: Call a Function using API Gateway</a></p>
+</li>
+<li>
+<p><a href="https://graalvm.github.io/native-build-tools/latest/index.html">Native Build Tools</a></p>
+</li>
+<li>
+<p><a href="https://www.graalvm.org/">GraalVM Native Image</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div></div>
+                        <div role="button" class="menu-btn menu-btn--sidebar js-show-sidebar" title="sweet hamburger">
+                            <div class="hamburger">
+                                <div class="inner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+
+
+        </div>
+
+    </main>
+
+
+    <footer class="footer footer__mobile">
+
+        <div class="container-fluid container-fluid--custom-sm">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="row footer-content">
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">Learn</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/get-started/">Get Started</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/guides/">Guides</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/hands-on-labs/">Labs</a></li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/logo-github.svg" alt="Github icon">
+                                        <a href="https://github.com/oracle/graal-dev-kit" target="blank">Github</a>
+                                    </li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/slack-icon.svg" alt="Github icon">
+                                        <a href="https://bit.ly/odevrel_slack" target="blank">#graal-dev-kit-for-micronaut</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">About</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/about/#gdk-support" target="blank">Commercial Support</a></li>
+                                    <li class="footer-list__item"><a href="https://www.graalvm.org/" target="blank">GraalVM Native Image</a></li>
+                                    <li class="footer-list__item"><a href="https://micronaut.io/" target="_blank">Micronaut<sup>®</sup> Framework</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/multicloud/what-is-multicloud/" target="_blank">Multicloud</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/" target="blank">Oracle Cloud Infrastructure</a></li>
+                                    <li class="footer-list__item"><a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack" target="blank">VS Code Tools</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 aligning_1024">
+                            <div class="card--footer card--hovered box">
+                                <div>
+                                    <div class="rubber-footer footer__oci-section">
+                                        <p class="title-footer quickstart">Build, test, and deploy applications on Oracle Cloud Infrastructure for free</p>
+                                        <a href="https://www.oracle.com/cloud/free/" target="_blank" class="btn btn-primary">Try Oracle Cloud Infrastructure Free Tier</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="copyright">
+                                    Copyright © 2023, 2025, Oracle and/or its affiliates.
+                                    All rights reserved.
+                                    Oracle and Java are registered trademarks of Oracle and/or its affiliates.<br>
+                                    Micronaut<sup>®</sup> is a registered trademark of Object Computing, Inc.
+                                    Use is for referential purposes and does not imply any endorsement or affiliation with any third-party product.
+                                    Unauthorized use is strictly prohibited. Other names may be trademarks of their respective owners.
+                                </p>
+                                <div id="teconsent"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function fadeInAndOut(thz) {
+            var elmt = thz.nextElementSibling;//Get the element that is below the button that
+            //was just clicked
+            if (elmt.clientHeight) {
+                elmt.style.height = 0;
+            } else {
+                var wrapper = elmt.querySelector('ul');
+                elmt.style.height = wrapper.clientHeight + "px";
+            }
+            /*
+                elmt.classList.toggle("acordianPanelHidden");//Toggle the class which changes
+                //attributes which triggers the transition CSS
+                */
+        }
+
+        // Check TRUSTe Consent for Functional or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(2) != -1) ) {
+
+            //The following is a sample of a Maxymiser Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"><\/script>');
+        }
+
+        // Check TRUSTe Consent for Advertising or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(3) != -1) ) {
+
+            //The following is a sample of a BlueKai Core Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript">' +
+                'window.bk_async = function() { ' +
+                'BKTAG.doTag(62581, 1); }; ' +
+                '(function() { ' +
+                'var scripts = document.getElementsByTagName(\'script\')[0]; ' +
+                'var s = document.createElement(\'script\'); ' +
+                's.async = true; ' +
+                's.src = "https://tags.bkrtx.com/js/bk-coretag.js"; ' +
+                'scripts.parentNode.insertBefore(s, scripts); ' +
+                '}()); ' +
+                '<\/script>');
+        }
+    </script><script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"></script><script type="text/javascript">window.bk_async = function() { BKTAG.doTag(62581, 1); }; (function() { var scripts = document.getElementsByTagName('script')[0]; var s = document.createElement('script'); s.async = true; s.src = "https://tags.bkrtx.com/js/bk-coretag.js"; scripts.parentNode.insertBefore(s, scripts); }()); </script>
+
+</div>
+<div class="overlay"></div>
+
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<script src="https://graal.cloud/gdk/resources/lib/slick-slider/slick.min.js"></script>
+<script src='https://graal.cloud/gdk/resources/js/main.js'></script>
+<script src="https://graal.cloud/gdk/resources/js/ui.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/filters.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/sidebar.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/labs.js"></script>
+<!--<script>-->
+<!--    hljs.initHighlightingOnLoad();-->
+<!--</script>-->
+
+
+<iframe name="trustarc_notice" id="trustarcNoticeFrame" title="Trustarc Cross-Domain Consent Frame" src="https://consent.trustarc.com/get?name=crossdomain.html&amp;domain=oracle.com" style="display: none;"></iframe></body></html>

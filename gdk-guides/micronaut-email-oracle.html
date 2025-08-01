@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en"><head><style type="text/css">.truste_caIcon_display {display: block !important;}</style><style type="text/css">.truste_cursor_pointer {cursor: pointer;}.truste_border_none {border: none;}</style>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:image" content="https://graal.cloud/gdk/resources/img/graalvm.png">
+    <meta name="twitter:widgets:border-color" content="#55acee">
+
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js">
+    <script src="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js"></script>
+
+    <title>Create an Application to Send Email with Oracle Cloud Infrastructure Email Delivery Service</title>
+    <meta name="description" content="The Graal Development Kit for Micronaut (GDK) is a build of a curated set of Micronaut framework modules and their required libraries for building portable c...">
+    <meta name="last_modified" content="2024-10-10 16:30:05 +0000">
+    <meta name="last_built" content="2024-10-29 09:25:27 +0000">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/assets/main.css" >
+    <link rel="apple-touch-icon" sizes="180x180" href="https://graal.cloud/gdk/resources/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://graal.cloud/gdk/resources/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://graal.cloud/gdk/resources/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://graal.cloud/gdk/resources/img/favicon/site.webmanifest">
+    <link rel="stylesheet" type="text/css" href="https://graal.cloud/gdk/resources/styles/codicon.css" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="google-site-verification" content="-vRqwa9WYn6AaQGnl88xvrLw6ac4xoKVkZkhanmlRhU">
+    <link rel="canonical" href="https://www.graal.cloud/gdk/gdk-modules/database/micronaut-data-jdbc-repository/">
+
+    <!-- TODO: move to stylesheet -->
+    <style>
+        @media (min-width: 768px) {
+            .content {
+                padding-top: 60px;
+            }
+        }
+
+        .colist table {
+            border: 0;
+
+            td {
+                border: 0;
+            }
+
+            tr {
+                border: 0;
+            }
+        }
+
+        .imageblock {
+            max-width: 50%;
+        }
+
+        main{
+            padding-top: 50px !important;
+        }
+
+        .content{
+            padding-top: 0;
+        }
+
+        ul.sectlevel0 > li > a:first-of-type {
+            color: #F68831 !important;
+            font-weight: 700;
+        }
+
+        ul.sectlevel1 > li > a {
+            color: #dbe6ff;
+            font-weight: 400 !important;
+            padding-left: 20px;
+            font-size: 14px;
+        }
+
+            .conum[data-value]::after {
+                content: attr(data-value);
+                display: inline-block;
+                border: 1px solid;
+                -webkit-border-radius: 50%;
+                border-radius: 50%;
+                text-align: center;
+                font-size: .75em;
+                width: 1.67em;
+                height: 1.67em;
+                line-height: 1.67em;
+                font-family: "Open Sans", "DejaVu Sans", sans-serif;
+                font-style: normal;
+                font-weight: bold;
+            }
+            .conum[data-value]+b {
+                display: none;
+            }
+
+        .sectlevel1 a.active {
+            color: #F68831;
+            font-weight: bold;
+        }
+        a.external {
+            color: #d6d6d6   !important;
+        }
+        a.external:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
+    </style>
+
+    <!-- jQuery UI Tabs -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/jquery/jquery-ui.css">
+    <script type="text/javascript" id="www-widgetapi-script" src="https://www.youtube.com/s/player/a8476471/www-widgetapi.vflset/www-widgetapi.js" async=""></script><script src="https://www.youtube.com/iframe_api"></script><script async="" src="https://tags.bkrtx.com/js/bk-coretag.js"></script><script src="https://graal.cloud/gdk/resources/lib/jquery/jquery-3.7.1.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/bootstrap/js/bootstrap.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/resizeSensor.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/sticky-sidebar.min.js"></script><script async="" defer="" src="https://buttons.github.io/buttons.js"></script><script async="async" type="text/javascript" src="//consent.trustarc.com/notice?domain=oracle.com&amp;c=teconsent&amp;js=bb&amp;noticeType=bb&amp;text=true&amp;cdn=1&amp;pcookie&amp;gtm=1" crossorigin="" id="truste_0.9548969741402604"></script><script src="https://www.oracle.com/assets/truste-oraclelib.js"></script><script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script></head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const menuLinks = document.querySelectorAll(".sectlevel1 a");
+
+        function highlightMenu() {
+            let currentSection = null;
+
+            menuLinks.forEach(link => {
+                const section = document.querySelector(link.getAttribute("href"));
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                        currentSection = link;
+                    }
+                }
+            });
+
+            menuLinks.forEach(link => link.classList.remove("active"));
+
+            if (currentSection) {
+                currentSection.classList.add("active");
+            }
+        }
+
+        window.addEventListener("scroll", highlightMenu);
+        highlightMenu();
+
+        });</script>
+<!-- Add TRUSTe Consent Script and Analytics -->
+
+
+<!-- jQuery UI Tabs -->
+
+<body class="">
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<div class="wrapper wrapper--nofooter">
+
+    <header class="header header--content" role="banner">
+        <nav class="menu">
+            <div class="menu__row">
+                <div>
+                    <a href="/gdk/" class="activeMenuItem">
+                        <img class="logo-mobile" src="https://graal.cloud/gdk/resources/img/gdk-logo-new.svg" alt="Graal Development Kit for Micronaut logo" style="margin-left: 0px;">
+                    </a>
+                </div>
+                <div class="menu__container">
+                    <ul class="menu__list">
+                        <li class="menu__item">
+                            <a href="/gdk/about/" class="menu__link">About</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/gdk/get-started/" class="menu__link">Get Started</a>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Docs</a>
+                                <div class="stack-menu-learn">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/modules.svg">
+                                                <a href="/gdk/modules/" class="item-line">Modules</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/guides.svg">
+                                                <a href="/gdk/guides/" class="item-line">Guides</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/labs.svg">
+                                                <a href="/gdk/hands-on-labs/" class="item-line">Hands-On Labs</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/tools.svg">
+                                                <a href="/gdk/vscode-tools/" class="item-line">Tools</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Graal Projects</a>
+                                <div class="stack-menu">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalstack.svg">
+                                                <a href="/" class="item-line">Graal</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalvm.svg">
+                                                <a href="https://graalvm.org/" class="item-line">GraalVM</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalos.svg">
+                                                <a href="/graalos/" class="item-line">GraalOS</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__launch__mobile">
+                            <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu__launch">
+                    <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                </div>
+            </div>
+
+            <div role="button" class="menu-btn menu-btn--menu js-show-menu" tabindex="-1" title="sweet hamburger">
+                <div class="hamburger">
+                    <div class="inner"></div>
+                </div>
+            </div>
+            <button aria-label="hamburger mobile menu" class="btn btn-mobile-menu js-show-menu">
+                <div class="inner"></div>
+            </button>
+        </nav>
+
+
+    </header>
+
+
+    <main class="content" aria-label="Content">
+        <div class="wrapper wrapper-content">
+            <article>
+                <div class="row d-flex flex-wrap">
+                    <div class="col-sm-3 docsimpro col-bg">
+                        <div class="sidebar-wrap is-affixed" style="height: 473px; position: relative;"><div class="inner-wrapper-sticky" style="position: fixed; top: 74px; left: 0px; width: 300px;">
+                            <div class="sidebar">
+                                <div class="menuabout">
+                                    <img id="sidebarClose" src="https://graal.cloud/gdk/resources/img/arrow_sidebar(close).svg" alt="Expand or collapse sidebar" class="btn-color no-display">
+                                    <img id="sidebarOpen" src="https://graal.cloud/gdk/resources/img/arrow_sidebar.svg" alt="Expand or collapse sidebar">
+                                </div>
+
+                                                                <div class="toc-floating">
+                                <div class="toc-bullets">
+                                    <li class="toc-bullets-main">
+                                        <a href="/gdk/docs/gdk-modules/email/" class="_icon-book">
+                                            Email
+                                        </a>
+                                    </li>
+                                    <li class="toc-bullets-sub toc-bullets-highlight">
+                                        <a href="/gdk/gdk-modules/email/micronaut-email-oracle/" class="activeMenuItem">
+                                            Create an Application to Send Email with Oracle Cloud Infrastructure Email Delivery Service
+                                        </a>
+                                    </li>
+                                    <div id="toc" class="toc">
+<div id="toctitle"></div>
+<ul class="sectlevel1">
+<li><a href="#create-the-application">1. Create the Application</a></li>
+<li><a href="#set-up-oracle-cloud-infrastructure-email-delivery-service">2. Set Up Oracle Cloud Infrastructure Email Delivery Service</a></li>
+<li><a href="#run-the-test">3. Run the Test</a></li>
+<li><a href="#run-the-application">4. Run the Application</a></li>
+<li><a href="#test-the-application">5. Test the Application</a></li>
+<li><a href="#generate-a-native-executable-using-graalvm">6. Generate a Native Executable Using GraalVM</a></li>
+<li><a href="#run-and-test-the-native-executable">7. Run and Test the Native Executable</a></li>
+</ul>
+</div>
+                                </div>
+                            </div>
+
+
+                            </div>
+                            <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div></div>
+                        <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div>
+
+                    <div class="col-sm-9 docsmod">
+                        <div id="content-wrapper" class="docs-content docs-content--with-sidebar"><h1>Create an Application to Send Email with Oracle Cloud Infrastructure Email Delivery Service</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This guide describes how to use the Graal Development Kit for Micronaut (GDK) to create a Java application that sends email using the Oracle Cloud Infrastructure Email Delivery service and the Micronaut® Email implementation of the Jakarta Mail API.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Oracle Cloud Infrastructure Email Delivery service is an email sending service and SMTP relay that provides a fast and reliable managed solution for sending both high volume bulk and transactional email that need to reach the inbox.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p><strong>Prerequisites</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>JDK 17 or higher. See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>.</p>
+</li>
+<li>
+<p>An Oracle Cloud Infrastructure account. See <a href="/gdk/get-started/setting-up-cloud-accounts/">Setting up Your Cloud Accounts</a>.</p>
+</li>
+<li>
+<p>The GDK CLI. See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>. (Optional.)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Follow the steps below to create the application from scratch. However, you can also download the completed example:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_email_oci-email-demo-java-gradle.zip">Gradle Oracle Cloud Infrastructure Email Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_email_oci-email-demo-java-maven.zip">Maven Oracle Cloud Infrastructure Email Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+</div>
+<div class="paragraph">
+<p>The application ZIP file will be downloaded in your default downloads directory. Unzip it and proceed to the next steps.</p>
+</div>
+<h4 id="a-note-regarding-your-development-environment" class="discrete">A note regarding your development environment</h4>
+<div class="paragraph">
+<p>Consider using Visual Studio Code, which provides native support for developing applications with the <a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack">Graal Development Kit for Micronaut Extension Pack</a>.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: If you use IntelliJ IDEA, <a href="/gdk/resources/img/annotationprocessorsintellij.png">enable annotation processing</a>.</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Windows platform: The GDK guides are compatible with Gradle only. Maven support is coming soon.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-the-application">1. Create the Application</h2>
+<div class="sectionbody">
+<p>Create an application using the GDK Launcher.</p>
+<ol>
+    <li>
+        <p>Open the <a href="https://graal.cloud/gdk/launcher/?advanced=true" target="_blank">GDK Launcher in advanced mode</a>.</p>
+    </li>
+    <li>Create a new project using the following selections.
+        <ul>
+            <li><strong>Project Type</strong>: <em>Application</em> (Default)</li>
+            <li><strong>Project Name</strong>: <em>oci-email-demo</em></li>
+            <li><strong>Base Package</strong>: <em>com.example</em> (Default)</li>
+            <li><strong>Clouds</strong>: <em>OCI</em></li>
+            <li><strong>Build Tool</strong>: <em>Gradle (Groovy)</em> or <em>Maven</em></li>
+            <li><strong>Language</strong>: <em>Java</em> (Default)</li>
+            <li><strong>Test Framework</strong>: <em>JUnit</em> (Default)</li>
+            <li><strong>Java Version</strong>: <em>17</em> (Default)</li>
+            <li><strong>Micronaut Version</strong>: (Default)</li>
+            <li><strong>Cloud Services</strong>: <em>Email</em></li>
+            <li><strong>Features</strong>: <em>GraalVM Native Image</em> (Default)</li>
+            <li><strong>Sample Code</strong>: <em>Yes</em> (Default)</li>
+        </ul>
+    </li>
+    <li>Click <strong>Generate Project</strong>, then click <strong>Download Zip</strong>. The GDK Launcher creates an application with the package <code>com.example</code> in a directory named <em>oci-email-demo</em>. The application ZIP file will be downloaded to your default downloads directory. Unzip it, open it in your code editor, and proceed to the next steps.</li>
+</ol>
+<div class="paragraph">
+<p>Alternatively, use the  <a href="/gdk/get-started/using-gdk-cli/">GDK CLI</a> as follows:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">gdk create-app com.example.oci-email-demo \
+ --clouds=oci \
+ --services=email \
+ --features=graalvm \
+ --build=gradle \
+ --jdk=17  \
+ --lang=java</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">gdk create-app com.example.oci-email-demo \
+ --clouds=oci \
+ --services=email \
+ --features=graalvm \
+ --build=maven \
+ --jdk=17  \
+ --lang=java</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>Open the <em>micronaut-cli.yml</em> file, you can see what features are packaged with the application:</p>
+</div>
+<pre><code class="language-bash hljs" data-highlighted="yes">features: [app-name, email-javamail, email-template, gdk-bom, gdk-license, gdk-oci-cloud-app, gdk-oci-email, graalvm, http-client, java, java-application, junit, logback, maven, maven-enforcer-plugin, micronaut-http-validation, netty-server, properties, readme, serialization-jackson, shade, static-resources, views-jte]</code><button>Copy</button></pre>
+<div class="paragraph">
+<p>The GDK Launcher creates a multi-module project with two subprojects: <strong>oci</strong> for Oracle Cloud, and <strong>lib</strong> for common code and configuration shared across cloud platforms.
+You develop the application logic in the <strong>lib</strong> subproject, and keep the
+Oracle Cloud-specific configurations in the <strong>oci</strong> subproject.</p>
+</div>
+<div class="sect2">
+<h3 id="sessionprovider">1.1. SessionProvider</h3>
+<div class="paragraph">
+<p>Micronaut Email requires a bean of type <code>SessionProvider</code> when using Jakarta Mail to create a <code>Session</code>. The GDK Launcher created the <code>OciSessionProvider</code> class in a file named <em>oci/src/main/java/com/example/OciSessionProvider.java</em> with the following contents:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.context.annotation.Property;
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.email.javamail.sender.MailPropertiesProvider;
+import io.micronaut.email.javamail.sender.SessionProvider;
+import jakarta.inject.Singleton;
+
+import jakarta.mail.Authenticator;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import java.util.Properties;
+
+@Singleton <i class="conum" data-value="1"></i><b>(1)</b>
+class OciSessionProvider implements SessionProvider {
+
+    private final Properties properties;
+    private final String user;
+    private final String password;
+
+    OciSessionProvider(MailPropertiesProvider provider,
+                       @Property(name = "smtp.user") String user, <i class="conum" data-value="2"></i><b>(2)</b>
+                       @Property(name = "smtp.password") String password) { <i class="conum" data-value="2"></i><b>(2)</b>
+        this.properties = provider.mailProperties();
+        this.user = user;
+        this.password = password;
+    }
+
+    @Override
+    @NonNull
+    public Session session() {
+        return Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(user, password); <i class="conum" data-value="3"></i><b>(3)</b>
+            }
+        });
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> Use <code>jakarta.inject.Singleton</code> annotation to designate a class as a singleton.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> Annotate a constructor parameter with <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/annotation/Property.html"><code>@Property</code></a> to inject a configuration value.</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> Use the username and password to create the <code>Session</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ociemailcontroller">1.2. OciEmailController</h3>
+<div class="paragraph">
+<p>The GDK Launcher created a controller class that uses the Micronaut <code>EmailSender</code> to send email in a file named <em>oci/src/main/java/com/example/OciEmailController.java</em>.
+Its contents is as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.email.Attachment;
+import io.micronaut.email.Email;
+import io.micronaut.email.EmailSender;
+import io.micronaut.email.template.TemplateBody;
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Post;
+import io.micronaut.http.multipart.CompletedFileUpload;
+import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.annotation.ExecuteOn;
+import io.micronaut.views.ModelAndView;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+
+import static io.micronaut.email.BodyType.HTML;
+import static io.micronaut.http.MediaType.APPLICATION_OCTET_STREAM_TYPE;
+import static io.micronaut.http.MediaType.MULTIPART_FORM_DATA;
+import static io.micronaut.http.MediaType.TEXT_PLAIN;
+import static java.util.Collections.singletonMap;
+
+@ExecuteOn(TaskExecutors.IO) <i class="conum" data-value="1"></i><b>(1)</b>
+@Controller("/email") <i class="conum" data-value="2"></i><b>(2)</b>
+class OciEmailController {
+
+    private final EmailSender&lt;?, ?&gt; emailSender;
+
+    OciEmailController(EmailSender&lt;?, ?&gt; emailSender) { <i class="conum" data-value="3"></i><b>(3)</b>
+        this.emailSender = emailSender;
+    }
+
+    @Post(uri = "/basic", produces = TEXT_PLAIN) <i class="conum" data-value="4"></i><b>(4)</b>
+    String index() {
+        emailSender.send(Email.builder()
+                .to("basic@gdk.example")
+                .subject("Micronaut Email Basic Test: " + LocalDateTime.now())
+                .body("Basic email"));  <i class="conum" data-value="5"></i><b>(5)</b>
+        return "Email sent.";
+    }
+
+    @Post(uri = "/template/{name}", produces = TEXT_PLAIN) <i class="conum" data-value="4"></i><b>(4)</b>
+    String template(String name) {
+        emailSender.send(Email.builder()
+                .to("template@gdk.example")
+                .subject("Micronaut Email Template Test: " + LocalDateTime.now())
+                .body(new TemplateBody&lt;&gt;(HTML,
+                        new ModelAndView&lt;&gt;("email", singletonMap("name", name))))); <i class="conum" data-value="6"></i><b>(6)</b>
+        return "Email sent.";
+    }
+
+    @Post(uri = "/attachment", produces = TEXT_PLAIN, consumes = MULTIPART_FORM_DATA) <i class="conum" data-value="7"></i><b>(7)</b>
+    String attachment(CompletedFileUpload file) throws IOException {
+        emailSender.send(Email.builder()
+                .to("attachment@gdk.example")
+                .subject("Micronaut Email Attachment Test: " + LocalDateTime.now())
+                .body("Attachment email")
+                .attachment(Attachment.builder()
+                        .filename(file.getFilename())
+                        .contentType(file.getContentType().orElse(APPLICATION_OCTET_STREAM_TYPE).toString())
+                        .content(file.getBytes())
+                        .build()
+                )); <i class="conum" data-value="8"></i><b>(8)</b>
+        return "Email sent.";
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> It is critical that any blocking I/O operations (such as fetching the data from a database) are offloaded to a separate thread pool that does not block the event loop.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> The class is defined as a controller with the <a href="https://docs.micronaut.io/latest/api/io/micronaut/http/annotation/Controller.html"><code>@Controller</code></a> annotation mapped to the path <code>/email</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> Use constructor injection to inject a bean of type <code>emailSender</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>4</strong> By default, a Micronaut response uses <code>application/json</code> as <code>Content-Type</code>. The application returns a String, not a JSON object, so it is set to <code>text/plain</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>5</strong> You can send plain-text email.</p>
+</div>
+<div class="paragraph">
+<p><strong>6</strong> You can send HTML email that leverages Micronaut template-rendering capabilities.</p>
+</div>
+<div class="paragraph">
+<p><strong>7</strong> A Micronaut controller action consumes <code>application/json</code> by default. Consuming other content types is supported with the <a href="https://docs.micronaut.io/latest/api/io/micronaut/http/annotation/Consumes.html"><code>@Consumes</code></a> annotation or the consumes member of any HTTP method annotation.</p>
+</div>
+<div class="paragraph">
+<p><strong>8</strong> You can send email with attachments.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="email-template">1.3. Email Template</h3>
+<div class="paragraph">
+<p>The GDK Launcher created a <a href="https://micronaut-projects.github.io/micronaut-views/latest/guide/#jte">JTE template</a> in <em>oci/src/main/jte/email.jte</em> containing the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">@param String name
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;body&gt;
+&lt;p&gt;
+    Hello, &lt;span&gt;${name}&lt;/span&gt;!
+&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="emailcontrollertest">1.4. EmailControllerTest</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The GDK Launcher created a test class, <code>EmailControllerTest</code>, to ensure email is sent successfully, in a file named <em>oci/src/test/java/com/example/EmailControllerTest.java</em>.
+It has the following contents:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.email.Attachment;
+import io.micronaut.email.Email;
+import io.micronaut.email.EmailException;
+import io.micronaut.email.TransactionalEmailSender;
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.client.HttpClient;
+import io.micronaut.http.client.annotation.Client;
+import io.micronaut.http.client.multipart.MultipartBody;
+import io.micronaut.test.annotation.MockBean;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+
+import jakarta.mail.Message;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+
+import static io.micronaut.email.BodyType.HTML;
+import static io.micronaut.email.BodyType.TEXT;
+import static io.micronaut.http.HttpStatus.OK;
+import static io.micronaut.http.MediaType.MULTIPART_FORM_DATA_TYPE;
+import static io.micronaut.http.MediaType.TEXT_CSV;
+import static io.micronaut.http.MediaType.TEXT_CSV_TYPE;
+import static io.micronaut.http.MediaType.TEXT_PLAIN_TYPE;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@MicronautTest <i class="conum" data-value="1"></i><b>(1)</b>
+class EmailControllerTest {
+
+    @Inject
+    @Client("/")
+    HttpClient client; <i class="conum" data-value="2"></i><b>(2)</b>
+
+    List&lt;Email&gt; emails = new ArrayList&lt;&gt;();
+
+    @AfterEach
+    void cleanup() {
+        emails.clear();
+    }
+
+    @Test
+    void testBasic() {
+
+        HttpResponse&lt;?&gt; response = client.toBlocking().exchange(
+                HttpRequest.POST("/email/basic", null));
+        assertEquals(response.status(), OK);
+
+        assertEquals(1, emails.size());
+        Email email = emails.get(0);
+
+        assertEquals("xyz@gdk.example", email.getFrom().getEmail());
+
+        assertNull(email.getReplyTo());
+
+        assertNotNull(email.getTo());
+        assertEquals(1, email.getTo().size());
+        assertEquals("basic@gdk.example", email.getTo().iterator().next().getEmail());
+        assertNull(email.getTo().iterator().next().getName());
+
+        assertNull(email.getCc());
+
+        assertNull(email.getBcc());
+
+        assertTrue(email.getSubject().startsWith("Micronaut Email Basic Test: "));
+
+        assertNull(email.getAttachments());
+
+        assertNotNull(email.getBody());
+        Optional&lt;String&gt; body = email.getBody().get(TEXT);
+        assertEquals("Basic email", body.orElseThrow());
+    }
+
+    @Test
+    void testTemplate() {
+
+        HttpResponse&lt;?&gt; response = client.toBlocking().exchange(
+                HttpRequest.POST("/email/template/testing", null));
+        assertEquals(response.status(), OK);
+
+        assertEquals(1, emails.size());
+        Email email = emails.get(0);
+
+        assertEquals("xyz@gdk.example", email.getFrom().getEmail());
+
+        assertNull(email.getReplyTo());
+
+        assertNotNull(email.getTo());
+        assertEquals(1, email.getTo().size());
+        assertEquals("template@gdk.example", email.getTo().iterator().next().getEmail());
+        assertNull(email.getTo().iterator().next().getName());
+
+        assertNull(email.getCc());
+
+        assertNull(email.getBcc());
+
+        assertTrue(email.getSubject().startsWith("Micronaut Email Template Test: "));
+
+        assertNull(email.getAttachments());
+
+        assertNotNull(email.getBody());
+        Optional&lt;String&gt; body = email.getBody().get(HTML);
+        assertTrue(body.orElseThrow().contains("Hello, &lt;span&gt;testing&lt;/span&gt;!"));
+    }
+
+    @Test
+    void testAttachment() {
+
+        HttpResponse&lt;?&gt; response = client.toBlocking().exchange(
+                HttpRequest.POST("/email/attachment", MultipartBody.builder()
+                        .addPart("file", "test.csv", TEXT_CSV_TYPE, "test,email".getBytes(UTF_8))
+                        .build())
+                        .contentType(MULTIPART_FORM_DATA_TYPE)
+                        .accept(TEXT_PLAIN_TYPE),
+                String.class);
+        assertEquals(response.status(), OK);
+
+        assertEquals(1, emails.size());
+        Email email = emails.get(0);
+
+        assertEquals("xyz@gdk.example", email.getFrom().getEmail());
+
+        assertNull(email.getReplyTo());
+
+        assertNotNull(email.getTo());
+        assertEquals(1, email.getTo().size());
+        assertEquals("attachment@gdk.example", email.getTo().iterator().next().getEmail());
+        assertNull(email.getTo().iterator().next().getName());
+
+        assertNull(email.getCc());
+
+        assertNull(email.getBcc());
+
+        assertTrue(email.getSubject().startsWith("Micronaut Email Attachment Test: "));
+
+        assertNotNull(email.getAttachments());
+        assertEquals(1, email.getAttachments().size());
+        Attachment attachment = email.getAttachments().get(0);
+        assertEquals("test.csv", attachment.getFilename());
+        assertEquals(TEXT_CSV, attachment.getContentType());
+        assertEquals("test,email", new String(attachment.getContent()));
+
+        assertNotNull(email.getBody());
+        Optional&lt;String&gt; body = email.getBody().get(TEXT);
+        assertEquals("Attachment email", body.orElseThrow());
+    }
+
+    @MockBean(TransactionalEmailSender.class)
+    @Named("mock")
+    TransactionalEmailSender&lt;Message, Void&gt; mockSender() {
+        return new TransactionalEmailSender&lt;&gt;() {
+
+            @Override
+            public String getName() {
+                return "test";
+            }
+
+            @Override
+            public Void send(Email email, Consumer emailRequest) throws EmailException {
+                emails.add(email);
+                return null;
+            }
+        };
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> Annotate the class with <a href="https://micronaut-projects.github.io/micronaut-test/latest/guide/"><code>@MicronautTest</code></a> so the Micronaut framework will initialize the application context and the embedded server.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> Inject the <code>HttpClient</code> bean and point it to the embedded server.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The GDK Launcher created a file named <em>oci/src/test/resources/application-test.properties</em>. This configuration is applied for the test environment only.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">javamail.properties.mail.smtp.host=smtp.com
+micronaut.email.from.email=xyz@gdk.example
+micronaut.email.from.name=Email Test
+smtp.password=example-password
+smtp.user=gdkdemo</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="set-up-oracle-cloud-infrastructure-email-delivery-service">2. Set Up Oracle Cloud Infrastructure Email Delivery Service</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To configure email delivery via the Oracle Cloud Infrastructure Email Delivery service, you need:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A user with permission to send email</p>
+</li>
+<li>
+<p>SMTP credentials</p>
+</li>
+<li>
+<p>The SMTP endpoint for your region</p>
+</li>
+<li>
+<p>An "Approved Sender"</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="create-a-user-with-permission-to-send-email">2.1. Create a User with Permission to Send Email</h3>
+<div class="paragraph">
+<p>The permission is expressed as an <a href="https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm">IAM policy statement</a>.
+However, policy statements apply only to groups of users, not individuals.
+So, first create a new user, then create a new group and add the user to the group, then grant members of the group permission to send emails.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a new user by following the steps in <a href="https://docs.oracle.com/iaas/Content/Identity/Tasks/managingusers.htm#ariaid-title15">To create a user</a>, with the following properties:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Name</strong>: "gdk-email-user"</p>
+</li>
+<li>
+<p><strong>Description</strong>: "email sender"</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Create a new group by following the steps in <a href="https://docs.oracle.com/iaas/Content/Identity/Tasks/managinggroups.htm#ariaid-title6">To create a group</a>, using the following properties:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Name</strong>: "gdk-email-group"</p>
+</li>
+<li>
+<p><strong>Description</strong>: "email sender group"</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Add the new user to the group: click <strong>Add User to Group</strong>, then select "gdk-email-user" from the drop-down list.</p>
+</li>
+<li>
+<p>Create a new policy by following the steps in <a href="https://docs.oracle.com/iaas/Content/Identity/Tasks/managingpolicies.htm#ariaid-title7">To create a policy</a>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Name</strong>: "gdk-email-guide-policy"</p>
+</li>
+<li>
+<p><strong>Description</strong>: "gdk email guide policy"</p>
+</li>
+<li>
+<p><strong>Compartment</strong>: (Default)</p>
+</li>
+<li>
+<p><strong>Policy Builder</strong></p>
+</li>
+<li>
+<p>Click <strong>Show manual editor</strong></p>
+</li>
+<li>
+<p>Enter "Allow group gdk-email-group to use email-family in compartment &lt;compartment name&gt;", replacing &lt;compartment name&gt; with the name of your compartment.</p>
+</li>
+<li>
+<p>Click <strong>Create</strong>.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For more information about policies, see <a href="https://docs.oracle.com/iaas/Content/Identity/Reference/emailpolicyreference.htm">Details for the Email Delivery Service</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-smtp-credentials">2.2. Create SMTP Credentials</h3>
+<div class="paragraph">
+<p>Follow the instructions to <a href="https://docs.oracle.com/iaas/Content/Email/Reference/gettingstarted_topic-create-smtp-credentials.htm#top">create SMTP credentials</a> for the user named "gdk-email-user".
+Enter "gdk-email-user smtp credentials&quot; as the description.</p>
+</div>
+<div class="paragraph">
+<p>Copy the <strong>Username</strong> and <strong>Password</strong> (click <strong>Copy</strong>).
+You will need them later.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-an-approved-sender">2.3. Create an Approved Sender</h3>
+<div class="paragraph">
+<p>Follow the instructions to <a href="https://docs.oracle.com/iaas/Content/Email/Reference/gettingstarted_topic-Create_an_approved_sender.htm#console">create an approved sender</a>.
+Enter "<a href="mailto:&#103;d&#107;&#x40;&#x67;&#x64;&#x6b;&#46;&#x65;&#x78;a&#109;&#x70;&#108;e">&#103;d&#107;&#x40;&#x67;&#x64;&#x6b;&#46;&#x65;&#x78;a&#109;&#x70;&#108;e</a>&quot; as the email address.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="find-the-smtp-endpoint">2.4. Find the SMTP Endpoint</h3>
+<div class="paragraph">
+<p>Each region in Oracle Cloud Infrastructure has an SMTP endpoint to use as the SMTP server address. Follow the steps to <a href="https://docs.oracle.com/iaas/Content/Email/Tasks/configuresmtpconnection.htm">configure the SMTP connection</a> for your region and save the public endpoint, for example, <code>smtp.email.us-ashburn-1.oci.oraclecloud.com</code>. You will need that for the next step.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="set-configuration-variables">2.5. Set Configuration Variables</h3>
+<div class="paragraph">
+<p>Avoid hard-coding credentials and other sensitive information directly in config files. By using placeholder variables in <em>oci/src/main/resources/application.properties</em> such as <code>SMTP_PASSWORD</code> and <code>SMTP_USER</code>, you can externalize the values via secure storage such as <a href="https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm">Oracle Cloud Infrastructure Vault</a>.</p>
+</div>
+<div class="paragraph">
+<p>Alternatively, you can use environment variables. Set the "from" email to the value you used earlier, and enter a "from" name. Set the SMTP username and password from the values you copied earlier when you generated the SMTP credentials, and set the SMTP server as the public endpoint:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+    <div data-value="linux" data-label="Linux &amp; macOS" id="linux" aria-labelledby="ui-id-11" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">export</span> FROM_NAME=<span class="hljs-string">gdk</span>
+<span class="hljs-built_in">export</span> SMTP_HOST=<span class="hljs-string">smtp.email.us-ashburn-1.oci.oraclecloud.com</span>
+<span class="hljs-built_in">export</span> SMTP_PASSWORD=<span class="hljs-string">nB$O;.......</span>
+<span class="hljs-built_in">export</span> SMTP_USER=<span class="hljs-string">ocid1.user.oc1..aaaaaaaaqx...@ocid1.tenancy.oc1..aaaaaaaa....me.com</span>
+<span class="hljs-built_in">export</span> FROM_EMAIL=<span class="hljs-string">gdk@gdk.example</span>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> FROM_NAME=<span class="hljs-string">gdk</span>
+<span class="hljs-built_in">set</span> SMTP_HOST=<span class="hljs-string">smtp.email.us-ashburn-1.oci.oraclecloud.com</span>
+<span class="hljs-built_in">set</span> SMTP_PASSWORD=<span class="hljs-string">nB$O;.......</span>
+<span class="hljs-built_in">set</span> SMTP_USER=<span class="hljs-string">ocid1.user.oc1..aaaaaaaaqx...@ocid1.tenancy.oc1..aaaaaaaa....me.com</span>
+<span class="hljs-built_in">set</span> FROM_EMAIL=<span class="hljs-string">gdk@gdk.example</span>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> FROM_NAME=<span class="hljs-string">gdk</span>
+<span class="hljs-variable">$ENV:</span> SMTP_HOST=<span class="hljs-string">smtp.email.us-ashburn-1.oci.oraclecloud.com</span>
+<span class="hljs-variable">$ENV:</span> SMTP_PASSWORD=<span class="hljs-string">nB$O;.......</span>
+<span class="hljs-variable">$ENV:</span> SMTP_USER=<span class="hljs-string">ocid1.user.oc1..aaaaaaaaqx...@ocid1.tenancy.oc1..aaaaaaaa....me.com</span>
+<span class="hljs-variable">$ENV:</span> FROM_EMAIL=<span class="hljs-string">gdk@gdk.example</span>
+</code><button>Copy</button></pre>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-the-test">3. Run the Test</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Run the tests:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :oci:test</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am
+./mvnw mn:test -pl oci</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>Then open the file <em>oci/build/reports/tests/test/index.html</em> in a browser to view the results.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-the-application">4. Run the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To run the application, use the following command, which starts the application on port 8080.</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :oci:run</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am
+./mvnw mn:run -pl oci</code><button>Copy</button></pre>
+    </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="test-the-application">5. Test the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Test the application by accessing the application&#8217;s REST endpoints.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Send a simple plain-text email:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X POST localhost:8080/email/basic</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Send a templated email:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X POST localhost:8080/email/template/test</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Send an email with an attachment.</p>
+<div class="paragraph">
+<p>If you use Linux or macOS, run the command (replacing the path to the attachment with an image of your own):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X POST \
+-H "Content-Type: multipart/form-data" \
+-F "file=@ /Users/username/demo/email.png" \
+localhost:8080/email/attachment</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you use Windows, run the command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">curl -X POST \
+-H "Content-Type: multipart/form-data" \
+-F "file=@C:\Users\username\demo\email.png" \
+localhost:8080/email/attachment</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="generate-a-native-executable-using-graalvm">6. Generate a Native Executable Using GraalVM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The GDK supports compiling Java applications ahead-of-time into native executables using <a href="https://www.graalvm.org/">GraalVM Native Image</a>.
+You can use the <em><a href="https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html">Gradle plugin for GraalVM Native Image building</a></em>/<em><a href="https://graalvm.github.io/native-build-tools/latest/maven-plugin.html">Maven plugin for GraalVM Native Image building</a></em>.
+Packaged as a native executable, it significantly reduces application startup time and memory footprint.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p><strong>Prerequisites</strong>: Make sure you have installed a GraalVM JDK. The easiest way to get started is with <a href="https://sdkman.io/jdks#graal">SDKMAN!</a>. For other installation options, visit the <a href="https://www.graalvm.org/downloads/">Downloads section</a>.</p>
+</div>
+</blockquote>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>To generate a native executable, use the following command:</p>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :oci:nativeCompile</code><button>Copy</button></pre><p>The native executable is created in the oci/build/native/nativeCompile/ directory</p>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am
+./mvnw clean package -pl  oci -Dpackaging=native-image</code><button>Copy</button></pre><p>The native executable is created in the oci/target/ directory</p>
+    </div>
+</div>
+</li>
+<li>
+<p>You can then run the native executable with the following command:</p>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">oci/build/native/nativeCompile/oci-email-demo-oci</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">oci/target/oci-email-demo-oci</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>You can customize the name of the resulting binary by <a href="https://graalvm.github.io/native-build-tools/latest/index.html">updating the Maven/Gradle plugin for GraalVM Native Image configuration</a>.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-and-test-the-native-executable">7. Run and Test the Native Executable</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Run the native executable, and then perform the same tests as in step <strong>5</strong>.</p>
+</div>
+<h3 id="summary" class="discrete">Summary</h3>
+<div class="paragraph">
+<p>This guide demonstrated how to use the GDK to create an application that sends email via the <a href="https://docs.oracle.com/iaas/Content/Email/Concepts/overview.htm">Oracle Cloud Infrastructure Email Delivery service</a> and the Micronaut Email module. Then you saw how to generate a native executable with GraalVM Native Image for faster startup and lower memory footprint.</p>
+</div>
+<h3 id="related-documentation" class="discrete">Related Documentation</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.oracle.com/iaas/Content/Email/Concepts/overview.htm">Oracle Cloud Infrastructure Email Delivery Service</a></p>
+</li>
+<li>
+<p><a href="https://micronaut-projects.github.io/micronaut-email/latest/guide/">Micronaut Email</a></p>
+</li>
+<li>
+<p><a href="https://recursive.codes/blog/post/2128">Sending Email With Oracle Cloud Infrastructure Email Delivery From Micronaut</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div></div>
+                        <div role="button" class="menu-btn menu-btn--sidebar js-show-sidebar" title="sweet hamburger">
+                            <div class="hamburger">
+                                <div class="inner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+
+
+        </div>
+
+    </main>
+
+
+    <footer class="footer footer__mobile">
+
+        <div class="container-fluid container-fluid--custom-sm">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="row footer-content">
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">Learn</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/get-started/">Get Started</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/guides/">Guides</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/hands-on-labs/">Labs</a></li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/logo-github.svg" alt="Github icon">
+                                        <a href="https://github.com/oracle/graal-dev-kit" target="blank">Github</a>
+                                    </li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/slack-icon.svg" alt="Github icon">
+                                        <a href="https://bit.ly/odevrel_slack" target="blank">#graal-dev-kit-for-micronaut</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">About</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/about/#gdk-support" target="blank">Commercial Support</a></li>
+                                    <li class="footer-list__item"><a href="https://www.graalvm.org/" target="blank">GraalVM Native Image</a></li>
+                                    <li class="footer-list__item"><a href="https://micronaut.io/" target="_blank">Micronaut<sup>®</sup> Framework</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/multicloud/what-is-multicloud/" target="_blank">Multicloud</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/" target="blank">Oracle Cloud Infrastructure</a></li>
+                                    <li class="footer-list__item"><a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack" target="blank">VS Code Tools</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 aligning_1024">
+                            <div class="card--footer card--hovered box">
+                                <div>
+                                    <div class="rubber-footer footer__oci-section">
+                                        <p class="title-footer quickstart">Build, test, and deploy applications on Oracle Cloud Infrastructure for free</p>
+                                        <a href="https://www.oracle.com/cloud/free/" target="_blank" class="btn btn-primary">Try Oracle Cloud Infrastructure Free Tier</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="copyright">
+                                    Copyright © 2023, 2025, Oracle and/or its affiliates.
+                                    All rights reserved.
+                                    Oracle and Java are registered trademarks of Oracle and/or its affiliates.<br>
+                                    Micronaut<sup>®</sup> is a registered trademark of Object Computing, Inc.
+                                    Use is for referential purposes and does not imply any endorsement or affiliation with any third-party product.
+                                    Unauthorized use is strictly prohibited. Other names may be trademarks of their respective owners.
+                                </p>
+                                <div id="teconsent"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function fadeInAndOut(thz) {
+            var elmt = thz.nextElementSibling;//Get the element that is below the button that
+            //was just clicked
+            if (elmt.clientHeight) {
+                elmt.style.height = 0;
+            } else {
+                var wrapper = elmt.querySelector('ul');
+                elmt.style.height = wrapper.clientHeight + "px";
+            }
+            /*
+                elmt.classList.toggle("acordianPanelHidden");//Toggle the class which changes
+                //attributes which triggers the transition CSS
+                */
+        }
+
+        // Check TRUSTe Consent for Functional or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(2) != -1) ) {
+
+            //The following is a sample of a Maxymiser Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"><\/script>');
+        }
+
+        // Check TRUSTe Consent for Advertising or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(3) != -1) ) {
+
+            //The following is a sample of a BlueKai Core Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript">' +
+                'window.bk_async = function() { ' +
+                'BKTAG.doTag(62581, 1); }; ' +
+                '(function() { ' +
+                'var scripts = document.getElementsByTagName(\'script\')[0]; ' +
+                'var s = document.createElement(\'script\'); ' +
+                's.async = true; ' +
+                's.src = "https://tags.bkrtx.com/js/bk-coretag.js"; ' +
+                'scripts.parentNode.insertBefore(s, scripts); ' +
+                '}()); ' +
+                '<\/script>');
+        }
+    </script><script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"></script><script type="text/javascript">window.bk_async = function() { BKTAG.doTag(62581, 1); }; (function() { var scripts = document.getElementsByTagName('script')[0]; var s = document.createElement('script'); s.async = true; s.src = "https://tags.bkrtx.com/js/bk-coretag.js"; scripts.parentNode.insertBefore(s, scripts); }()); </script>
+
+</div>
+<div class="overlay"></div>
+
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<script src="https://graal.cloud/gdk/resources/lib/slick-slider/slick.min.js"></script>
+<script src='https://graal.cloud/gdk/resources/js/main.js'></script>
+<script src="https://graal.cloud/gdk/resources/js/ui.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/filters.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/sidebar.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/labs.js"></script>
+<!--<script>-->
+<!--    hljs.initHighlightingOnLoad();-->
+<!--</script>-->
+
+
+<iframe name="trustarc_notice" id="trustarcNoticeFrame" title="Trustarc Cross-Domain Consent Frame" src="https://consent.trustarc.com/get?name=crossdomain.html&amp;domain=oracle.com" style="display: none;"></iframe></body></html>

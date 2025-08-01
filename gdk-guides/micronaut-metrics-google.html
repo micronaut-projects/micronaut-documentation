@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en"><head><style type="text/css">.truste_caIcon_display {display: block !important;}</style><style type="text/css">.truste_cursor_pointer {cursor: pointer;}.truste_border_none {border: none;}</style>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:image" content="https://graal.cloud/gdk/resources/img/graalvm.png">
+    <meta name="twitter:widgets:border-color" content="#55acee">
+
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js">
+    <script src="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js"></script>
+
+    <title>Create a Micronaut Application to Collect Metrics and Monitor Them on Google Cloud Monitoring</title>
+    <meta name="description" content="The Graal Development Kit for Micronaut (GDK) is a build of a curated set of Micronaut framework modules and their required libraries for building portable c...">
+    <meta name="last_modified" content="2024-10-10 16:30:05 +0000">
+    <meta name="last_built" content="2024-10-29 09:25:27 +0000">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/assets/main.css" >
+    <link rel="apple-touch-icon" sizes="180x180" href="https://graal.cloud/gdk/resources/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://graal.cloud/gdk/resources/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://graal.cloud/gdk/resources/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://graal.cloud/gdk/resources/img/favicon/site.webmanifest">
+    <link rel="stylesheet" type="text/css" href="https://graal.cloud/gdk/resources/styles/codicon.css" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="google-site-verification" content="-vRqwa9WYn6AaQGnl88xvrLw6ac4xoKVkZkhanmlRhU">
+    <link rel="canonical" href="https://www.graal.cloud/gdk/gdk-modules/database/micronaut-data-jdbc-repository/">
+
+    <!-- TODO: move to stylesheet -->
+    <style>
+        @media (min-width: 768px) {
+            .content {
+                padding-top: 60px;
+            }
+        }
+
+        .colist table {
+            border: 0;
+
+            td {
+                border: 0;
+            }
+
+            tr {
+                border: 0;
+            }
+        }
+
+        .imageblock {
+            max-width: 50%;
+        }
+
+        main{
+            padding-top: 50px !important;
+        }
+
+        .content{
+            padding-top: 0;
+        }
+
+        ul.sectlevel0 > li > a:first-of-type {
+            color: #F68831 !important;
+            font-weight: 700;
+        }
+
+        ul.sectlevel1 > li > a {
+            color: #dbe6ff;
+            font-weight: 400 !important;
+            padding-left: 20px;
+            font-size: 14px;
+        }
+
+            .conum[data-value]::after {
+                content: attr(data-value);
+                display: inline-block;
+                border: 1px solid;
+                -webkit-border-radius: 50%;
+                border-radius: 50%;
+                text-align: center;
+                font-size: .75em;
+                width: 1.67em;
+                height: 1.67em;
+                line-height: 1.67em;
+                font-family: "Open Sans", "DejaVu Sans", sans-serif;
+                font-style: normal;
+                font-weight: bold;
+            }
+            .conum[data-value]+b {
+                display: none;
+            }
+
+        .sectlevel1 a.active {
+            color: #F68831;
+            font-weight: bold;
+        }
+        a.external {
+            color: #d6d6d6   !important;
+        }
+        a.external:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
+    </style>
+
+    <!-- jQuery UI Tabs -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/jquery/jquery-ui.css">
+    <script type="text/javascript" id="www-widgetapi-script" src="https://www.youtube.com/s/player/a8476471/www-widgetapi.vflset/www-widgetapi.js" async=""></script><script src="https://www.youtube.com/iframe_api"></script><script async="" src="https://tags.bkrtx.com/js/bk-coretag.js"></script><script src="https://graal.cloud/gdk/resources/lib/jquery/jquery-3.7.1.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/bootstrap/js/bootstrap.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/resizeSensor.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/sticky-sidebar.min.js"></script><script async="" defer="" src="https://buttons.github.io/buttons.js"></script><script async="async" type="text/javascript" src="//consent.trustarc.com/notice?domain=oracle.com&amp;c=teconsent&amp;js=bb&amp;noticeType=bb&amp;text=true&amp;cdn=1&amp;pcookie&amp;gtm=1" crossorigin="" id="truste_0.9548969741402604"></script><script src="https://www.oracle.com/assets/truste-oraclelib.js"></script><script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script></head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const menuLinks = document.querySelectorAll(".sectlevel1 a");
+
+        function highlightMenu() {
+            let currentSection = null;
+
+            menuLinks.forEach(link => {
+                const section = document.querySelector(link.getAttribute("href"));
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                        currentSection = link;
+                    }
+                }
+            });
+
+            menuLinks.forEach(link => link.classList.remove("active"));
+
+            if (currentSection) {
+                currentSection.classList.add("active");
+            }
+        }
+
+        window.addEventListener("scroll", highlightMenu);
+        highlightMenu();
+
+        });</script>
+<!-- Add TRUSTe Consent Script and Analytics -->
+
+
+<!-- jQuery UI Tabs -->
+
+<body class="">
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<div class="wrapper wrapper--nofooter">
+
+    <header class="header header--content" role="banner">
+        <nav class="menu">
+            <div class="menu__row">
+                <div>
+                    <a href="/gdk/" class="activeMenuItem">
+                        <img class="logo-mobile" src="https://graal.cloud/gdk/resources/img/gdk-logo-new.svg" alt="Graal Development Kit for Micronaut logo" style="margin-left: 0px;">
+                    </a>
+                </div>
+                <div class="menu__container">
+                    <ul class="menu__list">
+                        <li class="menu__item">
+                            <a href="/gdk/about/" class="menu__link">About</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/gdk/get-started/" class="menu__link">Get Started</a>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Docs</a>
+                                <div class="stack-menu-learn">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/modules.svg">
+                                                <a href="/gdk/modules/" class="item-line">Modules</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/guides.svg">
+                                                <a href="/gdk/guides/" class="item-line">Guides</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/labs.svg">
+                                                <a href="/gdk/hands-on-labs/" class="item-line">Hands-On Labs</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/tools.svg">
+                                                <a href="/gdk/vscode-tools/" class="item-line">Tools</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Graal Projects</a>
+                                <div class="stack-menu">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalstack.svg">
+                                                <a href="/" class="item-line">Graal</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalvm.svg">
+                                                <a href="https://graalvm.org/" class="item-line">GraalVM</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalos.svg">
+                                                <a href="/graalos/" class="item-line">GraalOS</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__launch__mobile">
+                            <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu__launch">
+                    <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                </div>
+            </div>
+
+            <div role="button" class="menu-btn menu-btn--menu js-show-menu" tabindex="-1" title="sweet hamburger">
+                <div class="hamburger">
+                    <div class="inner"></div>
+                </div>
+            </div>
+            <button aria-label="hamburger mobile menu" class="btn btn-mobile-menu js-show-menu">
+                <div class="inner"></div>
+            </button>
+        </nav>
+
+
+    </header>
+
+
+    <main class="content" aria-label="Content">
+        <div class="wrapper wrapper-content">
+            <article>
+                <div class="row d-flex flex-wrap">
+                    <div class="col-sm-3 docsimpro col-bg">
+                        <div class="sidebar-wrap is-affixed" style="height: 473px; position: relative;"><div class="inner-wrapper-sticky" style="position: fixed; top: 74px; left: 0px; width: 300px;">
+                            <div class="sidebar">
+                                <div class="menuabout">
+                                    <img id="sidebarClose" src="https://graal.cloud/gdk/resources/img/arrow_sidebar(close).svg" alt="Expand or collapse sidebar" class="btn-color no-display">
+                                    <img id="sidebarOpen" src="https://graal.cloud/gdk/resources/img/arrow_sidebar.svg" alt="Expand or collapse sidebar">
+                                </div>
+
+                                                                <div class="toc-floating">
+                                <div class="toc-bullets">
+                                    <li class="toc-bullets-main">
+                                        <a href="/gdk/docs/gdk-modules/metrics/" class="_icon-book">
+                                            Metrics
+                                        </a>
+                                    </li>
+                                    <li class="toc-bullets-sub toc-bullets-highlight">
+                                        <a href="/gdk/gdk-modules/metrics/micronaut-metrics-google/" class="activeMenuItem">
+                                            Create a Micronaut Application to Collect Metrics and Monitor Them on Google Cloud Monitoring
+                                        </a>
+                                    </li>
+                                    <div id="toc" class="toc">
+<div id="toctitle"></div>
+<ul class="sectlevel1">
+<li><a href="#create-the-application">1. Create the Application</a></li>
+<li><a href="#database-migration-with-flyway">2. Database Migration with Flyway</a></li>
+<li><a href="#create-tests">3. Create Tests</a></li>
+<li><a href="#create-custom-metrics">4. Create Custom Metrics</a></li>
+<li><a href="#run-the-tests">5. Run the Tests</a></li>
+<li><a href="#configure-the-application">6. Configure the Application</a></li>
+<li><a href="#run-the-application">7. Run the Application</a></li>
+<li><a href="#monitor-metrics-on-google-cloud-monitoring">8. Monitor Metrics on Google Cloud Monitoring</a></li>
+<li><a href="#generate-a-native-executable-using-graalvm">9. Generate a Native Executable Using GraalVM</a></li>
+<li><a href="#clean-up">10. Clean Up</a></li>
+</ul>
+</div>
+                                </div>
+                            </div>
+
+
+                            </div>
+                            <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div></div>
+                        <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div>
+
+                    <div class="col-sm-9 docsmod">
+                        <div id="content-wrapper" class="docs-content docs-content--with-sidebar"><h1>Create a Micronaut Application to Collect Metrics and Monitor Them on Google Cloud Monitoring</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This guide describes how to use the Graal Development Kit for Micronaut (GDK) to create a Micronaut® application that collects standard and custom metrics, then publishes and monitors them on <a href="https://cloud.google.com/monitoring/docs">Google Cloud Monitoring</a>, using the Micronaut Google Cloud Platform integration.</p>
+</div>
+<div class="paragraph">
+<p>The application stores book information in a database and provides endpoints to query books. The application collects
+metrics for the whole application and measures total computation time for a particular endpoint.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p><a href="https://cloud.google.com/monitoring/docs">Google Cloud Monitoring</a> provides visibility into the performance, uptime, and overall health of cloud-powered applications. It collects metrics, events, and metadata from Google Cloud services, hosted uptime probes, application instrumentation, and a variety of common application components.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://micronaut-projects.github.io/micronaut-gcp/latest/guide/#introduction">Micronaut GCP</a> provides integration between Micronaut and Google Cloud Platform, including the Operations Suite.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>The application uses <a href="https://micronaut-projects.github.io/micronaut-micrometer/latest/guide/">Micronaut Micrometer</a> to expose application metric data with <a href="https://micrometer.io/">Micrometer</a>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Prerequisites</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>JDK 17 or higher. See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>.</p>
+</li>
+<li>
+<p>A Google Cloud Platform (GCP) account. See <a href="/gdk/get-started/setting-up-cloud-accounts/">Setting up Your Cloud Accounts</a>.</p>
+</li>
+<li>
+<p>The Google Cloud CLI. (The CLI is part of the Google Cloud SDK; for more information, see <a href="https://cloud.google.com/sdk">Cloud SDK</a>.)</p>
+</li>
+<li>
+<p>A Docker-API compatible container runtime such as <a href="https://docs.rancherdesktop.io/getting-started/installation/">Rancher Desktop</a> or <a href="https://www.docker.io/gettingstarted/">Docker</a> installed to run MySQL and to run tests using <a href="https://www.testcontainers.org">Testcontainers</a>.</p>
+</li>
+<li>
+<p>The GDK CLI. See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>. (Optional.)</p>
+</li>
+</ul>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: This guide uses paid services; you may need to <a href="https://cloud.google.com/billing/docs/how-to/modify-project">enable billing</a> in Google Cloud to complete some steps in this guide.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Follow the steps below to create the application from scratch. However, you can also download the completed example:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_metrics_gcp-metrics-demo-java-gradle.zip">Gradle GCP Metrics Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_metrics_gcp-metrics-demo-java-maven.zip">Maven GCP Metrics Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+</div>
+<div class="paragraph">
+<p>The application ZIP file will be downloaded in your default downloads directory. Unzip it and proceed to the next steps.</p>
+</div>
+<h4 id="a-note-regarding-your-development-environment" class="discrete">A note regarding your development environment</h4>
+<div class="paragraph">
+<p>Consider using Visual Studio Code, which provides native support for developing applications with the <a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack">Graal Development Kit for Micronaut Extension Pack</a>.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: If you use IntelliJ IDEA, <a href="/gdk/resources/img/annotationprocessorsintellij.png">enable annotation processing</a>.</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Windows platform: The GDK guides are compatible with Gradle only. Maven support is coming soon.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-the-application">1. Create the Application</h2>
+<div class="sectionbody">
+<p>Create an application using the GDK Launcher.</p>
+<ol>
+    <li>
+        <p>Open the <a href="https://graal.cloud/gdk/launcher/?advanced=true" target="_blank">GDK Launcher in advanced mode</a>.</p>
+    </li>
+    <li>Create a new project using the following selections.
+        <ul>
+            <li><strong>Project Type</strong>: <em>Application</em> (Default)</li>
+            <li><strong>Project Name</strong>: <em>gcp-metrics-demo</em></li>
+            <li><strong>Base Package</strong>: <em>com.example</em> (Default)</li>
+            <li><strong>Clouds</strong>: <em>GCP</em></li>
+            <li><strong>Build Tool</strong>: <em>Gradle (Groovy)</em> or <em>Maven</em></li>
+            <li><strong>Language</strong>: <em>Java</em> (Default)</li>
+            <li><strong>Test Framework</strong>: <em>JUnit</em> (Default)</li>
+            <li><strong>Java Version</strong>: <em>17</em> (Default)</li>
+            <li><strong>Micronaut Version</strong>: (Default)</li>
+            <li><strong>Cloud Services</strong>: <em>Metrics</em>, <em>Database</em></li>
+            <li><strong>Features</strong>: <em>GraalVM Native Image</em>, <em>Flyway Database Migration</em></li>
+            <li><strong>Sample Code</strong>: <em>No</em></li>
+        </ul>
+    </li>
+    <li>Click <strong>Generate Project</strong>, then click <strong>Download Zip</strong>. The GDK Launcher creates an application with the package <code>com.example</code> in a directory named <em>gcp-metrics-demo</em>. The application ZIP file will be downloaded to your default downloads directory. Unzip it, open it in your code editor, and proceed to the next steps.</li>
+</ol>
+<div class="paragraph">
+<p>Alternatively, use the  <a href="/gdk/get-started/using-gdk-cli/">GDK CLI</a> as follows:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">gdk create-app com.example.gcp-metrics-demo \
+ --clouds=gcp \
+ --services=metrics,database \
+ --features=graalvm,flyway \
+ --example-code=false \
+ --build=gradle \
+ --jdk=17  \
+ --lang=java</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">gdk create-app com.example.gcp-metrics-demo \
+ --clouds=gcp \
+ --services=metrics,database \
+ --features=graalvm,flyway \
+ --example-code=false \
+ --build=maven \
+ --jdk=17  \
+ --lang=java</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>Open the <em>micronaut-cli.yml</em> file, you can see what features are packaged with the application:</p>
+</div>
+<pre><code class="language-bash hljs" data-highlighted="yes">features: [app-name, data, data-jdbc, flyway, gdk-bom, gdk-gcp-cloud-app, gdk-gcp-database, gdk-gcp-metrics, gdk-grpc-netty, gdk-license, graalvm, http-client, java, java-application, jdbc-hikari, junit, logback, management, maven, maven-enforcer-plugin, micrometer, micrometer-annotation, micrometer-stackdriver, micronaut-http-validation, mysql, netty-server, properties, readme, serialization-jackson, shade, static-resources, test-resources, validation]</code><button>Copy</button></pre>
+<div class="paragraph">
+<p>The GDK Launcher creates a multi-module project with two subprojects: <strong>gcp</strong> for Google Cloud Platform, and <strong>lib</strong> for common code and configuration shared across cloud platforms.
+You develop the application logic in the <strong>lib</strong> subproject, and keep the
+Google Cloud Platform-specific configurations in the <strong>gcp</strong> subproject.</p>
+</div>
+<div class="sect2">
+<h3 id="configure-metrics-collection">1.1. Configure Metrics Collection</h3>
+<div class="paragraph">
+<p>The project generated by the GDK Launcher has <a href="https://micrometer.io/">Micrometer</a> as a dependency.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p><a href="https://micrometer.io/">Micrometer</a> provides a simple facade over the instrumentation clients for a number of popular monitoring systems.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>To configure Micrometer, the following properties were added to the configuration file, <em>gcp/src/main/resources/application.properties</em>, as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.metrics.enabled=true
+micronaut.metrics.binders.files.enabled=true
+micronaut.metrics.binders.jdbc.enabled=true
+micronaut.metrics.binders.jvm.enabled=true
+micronaut.metrics.binders.logback.enabled=true
+micronaut.metrics.binders.processor.enabled=true
+micronaut.metrics.binders.uptime.enabled=true
+micronaut.metrics.binders.web.enabled=true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Several groups of metrics are enabled by default: these include system metrics (such as JVM information and uptime), as well as metrics tracking web requests, datasources activity, and others. Overall metrics can be enabled or disabled, and groups can be individually enabled or disabled in configuration. In this case all metrics are enabled. To disable, change to <code>false</code>, for example, per-environment.</p>
+</div>
+<div class="paragraph">
+<p>To export metrics to Google Cloud Monitoring, enable Stackdriver as an export location for Micrometer. Then, create queries and monitor your metrics on <a href="https://console.cloud.google.com/monitoring/metrics-explorer">Google Cloud Monitoring</a>.</p>
+</div>
+<div class="paragraph">
+<p>Finally, add the following to your build file, in order to use Stackdriver for Micrometer for this project:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <p>build.gradle</p>
+<pre><code class="language-bash hljs" data-highlighted="yes">implementation("io.micronaut.micrometer:micronaut-micrometer-registry-stackdriver")
+</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <p>pom.xml</p>
+<pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.micronaut.micrometer<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>micronaut-micrometer-registry-stackdriver<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>compile<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+</code><button>Copy</button></pre>
+    </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-a-google-cloud-platform-project">1.2. Create a Google Cloud Platform Project</h3>
+<div class="paragraph">
+<p>Create a new GCP project named "gdk-guides" (follow the instructions in <a href="https://cloud.google.com/resource-manager/docs/creating-managing-projects">Creating and managing projects</a>).</p>
+</div>
+<div class="paragraph">
+<p>The Cloud SDK includes the <code>gcloud</code> command-line tool.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Initialize the Cloud SDK:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud init</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Log in to the Google Cloud Platform:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud auth login</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Authenticate application default credentials:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud auth application-default login</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Select your project:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud config set project gdk-guides</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Configure the project in <em>gcp/src/main/resources/application.properties</em>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.metrics.export.stackdriver.enabled=true
+micronaut.metrics.export.stackdriver.projectId=gdk-guides</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="database-migration-with-flyway">2. Database Migration with Flyway</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The GDK Launcher included <a href="http://www.flywaydb.org">Flyway</a> for database migrations.
+It uses the <a href="https://micronaut-projects.github.io/micronaut-flyway/latest/guide/">Micronaut integration with Flyway</a> that automates schema changes, significantly simplifies schema management tasks, such as migrating, rolling back, and reproducing in multiple environments.
+The GDK Launcher enables Flyway in the <em>gcp/src/main/resources/application.properties</em> file and configures it to perform migrations on the default datasources.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">flyway.datasources.default.enabled=true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you specified Flyway as a project feature in the GDK Launcher the build file includes it as a dependency:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <p>gcp/build.gradle</p>
+<pre><code class="language-bash hljs" data-highlighted="yes">implementation("io.micronaut.flyway:micronaut-flyway")
+runtimeOnly("org.flywaydb:flyway-mysql")
+</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <p>gcp/pom.xml</p>
+<pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.micronaut.flyway<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>micronaut-flyway<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>compile<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.flywaydb<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>flyway-mysql<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: Flyway migrations require full control over schema management.
+By default, the project does not generate schema automatically in <em>gcp/src/main/resources/application.properties</em>.
+If you manually configure <code>datasources.default.schema-generate=CREATE_DROP</code> set it to <code>NONE</code> to ensure that only Flyway manages your schema.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Configuring multiple datasources is as simple as enabling Flyway for each one.
+You can also specify directories that will be used for migrating each datasource.
+For more information, see <a href="https://micronaut-projects.github.io/micronaut-flyway/latest/guide/">Micronaut integration with Flyway</a>.</p>
+</div>
+<div class="paragraph">
+<p>Flyway migration is automatically triggered before your application starts.
+Flyway reads migration file(s) in the <em>lib/src/main/resources/db/migration/</em> directory.
+The migration file with the database schema, <em>lib/src/main/resources/db/migration/V1__schema.sql</em>, was also created for you by the GDK Launcher.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">DROP TABLE IF EXISTS book;
+
+CREATE TABLE book (
+    id   BIGINT NOT NULL AUTO_INCREMENT UNIQUE PRIMARY KEY,
+   name  VARCHAR(255) NOT NULL UNIQUE,
+   isbn  CHAR(13) NOT NULL UNIQUE
+);
+
+INSERT INTO book (isbn, name)
+VALUES ("9781491950357", "Building Microservices"),
+       ("9781680502398", "Release It!"),
+       ("9780321601919", "Continuous Delivery"),
+       ("9781617294549", "Microservices Patterns");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>During application startup, Flyway runs the commands in the SQL file and creates the schema needed for the application.</p>
+</div>
+<div class="paragraph">
+<p>Using the SQL statements in <em>V1__schema.sql</em>, Flyway creates a table with the name <code>book</code> and populates it with four records.</p>
+</div>
+<div class="sect2">
+<h3 id="domain-entity">2.1. Domain Entity</h3>
+<div class="paragraph">
+<p>The GDK Launcher created a <code>Book</code> domain class that uses <a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/#sql">Micronaut Data JDBC</a> in a file named <em>lib/src/main/java/com/example/Book.java</em>, as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.data.annotation.GeneratedValue;
+import io.micronaut.data.annotation.Id;
+import io.micronaut.data.annotation.MappedEntity;
+
+import static io.micronaut.data.annotation.GeneratedValue.Type.AUTO;
+
+import io.micronaut.serde.annotation.Serdeable;
+import jakarta.validation.constraints.Size;
+
+@Serdeable
+@MappedEntity <i class="conum" data-value="1"></i><b>(1)</b>
+public class Book {
+
+    @Id
+    @GeneratedValue(AUTO)
+    private Long id;
+
+    private String name;
+
+    @Size(min=13, max=13)
+    private String isbn;
+
+    public Book(String isbn, String name) {
+        this.isbn = isbn;
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> The annotation <code>@MappedEntity</code> maps the class to the table defined in the schema.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="repository-interface">2.2. Repository Interface</h3>
+<div class="paragraph">
+<p>A repository interface defines the operations to access the database. Micronaut Data implements the interface at compilation time.
+The GDK Launcher created a <code>BookRepository</code> interface in a file named <em>lib/src/main/java/com/example/BookRepository.java</em>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.data.jdbc.annotation.JdbcRepository;
+import io.micronaut.data.repository.CrudRepository;
+
+import jakarta.validation.constraints.NotBlank;
+import java.util.Optional;
+
+import static io.micronaut.data.model.query.builder.sql.Dialect.MYSQL;
+
+@JdbcRepository(dialect = MYSQL) <i class="conum" data-value="1"></i><b>(1)</b>
+public interface BookRepository extends CrudRepository&lt;Book, Long&gt; { <i class="conum" data-value="2"></i><b>(2)</b>
+
+    @NonNull
+    Optional&lt;Book&gt; findByIsbn(@NotBlank String isbn);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> A database dialect is specified with the <code>@JdbcRepository</code> annotation.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> The <code>Book</code> is the root entity, and the primary key type is <code>Long</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="controller-class">2.3. Controller Class</h3>
+<div class="paragraph">
+<p>The GDK Launcher created a controller to access <code>Book</code> instances (and to trigger the JDBC metric data) in a file named <em>lib/src/main/java/com/example/BookController.java</em> with the following contents:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.annotation.ExecuteOn;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.annotation.Counted;
+
+import java.util.Optional;
+
+@Controller("/books") <i class="conum" data-value="1"></i><b>(1)</b>
+@ExecuteOn(TaskExecutors.IO)
+class BookController {
+
+    private final BookRepository bookRepository;
+
+    BookController(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
+
+    @Get <i class="conum" data-value="2"></i><b>(2)</b>
+    @Timed("books.index") <i class="conum" data-value="3"></i><b>(3)</b>
+    Iterable&lt;Book&gt; index() {
+        return bookRepository.findAll();
+    }
+
+    @Get("/{isbn}")
+    @Counted("books.find") <i class="conum" data-value="4"></i><b>(4)</b>
+    Optional&lt;Book&gt; findBook(String isbn) {
+        return bookRepository.findByIsbn(isbn);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> The class is defined as a controller with the <a href="https://docs.micronaut.io/latest/api/io/micronaut/http/annotation/Controller.html"><code>@Controller</code></a> annotation mapped to the path <code>/books</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> The controller maps a <code>GET</code> request to <code>/books</code>, which returns a list of <code>Book</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> Use a Micrometer <code>@Timed</code> annotation, with the value “books.index”, to create a timer metric.</p>
+</div>
+<div class="paragraph">
+<p><strong>4</strong> Use a Micrometer <code>@Counted</code> annotation, with the value “books.find”, to create a counter metric.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-tests">3. Create Tests</h2>
+<div class="sectionbody">
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: You require a running Docker container to run the tests.</p>
+</div>
+</blockquote>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>For tests to run correctly, the GDK Launcher created a test configuration file named <em>gcp/src/test/resources/application-test.properties</em> with the following contents:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.metrics.enabled=true
+flyway.datasources.default.enabled=true
+datasources.default.dialect=MYSQL
+datasources.default.driverClassName=com.mysql.cj.jdbc.Driver
+datasources.default.db-type=mysql
+customMetrics.initialDelay=10h
+micronaut.metrics.export.stackdriver.enabled=false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The configuration enables the metrics and specifies a MySQL datasource.
+Since it does not specify a URL for the source, <a href="https://micronaut-projects.github.io/micronaut-test-resources/latest/guide/">Micronaut Test Resources</a> automatically creates a test container for the database.
+The configuration also enables Flyway to create the <code>books</code> tables the same way as in a production environment.</p>
+</div>
+</li>
+<li>
+<p>The GDK Launcher created a test class, named <code>BookControllerMetricsTest</code>, to verify metrics functionality in a file named <em>gcp/src/test/java/com/example/BookControllerMetricsTest.java</em> with the following contents:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tags;
+import io.micrometer.core.instrument.Timer;
+import io.micronaut.core.type.Argument;
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.client.HttpClient;
+import io.micronaut.http.client.annotation.Client;
+import io.micronaut.logging.LoggingSystem;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.concurrent.TimeUnit;
+
+import static io.micronaut.logging.LogLevel.ALL;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@MicronautTest
+class BookControllerMetricsTest {
+
+    @Inject
+    MeterRegistry meterRegistry;
+
+    @Inject
+    LoggingSystem loggingSystem;
+
+    @Inject
+    @Client("/")
+    HttpClient httpClient;
+
+    @Test
+    void testExpectedMeters() {
+
+        Set&lt;String&gt; names = meterRegistry.getMeters().stream()
+                .map(meter -&gt; meter.getId().getName())
+                .collect(Collectors.toSet());
+
+        // check that a subset of expected meters exist
+        assertTrue(names.contains("jvm.memory.max"));
+        assertTrue(names.contains("process.uptime"));
+        assertTrue(names.contains("system.cpu.usage"));
+        assertTrue(names.contains("logback.events"));
+        assertTrue(names.contains("hikaricp.connections.max"));
+
+        // these will be lazily created
+        assertFalse(names.contains("http.client.requests"));
+        assertFalse(names.contains("http.server.requests"));
+    }
+
+    @Test
+    void testHttp() {
+
+        Timer timer = meterRegistry.timer("http.server.requests", Tags.of(
+                "exception", "none",
+                "method", "GET",
+                "status", "200",
+                "uri", "/books"));
+        assertEquals(0, timer.count());
+
+        Timer bookIndexTimer = meterRegistry.timer("books.index",
+                Tags.of("exception", "none"));
+        assertEquals(0, bookIndexTimer.count());
+
+        httpClient.toBlocking().retrieve(
+                HttpRequest.GET("/books"),
+                Argument.listOf(Book.class));
+
+        assertEquals(1, timer.count());
+        assertEquals(1, bookIndexTimer.count());
+        assertTrue(0.0 &lt; bookIndexTimer.totalTime(TimeUnit.MILLISECONDS));
+        assertTrue(0.0 &lt; bookIndexTimer.max(TimeUnit.MILLISECONDS));
+
+        Counter bookFindCounter = meterRegistry.counter("books.find",
+                Tags.of("result", "success",
+                        "exception", "none"));
+        assertEquals(0, bookFindCounter.count());
+
+        httpClient.toBlocking().retrieve(
+                HttpRequest.GET("/books/9781491950357"),
+                Argument.of(Book.class));
+
+        assertEquals(1, bookFindCounter.count());
+    }
+
+    @Test
+    void testLogback() {
+
+        Counter counter = meterRegistry.counter("logback.events", Tags.of("level", "info"));
+        double initial = counter.count();
+
+        Logger logger = LoggerFactory.getLogger("testing.testing");
+        loggingSystem.setLogLevel("testing.testing", ALL);
+
+        logger.trace("trace");
+        logger.debug("debug");
+        logger.info("info");
+        logger.warn("warn");
+        logger.error("error");
+
+        assertEquals(initial + 1, counter.count(), 0.000001);
+    }
+
+    @Test
+    void testMetricsEndpoint() {
+
+        Map&lt;String, Object&gt; response = httpClient.toBlocking().retrieve(
+                HttpRequest.GET("/metrics"),
+                Argument.mapOf(String.class, Object.class));
+
+        assertTrue(response.containsKey("names"));
+        assertTrue(response.get("names") instanceof List);
+
+        List&lt;String&gt; names = (List&lt;String&gt;) response.get("names");
+
+        // check that a subset of expected meters exist
+        assertTrue(names.contains("jvm.memory.max"));
+        assertTrue(names.contains("process.uptime"));
+        assertTrue(names.contains("system.cpu.usage"));
+        assertTrue(names.contains("logback.events"));
+        assertTrue(names.contains("hikaricp.connections.max"));
+    }
+
+    @Test
+    void testOneMetricEndpoint() {
+
+        Map&lt;String, Object&gt; response = httpClient.toBlocking().retrieve(
+                HttpRequest.GET("/metrics/jvm.memory.used"),
+                Argument.mapOf(String.class, Object.class));
+
+        String name = (String) response.get("name");
+        assertEquals("jvm.memory.used", name);
+
+        List&lt;Map&lt;String, Object&gt;&gt; measurements = (List&lt;Map&lt;String, Object&gt;&gt;) response.get("measurements");
+        assertEquals(1, measurements.size());
+
+        double value = (double) measurements.get(0).get("value");
+        assertTrue(value &gt; 0);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The tests verify that certain metrics are present, including the ones that you enabled in the application configuration file, and the ones that you collected thanks to the <code>@Counter</code> and <code>@Timer</code> annotations.</p>
+</div>
+<div class="paragraph">
+<p>Note that, since the <code>@MicronautTest</code> annotation is used, Micronaut initializes the application context and the embedded server with the endpoints you created earlier. (For more information, see the <a href="https://micronaut-projects.github.io/micronaut-test/latest/guide/">Micronaut Test guide</a>.)</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-custom-metrics">4. Create Custom Metrics</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The GDK Launcher created a service that retrieves information from the database and publishes custom metrics based on it. The custom metrics provide the number of books about microservices. The service is in a file named <em>lib/src/main/java/com/example/MicroserviceBooksNumberService.java</em> with the following contents:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+import io.micronaut.scheduling.annotation.Scheduled;
+import jakarta.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.StreamSupport;
+
+@Singleton
+public class MicroserviceBooksNumberService {
+
+    private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
+    private final BookRepository bookRepository;
+    private final Counter checks;
+    private final Timer time;
+    private final AtomicInteger microserviceBooksNumber = new AtomicInteger(0);
+
+    private static final String SEARCH_KEY = "microservice";
+
+    MicroserviceBooksNumberService(BookRepository bookRepository,
+                                   MeterRegistry meterRegistry) {  <i class="conum" data-value="1"></i><b>(1)</b>
+        this.bookRepository = bookRepository;
+        checks = meterRegistry.counter("microserviceBooksNumber.checks");
+        time = meterRegistry.timer("microserviceBooksNumber.time");
+        meterRegistry.gauge("microserviceBooksNumber.latest", microserviceBooksNumber);
+    }
+
+    @Scheduled(fixedRate = "${customMetrics.updateFrequency:1h}",
+               initialDelay = "${customMetrics.initialDelay:0s}")  <i class="conum" data-value="2"></i><b>(2)</b>
+    public void updateNumber() {
+        time.record(() -&gt; {
+            try {
+                Iterable&lt;Book&gt; allBooks = bookRepository.findAll();
+                long booksNumber = StreamSupport.stream(allBooks.spliterator(), false)
+                        .filter(b -&gt; b.getName().toLowerCase().contains(SEARCH_KEY))
+                        .count();
+
+                checks.increment();
+                microserviceBooksNumber.set((int) booksNumber);
+            } catch (Exception e) {
+                log.error("Problem setting the number of microservice books", e);
+            }
+        });
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> The code registers custom meters, queries the database, counts books containing <code>microservice</code> in the name and updates the <code>microserviceBooksNumber.latest</code> meter with the value. <code>microserviceBooksNumber.checks</code> stores the number of updates performed, and <code>microserviceBooksNumber.time</code> stores the total time spent on the updates for the metric.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> The metric update is scheduled. The <code>customMetrics.updateFrequency</code> parameter corresponds to the update rate and has the default value of one hour. The <code>customMetrics.initialDelay</code> parameter corresponds to a delay after application startup before metrics calculation and has a default value of zero seconds.</p>
+</div>
+</li>
+<li>
+<p>The GDK Launcher created <code>MicroserviceBooksNumberTest</code> to test the custom metrics in a file named <em>gcp/src/test/java/com/example/MicroserviceBooksNumberTest.java</em> with the following contents:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
+import org.junit.jupiter.api.Test;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@MicronautTest
+class MicroserviceBooksNumberTest {
+
+    @Inject
+    MeterRegistry meterRegistry;
+
+    @Inject
+    MicroserviceBooksNumberService service;
+
+    @Test
+    void testMicroserviceBooksNumberUpdates() {
+        Counter counter = meterRegistry.counter("microserviceBooksNumber.checks");
+        Timer timer = meterRegistry.timer("microserviceBooksNumber.time");
+        Gauge gauge = meterRegistry.get("microserviceBooksNumber.latest").gauge();
+
+        assertEquals(0.0, counter.count());
+        assertEquals(0.0, timer.totalTime(MILLISECONDS));
+        assertEquals(0.0, gauge.value());
+
+        int checks = 3;
+        for (int i = 0; i &lt; checks; i++) {
+            service.updateNumber();
+        }
+
+        assertEquals((double) checks, counter.count());
+        assertTrue(timer.totalTime(MILLISECONDS) &gt; 0);
+        assertEquals(2.0, gauge.value());
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> The test calls the service three times and verifies that the metrics are collected correctly. Because the Flyway schema added two books with titles containing the word "microservices", the value of <code>microserviceBooksNumber.latest</code> is <code>2.0</code>.</p>
+</div>
+</li>
+<li>
+<p>To make sure that the test works as expected and only three updates of the metric are performed, change the test configuration (in the file <em>gcp/src/test/resources/application-test.properties</em>) so that it does not perform scheduled updates for the custom metric. To achieve this, change the <code>customMetrics.initialDelay</code> parameter to a large value, such as <code>10</code> hours. For example:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">customMetrics.initialDelay=10h</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-the-tests">5. Run the Tests</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Run the tests:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :gcp:test</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am
+./mvnw mn:test -pl gcp</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>Then open the file <em>gcp/build/reports/tests/test/index.html</em> in a browser to view the results.</p>
+</div>
+<div class="paragraph">
+<p>The tests could be run locally without any cloud credentials, as metrics are not exported to the cloud, and a database is automatically provided by Micronaut test containers.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configure-the-application">6. Configure the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The GDK Launcher configured an initial datasource in <em>gcp/src/main/resources/application.properties</em> with the following properties:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">datasources.default.driver-class-name=com.mysql.cj.jdbc.Driver
+datasources.default.db-type=mysql
+datasources.default.dialect=MYSQL</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can set values for the missing <code>datasources.default.url</code>, <code>datasources.default.username</code>, and <code>datasources.default.password</code> properties with these environment variables:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+    <div data-value="linux" data-label="Linux &amp; macOS" id="linux" aria-labelledby="ui-id-11" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">export</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">&lt;Password&gt;</span>
+<span class="hljs-built_in">export</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://&lt;URL&gt;:3306/gdk</span>
+<span class="hljs-built_in">export</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">&lt;Username&gt;</span>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">&lt;Password&gt;</span>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://&lt;URL&gt;:3306/gdk</span>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">&lt;Username&gt;</span>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">&lt;Password&gt;</span>
+<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://&lt;URL&gt;:3306/gdk</span>
+<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">&lt;Username&gt;</span>
+</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>This approach requires an existing database, or requires you to manually start a server in a Docker container.
+Instead, to simplify things, do not set the environment variables: if you do not specify a datasource URL, Micronaut Test Resources automatically starts a MySQL server in a Docker container when running the application locally or running tests.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-the-application">7. Run the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To run the application, use the following command, which starts the application on port 8080.</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :gcp:run</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am
+./mvnw mn:run -pl gcp</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>Alternatively, to cause the custom metric update to occur more frequently (to see the effects on metrics), start the application with a configuration override to update every five seconds, as follows:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :gcp:run --args="-customMetrics.updateFrequency=5s"</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am && ./mvnw mn:run -pl gcp -Dmn.appArgs="-customMetrics.updateFrequency=5s"</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>Send a few test requests with <code>curl</code>, as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Get all the books:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl localhost:8080/books</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">[{"id": 1, "name": "Building Microservices", "isbn": "9781491950357"},
+{"id": 2, "name": "Release It!", "isbn": "9781680502398"},
+{"id": 3, "name": "Continuous Delivery", "isbn": "9780321601919"}]</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Get a book by its ISBN:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl localhost:8080/books/9781680502398</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">{"id": 2, "name": "Release It!", "isbn": "9781680502398"}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Get a list of all the available metrics:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl localhost:8080/metrics</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">{"names": [
+"books.find",
+"books.index",
+...,
+"microserviceBooksNumber.latest",
+"microserviceBooksNumber.time",
+...,
+"http.server.requests",
+"process.uptime",
+...
+]}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Get the value of a particular metric:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl localhost:8080/metrics/http.server.requests</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">{"name": "http.server.requests",
+"measurements": [
+{"statistic": "COUNT", "value": 3.0},
+{"statistic": "TOTAL_TIME", "value": 0.6045995000000001},
+{"statistic": "MAX", "value": 0.0343463}
+], ...
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Get the value of the metric that you created on the <code>books</code> endpoint:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl localhost:8080/metrics/books.index</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">{"name": "books.index",
+"measurements": [
+{"statistic": "COUNT", "value": 1.0},
+{"statistic": "TOTAL_TIME", "value": 0.3218636},
+{"statistic":"MAX","value":0.0}
+], ...
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Get the value of the custom metric calculating the number of books with <code>microservice</code> in their title:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl localhost:8080/metrics/microserviceBooksNumber.latest</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">{"name": "microserviceBooksNumber.latest",
+"measurements": [{"statistic": "VALUE", "value" :2.0}]
+}</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="monitor-metrics-on-google-cloud-monitoring">8. Monitor Metrics on Google Cloud Monitoring</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Use the <a href="https://console.cloud.google.com/monitoring/metrics-explorer">Google Cloud Monitoring&#8217;s Metrics Explorer UI</a> to view the collected metrics.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Sign in to the GCP console, open the navigation menu, and find <strong>Metrics Explorer</strong>:</p>
+<div class="imageblock">
+<div class="content">
+<img src="/gdk/images/metrics/gcp1.png" alt="GCP console">
+</div>
+</div>
+</li>
+<li>
+<p>In the query editor, create a query that you want to monitor. Find the metrics you want to observe by opening the metrics drop-down list(#1), searching for them in the search bar (#2), and selecting them, for example <code>microserviceBooksNumber.latest</code> (#3). Click <strong>Apply</strong> to run the query:</p>
+<div class="imageblock">
+<div class="content">
+<img src="/gdk/images/metrics/gcp2.png" alt="GCP Metrics Browse">
+</div>
+</div>
+</li>
+<li>
+<p>Observe the changes of the value over time on the graph:</p>
+<div class="imageblock">
+<div class="content">
+<img src="/gdk/images/metrics/gcp3.png" alt="GCP Metrics Graph">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="generate-a-native-executable-using-graalvm">9. Generate a Native Executable Using GraalVM</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="build-the-native-executable">9.1. Build the Native Executable</h3>
+<div class="paragraph">
+<p>The GDK supports compiling Java applications ahead-of-time into native executables using <a href="https://www.graalvm.org/">GraalVM Native Image</a>.
+You can use the <em><a href="https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html">Gradle plugin for GraalVM Native Image building</a></em>/<em><a href="https://graalvm.github.io/native-build-tools/latest/maven-plugin.html">Maven plugin for GraalVM Native Image building</a></em>.
+Packaged as a native executable, it significantly reduces application startup time and memory footprint.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p><strong>Prerequisites</strong>: Make sure you have installed a GraalVM JDK. The easiest way to get started is with <a href="https://sdkman.io/jdks#graal">SDKMAN!</a>. For other installation options, visit the <a href="https://www.graalvm.org/downloads/">Downloads section</a>.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>To generate a native executable, use the following command:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :gcp:nativeCompile</code><button>Copy</button></pre><p>The native executable gcp-metrics-demo is created in the build/native/nativeCompile/ directory</p>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am
+./mvnw clean package -pl gcp -Dpackaging=native-image</code><button>Copy</button></pre><p>The native executable gcp-metrics-demo is created in the target/ directory</p>
+    </div>
+</div>
+<div class="paragraph">
+<p>You can customize the name of the resulting binary by <a href="https://graalvm.github.io/native-build-tools/latest/index.html">updating the Maven/Gradle plugin for GraalVM Native Image configuration</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="run-the-native-executable">9.2. Run the Native Executable</h3>
+<div class="paragraph">
+<p>Set the environment variables:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+    <div data-value="linux" data-label="Linux &amp; macOS" id="linux" aria-labelledby="ui-id-11" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">export</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">User123User!</span>
+<span class="hljs-built_in">export</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://localhost:3306/gdk</span>
+<span class="hljs-built_in">export</span> DOCKER_CONTAINER_NAME=<span class="hljs-string">mysql.8</span>
+<span class="hljs-built_in">export</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">guide_user</span>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">User123User!</span>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://localhost:3306/gdk</span>
+<span class="hljs-built_in">set</span> DOCKER_CONTAINER_NAME=<span class="hljs-string">mysql.8</span>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">guide_user</span>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">User123User!</span>
+<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://localhost:3306/gdk</span>
+<span class="hljs-variable">$ENV:</span> DOCKER_CONTAINER_NAME=<span class="hljs-string">mysql.8</span>
+<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">guide_user</span>
+</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>To start the native executable, run a Docker container with a MySQL database:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">docker run -it --rm \
+    --name "mysql.8" \
+    -p 3306:3306 \
+    -e MYSQL_DATABASE=gdk \
+    -e MYSQL_USER=guide_user \
+    -e MYSQL_PASSWORD=User123User! \
+    -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+    mysql:8</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the native executable with the following command:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gcp/build/native/nativeCompile/gcp-metrics-demo-gcp</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gcp/target/gcp-metrics-demo-gcp</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: With Gradle you can run <code>./gradlew :gcp:nativeRun</code> to start the native executable in development mode, which uses Micronaut Test Resources and therefore doesn&#8217;t require you to start a MySQL server.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Run the same <code>curl</code> commands from above to confirm that the application works the same way as before, but with faster startup and response times.</p>
+</div>
+<div class="paragraph">
+<p>Then return to <a href="https://console.cloud.google.com/monitoring/metrics-explorer">Google Cloud Monitoring&#8217;s Metrics Explorer console</a> to review the metrics.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="clean-up">10. Clean Up</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you have completed the guide, you can clean up the resources you created on Google Cloud Platform so you will not be billed for them in the future.</p>
+</div>
+<div class="sect2">
+<h3 id="delete-the-project">10.1. Delete the Project</h3>
+<div class="paragraph">
+<p>The easiest way to eliminate billing is to delete the project you created.</p>
+</div>
+<div class="paragraph">
+<p>Deleting a project has the following consequences:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you used an existing project, you will also delete any other work you have done in the project.</p>
+</li>
+<li>
+<p>You cannot reuse the project ID of a deleted project. If you created a custom project ID that you plan to use in the future, you should delete the resources inside the project instead. This ensures that URLs that use the project ID, such as an <em>appspot.com</em> URL, remain available.</p>
+</li>
+<li>
+<p>If you are exploring multiple guides, reusing projects instead of deleting them prevents you from exceeding project quota limits.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="via-the-cli">10.1.1. Via the CLI</h4>
+<div class="paragraph">
+<p>To delete the project using the Google Cloud CLI, run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud projects delete gdk-guides</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="via-the-cloud-platform-console">10.1.2. Via the Cloud Platform Console</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the Cloud Platform Console, go to the <a href="https://console.cloud.google.com/iam-admin/projects">Projects page</a>.</p>
+</li>
+<li>
+<p>In the project list, select the project you want to delete and click <strong>Delete project</strong>. Select the check box next to the project name and click <strong>Delete project</strong>.</p>
+</li>
+<li>
+<p>In the dialog box, enter the project ID, and then click <strong>Shut down</strong> to delete the project.</p>
+</li>
+</ol>
+</div>
+<h3 id="summary" class="discrete">Summary</h3>
+<div class="paragraph">
+<p>This guide demonstrated how to create a Micronaut application that collects standard and custom metrics, then publishes and monitors them on <a href="https://cloud.google.com/monitoring/docs">Google Cloud Monitoring</a>. The application uses <a href="https://micronaut-projects.github.io/micronaut-micrometer/latest/guide/">Micronaut Micrometer</a> to expose application metric data with <a href="https://micrometer.io/">Micrometer</a>.</p>
+</div>
+<h3 id="related-documentation" class="discrete">Related Documentation</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://micronaut-projects.github.io/micronaut-micrometer/latest/guide/">Micronaut Micrometer documentation</a></p>
+</li>
+<li>
+<p><a href="https://cloud.google.com/monitoring/">Google Cloud Monitoring</a></p>
+</li>
+<li>
+<p><a href="https://graalvm.github.io/native-build-tools/latest/index.html">Native Build Tools</a></p>
+</li>
+<li>
+<p><a href="https://www.graalvm.org/">GraalVM Native Image</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+                        <div role="button" class="menu-btn menu-btn--sidebar js-show-sidebar" title="sweet hamburger">
+                            <div class="hamburger">
+                                <div class="inner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+
+
+        </div>
+
+    </main>
+
+
+    <footer class="footer footer__mobile">
+
+        <div class="container-fluid container-fluid--custom-sm">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="row footer-content">
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">Learn</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/get-started/">Get Started</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/guides/">Guides</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/hands-on-labs/">Labs</a></li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/logo-github.svg" alt="Github icon">
+                                        <a href="https://github.com/oracle/graal-dev-kit" target="blank">Github</a>
+                                    </li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/slack-icon.svg" alt="Github icon">
+                                        <a href="https://bit.ly/odevrel_slack" target="blank">#graal-dev-kit-for-micronaut</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">About</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/about/#gdk-support" target="blank">Commercial Support</a></li>
+                                    <li class="footer-list__item"><a href="https://www.graalvm.org/" target="blank">GraalVM Native Image</a></li>
+                                    <li class="footer-list__item"><a href="https://micronaut.io/" target="_blank">Micronaut<sup>®</sup> Framework</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/multicloud/what-is-multicloud/" target="_blank">Multicloud</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/" target="blank">Oracle Cloud Infrastructure</a></li>
+                                    <li class="footer-list__item"><a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack" target="blank">VS Code Tools</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 aligning_1024">
+                            <div class="card--footer card--hovered box">
+                                <div>
+                                    <div class="rubber-footer footer__oci-section">
+                                        <p class="title-footer quickstart">Build, test, and deploy applications on Oracle Cloud Infrastructure for free</p>
+                                        <a href="https://www.oracle.com/cloud/free/" target="_blank" class="btn btn-primary">Try Oracle Cloud Infrastructure Free Tier</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="copyright">
+                                    Copyright © 2023, 2025, Oracle and/or its affiliates.
+                                    All rights reserved.
+                                    Oracle and Java are registered trademarks of Oracle and/or its affiliates.<br>
+                                    Micronaut<sup>®</sup> is a registered trademark of Object Computing, Inc.
+                                    Use is for referential purposes and does not imply any endorsement or affiliation with any third-party product.
+                                    Unauthorized use is strictly prohibited. Other names may be trademarks of their respective owners.
+                                </p>
+                                <div id="teconsent"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function fadeInAndOut(thz) {
+            var elmt = thz.nextElementSibling;//Get the element that is below the button that
+            //was just clicked
+            if (elmt.clientHeight) {
+                elmt.style.height = 0;
+            } else {
+                var wrapper = elmt.querySelector('ul');
+                elmt.style.height = wrapper.clientHeight + "px";
+            }
+            /*
+                elmt.classList.toggle("acordianPanelHidden");//Toggle the class which changes
+                //attributes which triggers the transition CSS
+                */
+        }
+
+        // Check TRUSTe Consent for Functional or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(2) != -1) ) {
+
+            //The following is a sample of a Maxymiser Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"><\/script>');
+        }
+
+        // Check TRUSTe Consent for Advertising or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(3) != -1) ) {
+
+            //The following is a sample of a BlueKai Core Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript">' +
+                'window.bk_async = function() { ' +
+                'BKTAG.doTag(62581, 1); }; ' +
+                '(function() { ' +
+                'var scripts = document.getElementsByTagName(\'script\')[0]; ' +
+                'var s = document.createElement(\'script\'); ' +
+                's.async = true; ' +
+                's.src = "https://tags.bkrtx.com/js/bk-coretag.js"; ' +
+                'scripts.parentNode.insertBefore(s, scripts); ' +
+                '}()); ' +
+                '<\/script>');
+        }
+    </script><script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"></script><script type="text/javascript">window.bk_async = function() { BKTAG.doTag(62581, 1); }; (function() { var scripts = document.getElementsByTagName('script')[0]; var s = document.createElement('script'); s.async = true; s.src = "https://tags.bkrtx.com/js/bk-coretag.js"; scripts.parentNode.insertBefore(s, scripts); }()); </script>
+
+</div>
+<div class="overlay"></div>
+
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<script src="https://graal.cloud/gdk/resources/lib/slick-slider/slick.min.js"></script>
+<script src='https://graal.cloud/gdk/resources/js/main.js'></script>
+<script src="https://graal.cloud/gdk/resources/js/ui.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/filters.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/sidebar.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/labs.js"></script>
+<!--<script>-->
+<!--    hljs.initHighlightingOnLoad();-->
+<!--</script>-->
+
+
+<iframe name="trustarc_notice" id="trustarcNoticeFrame" title="Trustarc Cross-Domain Consent Frame" src="https://consent.trustarc.com/get?name=crossdomain.html&amp;domain=oracle.com" style="display: none;"></iframe></body></html>

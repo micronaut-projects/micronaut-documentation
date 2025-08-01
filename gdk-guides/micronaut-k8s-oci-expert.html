@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en"><head><style type="text/css">.truste_caIcon_display {display: block !important;}</style><style type="text/css">.truste_cursor_pointer {cursor: pointer;}.truste_border_none {border: none;}</style>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:image" content="https://graal.cloud/gdk/resources/img/graalvm.png">
+    <meta name="twitter:widgets:border-color" content="#55acee">
+
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js">
+    <script src="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js"></script>
+
+    <title>Expert’s Guide to Deploy a Micronaut Microservices Application to Oracle Cloud Infrastructure Container Engine for Kubernetes</title>
+    <meta name="description" content="The Graal Development Kit for Micronaut (GDK) is a build of a curated set of Micronaut framework modules and their required libraries for building portable c...">
+    <meta name="last_modified" content="2024-10-10 16:30:05 +0000">
+    <meta name="last_built" content="2024-10-29 09:25:27 +0000">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/assets/main.css" >
+    <link rel="apple-touch-icon" sizes="180x180" href="https://graal.cloud/gdk/resources/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://graal.cloud/gdk/resources/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://graal.cloud/gdk/resources/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://graal.cloud/gdk/resources/img/favicon/site.webmanifest">
+    <link rel="stylesheet" type="text/css" href="https://graal.cloud/gdk/resources/styles/codicon.css" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="google-site-verification" content="-vRqwa9WYn6AaQGnl88xvrLw6ac4xoKVkZkhanmlRhU">
+    <link rel="canonical" href="https://www.graal.cloud/gdk/gdk-modules/database/micronaut-data-jdbc-repository/">
+
+    <!-- TODO: move to stylesheet -->
+    <style>
+        @media (min-width: 768px) {
+            .content {
+                padding-top: 60px;
+            }
+        }
+
+        .colist table {
+            border: 0;
+
+            td {
+                border: 0;
+            }
+
+            tr {
+                border: 0;
+            }
+        }
+
+        .imageblock {
+            max-width: 50%;
+        }
+
+        main{
+            padding-top: 50px !important;
+        }
+
+        .content{
+            padding-top: 0;
+        }
+
+        ul.sectlevel0 > li > a:first-of-type {
+            color: #F68831 !important;
+            font-weight: 700;
+        }
+
+        ul.sectlevel1 > li > a {
+            color: #dbe6ff;
+            font-weight: 400 !important;
+            padding-left: 20px;
+            font-size: 14px;
+        }
+
+            .conum[data-value]::after {
+                content: attr(data-value);
+                display: inline-block;
+                border: 1px solid;
+                -webkit-border-radius: 50%;
+                border-radius: 50%;
+                text-align: center;
+                font-size: .75em;
+                width: 1.67em;
+                height: 1.67em;
+                line-height: 1.67em;
+                font-family: "Open Sans", "DejaVu Sans", sans-serif;
+                font-style: normal;
+                font-weight: bold;
+            }
+            .conum[data-value]+b {
+                display: none;
+            }
+
+        .sectlevel1 a.active {
+            color: #F68831;
+            font-weight: bold;
+        }
+        a.external {
+            color: #d6d6d6   !important;
+        }
+        a.external:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
+    </style>
+
+    <!-- jQuery UI Tabs -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/jquery/jquery-ui.css">
+    <script type="text/javascript" id="www-widgetapi-script" src="https://www.youtube.com/s/player/a8476471/www-widgetapi.vflset/www-widgetapi.js" async=""></script><script src="https://www.youtube.com/iframe_api"></script><script async="" src="https://tags.bkrtx.com/js/bk-coretag.js"></script><script src="https://graal.cloud/gdk/resources/lib/jquery/jquery-3.7.1.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/bootstrap/js/bootstrap.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/resizeSensor.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/sticky-sidebar.min.js"></script><script async="" defer="" src="https://buttons.github.io/buttons.js"></script><script async="async" type="text/javascript" src="//consent.trustarc.com/notice?domain=oracle.com&amp;c=teconsent&amp;js=bb&amp;noticeType=bb&amp;text=true&amp;cdn=1&amp;pcookie&amp;gtm=1" crossorigin="" id="truste_0.9548969741402604"></script><script src="https://www.oracle.com/assets/truste-oraclelib.js"></script><script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script></head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const menuLinks = document.querySelectorAll(".sectlevel1 a");
+
+        function highlightMenu() {
+            let currentSection = null;
+
+            menuLinks.forEach(link => {
+                const section = document.querySelector(link.getAttribute("href"));
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                        currentSection = link;
+                    }
+                }
+            });
+
+            menuLinks.forEach(link => link.classList.remove("active"));
+
+            if (currentSection) {
+                currentSection.classList.add("active");
+            }
+        }
+
+        window.addEventListener("scroll", highlightMenu);
+        highlightMenu();
+
+        });</script>
+<!-- Add TRUSTe Consent Script and Analytics -->
+
+
+<!-- jQuery UI Tabs -->
+
+<body class="">
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<div class="wrapper wrapper--nofooter">
+
+    <header class="header header--content" role="banner">
+        <nav class="menu">
+            <div class="menu__row">
+                <div>
+                    <a href="/gdk/" class="activeMenuItem">
+                        <img class="logo-mobile" src="https://graal.cloud/gdk/resources/img/gdk-logo-new.svg" alt="Graal Development Kit for Micronaut logo" style="margin-left: 0px;">
+                    </a>
+                </div>
+                <div class="menu__container">
+                    <ul class="menu__list">
+                        <li class="menu__item">
+                            <a href="/gdk/about/" class="menu__link">About</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/gdk/get-started/" class="menu__link">Get Started</a>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Docs</a>
+                                <div class="stack-menu-learn">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/modules.svg">
+                                                <a href="/gdk/modules/" class="item-line">Modules</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/guides.svg">
+                                                <a href="/gdk/guides/" class="item-line">Guides</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/labs.svg">
+                                                <a href="/gdk/hands-on-labs/" class="item-line">Hands-On Labs</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/tools.svg">
+                                                <a href="/gdk/vscode-tools/" class="item-line">Tools</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Graal Projects</a>
+                                <div class="stack-menu">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalstack.svg">
+                                                <a href="/" class="item-line">Graal</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalvm.svg">
+                                                <a href="https://graalvm.org/" class="item-line">GraalVM</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalos.svg">
+                                                <a href="/graalos/" class="item-line">GraalOS</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__launch__mobile">
+                            <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu__launch">
+                    <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                </div>
+            </div>
+
+            <div role="button" class="menu-btn menu-btn--menu js-show-menu" tabindex="-1" title="sweet hamburger">
+                <div class="hamburger">
+                    <div class="inner"></div>
+                </div>
+            </div>
+            <button aria-label="hamburger mobile menu" class="btn btn-mobile-menu js-show-menu">
+                <div class="inner"></div>
+            </button>
+        </nav>
+
+
+    </header>
+
+
+    <main class="content" aria-label="Content">
+        <div class="wrapper wrapper-content">
+            <article>
+                <div class="row d-flex flex-wrap">
+                    <div class="col-sm-3 docsimpro col-bg">
+                        <div class="sidebar-wrap is-affixed" style="height: 473px; position: relative;"><div class="inner-wrapper-sticky" style="position: fixed; top: 74px; left: 0px; width: 300px;">
+                            <div class="sidebar">
+                                <div class="menuabout">
+                                    <img id="sidebarClose" src="https://graal.cloud/gdk/resources/img/arrow_sidebar(close).svg" alt="Expand or collapse sidebar" class="btn-color no-display">
+                                    <img id="sidebarOpen" src="https://graal.cloud/gdk/resources/img/arrow_sidebar.svg" alt="Expand or collapse sidebar">
+                                </div>
+
+                                                                <div class="toc-floating">
+                                <div class="toc-bullets">
+                                    <li class="toc-bullets-main">
+                                        <a href="/gdk/docs/gdk-modules/kubernetes/" class="_icon-book">
+                                            Kubernetes
+                                        </a>
+                                    </li>
+                                    <li class="toc-bullets-sub toc-bullets-highlight">
+                                        <a href="/gdk/gdk-modules/kubernetes/micronaut-k8s-oci-expert/" class="activeMenuItem">
+                                            Expert’s Guide to Deploy a Micronaut Microservices Application to Oracle Cloud Infrastructure Container Engine for Kubernetes
+                                        </a>
+                                    </li>
+                                    <div id="toc" class="toc">
+<div id="toctitle"></div>
+<ul class="sectlevel1">
+<li><a href="#create-or-download-a-microservices-application">1. Create or Download a Microservices Application</a></li>
+<li><a href="#create-an-oracle-cloud-infrastructure-kubernetes-cluster">2. Create an Oracle Cloud Infrastructure Kubernetes Cluster</a></li>
+<li><a href="#prepare-to-deploy-microservices">3. Prepare to Deploy Microservices</a></li>
+<li><a href="#deploy-microservices-to-oke">4. Deploy Microservices to OKE</a></li>
+<li><a href="#test-integration-between-the-microservices-deployed-to-oke">5. Test Integration Between the Microservices Deployed to OKE</a></li>
+<li><a href="#clean-up-cloud-resources">6. Clean Up Cloud Resources</a></li>
+</ul>
+</div>
+                                </div>
+                            </div>
+
+
+                            </div>
+                            <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div></div>
+                        <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div>
+
+                    <div class="col-sm-9 docsmod">
+                        <div id="content-wrapper" class="docs-content docs-content--with-sidebar"><h1>Expert&#8217;s Guide to Deploy a Micronaut Microservices Application to Oracle Cloud Infrastructure Container Engine for Kubernetes</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This guide describes how to deploy a Micronaut® application, consisting of three microservices, to the <a href="https://docs.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm">Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)</a> using the <a href="https://micronaut-projects.github.io/micronaut-kubernetes/latest/guide/">Micronaut Kubernetes project</a>.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>The Micronaut Kubernetes project provides integration between Micronaut and Kubernetes. It adds support for the following features:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Service Discovery</p>
+</li>
+<li>
+<p>Configuration client for config maps and secrets</p>
+</li>
+<li>
+<p>Kubernetes blocking and non-blocking clients built on top of the official Kubernetes Java SDK</p>
+</li>
+</ul>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p><a href="https://kubernetes.io/docs/home/">Kubernetes</a> is a portable, extensible, open source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p><a href="https://www.oracle.com/cloud/cloud-native/container-engine-kubernetes/">OKE</a> is a managed <a href="https://www.oracle.com/cloud/cloud-native/container-engine-kubernetes/what-is-kubernetes/">Kubernetes</a> service for deploying containerized applications to the cloud.</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: The guide assumes that the reader is familiar with using the Oracle Cloud Infrastructure Command Line Interface (CLI).</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p><strong>Note on the Sample Application</strong></p>
+</div>
+<div class="paragraph">
+<p>The application consists of three microservices:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>users</em> - contains customer data that can place orders on items, also a new customer can be created. It requires HTTP basic authentication to access it.</p>
+</li>
+<li>
+<p><em>orders</em> - contains all orders that customers have created as well as available items that customers can order. This microservice also enables the creation of new orders. It requires HTTP basic authentication to access it.</p>
+</li>
+<li>
+<p><em>api</em> - acts as a gateway to the <em>orders</em> and <em>users</em> services. It combines results from both services and checks data when a customer creates a new order.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Prerequisites</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>JDK 17 or higher. See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>.</p>
+</li>
+<li>
+<p>An Oracle Cloud Infrastructure account. See <a href="/gdk/get-started/setting-up-cloud-accounts/">Setting up Your Cloud Accounts</a>.</p>
+</li>
+<li>
+<p>An Oracle Cloud Infrastructure <a href="https://docs.oracle.com/iaas/Content/GSG/Tasks/choosingcompartments.htm">compartment</a>.</p>
+</li>
+<li>
+<p>Appropriate permission is granted to your user account to manage OKE. (For more information, see <a href="https://docs.oracle.com/iaas/Content/ContEng/Concepts/contengpolicyconfig.htm#Policy_Configuration_for_Cluster_Creation_and_Deployment">Policy Configuration for Cluster Creation and Deployment</a>.)</p>
+</li>
+<li>
+<p>A Docker-API compatible container runtime such as <a href="https://docs.rancherdesktop.io/getting-started/installation/">Rancher Desktop</a> or <a href="https://www.docker.io/gettingstarted/">Docker</a> installed and running.</p>
+</li>
+<li>
+<p><a href="https://stedolan.github.io/jq/"><code>jq</code></a>: a lightweight and flexible command-line JSON processor.</p>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/reference/kubectl/"><code>kubectl</code></a> to deploy the application to OKE.</p>
+</li>
+</ul>
+</div>
+<h4 id="a-note-regarding-your-development-environment" class="discrete">A note regarding your development environment</h4>
+<div class="paragraph">
+<p>Consider using Visual Studio Code, which provides native support for developing applications with the <a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack">Graal Development Kit for Micronaut Extension Pack</a>.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: If you use IntelliJ IDEA, <a href="/gdk/resources/img/annotationprocessorsintellij.png">enable annotation processing</a>.</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Windows platform: The GDK guides are compatible with Gradle only. Maven support is coming soon.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-or-download-a-microservices-application">1. Create or Download a Microservices Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can create a microservices application from scratch by following <a href="/gdk/gdk-modules/kubernetes/micronaut-k8s/">this guide</a>, or you can download the completed example:</p>
+</div>
+<div class="paragraph">
+<p>Follow the steps below to create the application from scratch. However, you can also download the completed example:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_kubernetes_oci-kubernetes-demo-java-gradle.zip">Gradle OCI Kubernetes Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_kubernetes_oci-kubernetes-demo-java-maven.zip">Maven OCI Kubernetes Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+</div>
+<div class="paragraph">
+<p>The application ZIP file will be downloaded in your default downloads directory. Unzip it and proceed to the next steps.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: By default, a Micronaut application detects its runtime environment.
+A detected environment (in this case, <strong>k8s</strong>) overrides the default specified environment (in this case, <strong>oraclecloud</strong>).
+This means that you should locate your configuration in the <em>application-k8s.properties</em> and <em>bootstrap-k8s.properties</em> files.
+Alternatively, you can specify the <code>oraclecloud</code> environment passing it as a command-line option (<code>-Dmicronaut.environments=oraclecloud</code>) or via an environment variable (<code>MICRONAUT_ENVIRONMENTS=oraclecloud</code>).</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-an-oracle-cloud-infrastructure-kubernetes-cluster">2. Create an Oracle Cloud Infrastructure Kubernetes Cluster</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You will use <strong>Quick Create</strong> cluster option in OKE to create Kubernetes cluster.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Login to the Oracle Cloud console and open the navigation menu. Click <strong>Developer Services</strong>. Under <strong>Containers &amp; Artifacts</strong>, click <strong>Kubernetes Clusters (OKE)</strong>.</p>
+</li>
+<li>
+<p>Select your compartment in the <strong>Compartment</strong> drop-down list.</p>
+</li>
+<li>
+<p>Click <strong>Create cluster</strong> and select the <strong>Quick create</strong> option. Click <strong>Submit</strong>.</p>
+</li>
+<li>
+<p>Enter the name for your cluster, for example, <em>gdk-k8s</em>. Select <strong>Public Endpoint</strong> for the Kubernetes API endpoint; <strong>Private Workers</strong> for worker nodes; select the default the shape, and change the number of <strong>Node count</strong> to 1. Click <strong>Next</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Create cluster</strong>.</p>
+</li>
+<li>
+<p>It may take a few minutes to create all the resources. When they are all complete, click <strong>Close</strong>.</p>
+</li>
+<li>
+<p>From the <strong>Cluster details</strong> tab click <strong>Copy</strong> to copy the Cluster Id (you will need it later).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="prepare-to-deploy-microservices">3. Prepare to Deploy Microservices</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="export-environment-variables">3.1. Export Environment Variables</h3>
+<div class="paragraph">
+<p>Define some environment variables to make the deploying process easier:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>OCI_USER_ID</code> to store your user OCID, which you can find in your Oracle Cloud Infrastructure configuration file (usually <em>~/.oci/config</em>).</p>
+</li>
+<li>
+<p><code>OCI_TENANCY_NAMESPACE</code> to store the tenancy namespace (retrieve your tenancy namespace using the Oracle Cloud Infrastructure CLI).</p>
+</li>
+<li>
+<p><code>OCIR_USERNAME</code> to store your username in the format <code>&lt;tenancy_namespace&gt;/&lt;username&gt;</code>. You can reuse <code>OCI_TENANCY_NAMESPACE</code> and only edit the <code>&lt;username&gt;</code> part.</p>
+</li>
+<li>
+<p><code>OCI_REGION</code> to store your cloud region identifier, for example, "us-phoenix-1".</p>
+</li>
+<li>
+<p><code>OCI_CLUSTER_ID</code> to store the Cluster Id that you copied earlier.</p>
+</li>
+<li>
+<p><code>OCI_COMPARTMENT_ID</code> to store your compartment id.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export OCI_USER_ID="ocid1.user.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+export OCI_TENANCY_NAMESPACE=$(oci os ns get | jq .data -r)
+export OCIR_USERNAME="$OCI_TENANCY_NAMESPACE/&lt;username&gt;"
+export OCI_REGION="&lt;region&gt;"
+export OCI_CLUSTER_ID="ocid1.cluster.oc1.iad.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+export OCI_COMPARTMENT_ID="ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="authenticate-to-oracle-cloud-infrastructure-registry">3.2. Authenticate to Oracle Cloud Infrastructure Registry</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="https://docs.oracle.com/iaas/Content/Registry/Tasks/registrygettingauthtoken.htm">Create an <code>AUTH_TOKEN</code></a> to authenticate to Oracle Cloud Infrastructure Registry (also known as Container Registry). (Oracle Cloud Infrastructure restricts you to two authentication tokens at the same time. If you already have two tokens, use an existing one or delete one that you are not using.)</p>
+</li>
+<li>
+<p>Export the <code>AUTH_TOKEN</code> variable:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export AUTH_TOKEN=$(oci iam auth-token create --user-id $OCI_USER_ID --description gdk-k8s-token | jq -r '.data.token')</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the next command to log in to <code>ocir.io</code> (Container Registry):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker login $OCI_REGION.ocir.io -u $OCIR_USERNAME -p $AUTH_TOKEN</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The command should complete by printing "Login Succeeded". (It may take some time before your authentication token activates.)</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-a-container-image-of-the-native-users-microservice">3.3. Create a Container Image of the Native <em>users</em> Microservice</h3>
+<div class="paragraph">
+<p>To create a container image of the native <em>users</em> microservice named "users", run the following command from the <em>users/</em> directory:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew dockerBuildNative</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw clean package -Dpackaging=docker-native -Pgraalvm</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: If you are having issues building a container image, try the following command from the users/target/ directory:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">docker build . -t users-oci -f DockerfileNative</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">docker build . -t users-oci -f Dockerfile</code><button>Copy</button></pre>
+    </div>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: Ensure that you construct container images for the correct CPU architecture. For instance, if you are using AArch64, modify the <code>DOCKER_DEFAULT_PLATFORM</code> environment variable to the value <code>linux/amd64</code>. Alternatively, you have the option to use AArch64 instances within your Kubernetes cluster.</p>
+</div>
+</blockquote>
+</div>
+</div>
+<div class="sect2">
+<h3 id="push-the-users-microservice-to-a-container-repository">3.4. Push the <em>users</em> Microservice to a Container Repository</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a container repository named “gdk-k8s/users-oci” in your compartment:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export USERS_REPOSITORY=$(oci artifacts container repository create --display-name gdk-k8s/users-oci --compartment-id $OCI_COMPARTMENT_ID | jq .data.id -r)</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Tag the existing <em>users</em> microservice container image with details of the container repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker tag users-oci:latest $OCI_REGION.ocir.io/$OCI_TENANCY_NAMESPACE/gdk-k8s/users-oci:latest</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push the tagged <em>users</em> microservice container image to the remote repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push $OCI_REGION.ocir.io/$OCI_TENANCY_NAMESPACE/gdk-k8s/users-oci:latest</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="update-the-users-microservice">3.5. Update the <em>users</em> Microservice</h3>
+<div class="paragraph">
+<p>Edit the file named <em>users/k8s-oci.yml</em> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: gdk-k8s
+  name: "users"
+spec:
+  selector:
+    matchLabels:
+      app: "users"
+  template:
+    metadata:
+      labels:
+        app: "users"
+    spec:
+      serviceAccountName: gdk-service
+      containers:
+        - name: "users"
+          image: &lt;region-key&gt;.ocir.io/&lt;tenancy-namespace&gt;/gdk-k8s/users-oci:latest <i class="conum" data-value="1"></i><b>(1)</b>
+          imagePullPolicy: Always <i class="conum" data-value="2"></i><b>(2)</b>
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /health/readiness
+              port: 8080
+            initialDelaySeconds: 5
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /health/liveness
+              port: 8080
+            initialDelaySeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 10
+          env:
+            - name: MICRONAUT_ENVIRONMENTS
+              value: "oraclecloud"
+      imagePullSecrets:
+        - name: ocirsecret <i class="conum" data-value="3"></i><b>(3)</b>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: gdk-k8s
+  name: "users"
+spec:
+  selector:
+    app: "users"
+  type: NodePort
+  ports:
+    - protocol: "TCP"
+      port: 8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> The container image tag that exists in Container Registry. <strong>Change</strong> the <code>&lt;region&gt;</code> to your region and replace <code>&lt;tenancy-namespace&gt;</code> with your tenancy namespace. (This MUST match the tag you created above in step <strong>1</strong> of section <strong>3.5</strong>.)</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> The <code>imagePullPolicy</code> to <code>Always</code>, which means that Kubernetes will always pull the latest version of the image from the container registry.</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> The name of a secret to pull container images from Container Registry. (You will create the secret in section <strong>4</strong>.)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-a-container-image-of-the-native-orders-microservice">3.6. Create a Container Image of the Native <em>orders</em> Microservice</h3>
+<div class="paragraph">
+<p>To create a container image of the native <em>orders</em> microservice named "orders", run the following command from the <em>orders/</em> directory:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew dockerBuildNative</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw clean package -Dpackaging=docker-native -Pgraalvm</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: If you are having issues building a container image, try the following command from the orders/target/ directory:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">docker build . -t orders-oci -f DockerfileNative</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">docker build . -t orders-oci -f Dockerfile</code><button>Copy</button></pre>
+    </div>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: Ensure that you construct container images for the correct CPU architecture. For instance, if you are using AArch64, modify the <code>DOCKER_DEFAULT_PLATFORM</code> environment variable to the value <code>linux/amd64</code>. Alternatively, you have the option to use AArch64 instances within your Kubernetes cluster.</p>
+</div>
+</blockquote>
+</div>
+</div>
+<div class="sect2">
+<h3 id="push-the-orders-microservice-to-a-container-repository">3.7. Push the <em>orders</em> Microservice to a Container Repository</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a container repository named “gdk-k8s/orders-oci” in your compartment:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export ORDERS_REPOSITORY=$(oci artifacts container repository create --display-name gdk-k8s/orders-oci --compartment-id $OCI_COMPARTMENT_ID | jq .data.id -r)</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Tag the existing <em>orders</em> microservice container image with details of the container repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker tag orders-oci:latest $OCI_REGION.ocir.io/$OCI_TENANCY_NAMESPACE/gdk-k8s/orders-oci:latest</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push the tagged <em>orders</em> microservice container image to the remote repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push $OCI_REGION.ocir.io/$OCI_TENANCY_NAMESPACE/gdk-k8s/orders-oci:latest</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="update-the-orders-microservice">3.8. Update the <em>orders</em> Microservice</h3>
+<div class="paragraph">
+<p>Edit the file named <em>orders/k8s-oci.yml</em> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: gdk-k8s
+  name: "orders"
+spec:
+  selector:
+    matchLabels:
+      app: "orders"
+  template:
+    metadata:
+      labels:
+        app: "orders"
+    spec:
+      serviceAccountName: gdk-service
+      containers:
+        - name: "orders"
+          image: &lt;region-key&gt;.ocir.io/&lt;tenancy-namespace&gt;/gdk-k8s/orders-oci:latest <i class="conum" data-value="1"></i><b>(1)</b>
+          imagePullPolicy: Always <i class="conum" data-value="2"></i><b>(2)</b>
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /health/readiness
+              port: 8080
+            initialDelaySeconds: 5
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /health/liveness
+              port: 8080
+            initialDelaySeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 10
+          env:
+            - name: MICRONAUT_ENVIRONMENTS
+              value: "oraclecloud"
+      imagePullSecrets:
+        - name: ocirsecret <i class="conum" data-value="3"></i><b>(3)</b>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: gdk-k8s
+  name: "orders"
+spec:
+  selector:
+    app: "orders"
+  type: NodePort
+  ports:
+    - protocol: "TCP"
+      port: 8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> The container image tag that exists in Container Registry. <strong>Change</strong> the <code>&lt;region&gt;</code> to your region and replace <code>&lt;tenancy-namespace&gt;</code> with your tenancy namespace. (This MUST match the tag you created above in step <strong>1</strong> of section <strong>3.5</strong>.)</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> The <code>imagePullPolicy</code> to <code>Always</code>, which means that Kubernetes will always pull the latest version of the image from the container registry.</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> The name of a secret to pull container images from Container Registry. (You will create the secret in section <strong>4</strong>.)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-a-container-image-of-the-native-api-microservice">3.9. Create a Container Image of the Native <em>api</em> Microservice</h3>
+<div class="paragraph">
+<p>To create a container image of the native <em>api</em> microservice named "api", run the following command from the <em>api/</em> directory:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew dockerBuildNative</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw clean package -Dpackaging=docker-native -Pgraalvm</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: If you are having issues building a container image, try the following command from the api/target/ directory:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">docker build . -t api-oci -f DockerfileNative</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">docker build . -t api-oci -f Dockerfile</code><button>Copy</button></pre>
+    </div>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: Ensure that you construct container images for the correct CPU architecture. For instance, if you are using AArch64, modify the <code>DOCKER_DEFAULT_PLATFORM</code> environment variable to the value <code>linux/amd64</code>. Alternatively, you have the option to use AArch64 instances within your Kubernetes cluster.</p>
+</div>
+</blockquote>
+</div>
+</div>
+<div class="sect2">
+<h3 id="push-the-api-microservice-to-a-container-repository">3.10. Push the <em>api</em> Microservice to a Container Repository</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a container repository named “gdk-k8s/api-oci” in your compartment:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export API_REPOSITORY=$(oci artifacts container repository create --display-name gdk-k8s/api-oci --compartment-id $OCI_COMPARTMENT_ID | jq .data.id -r)</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Tag the existing <em>api</em> microservice container image with details of the container repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker tag api-oci:latest $OCI_REGION.ocir.io/$OCI_TENANCY_NAMESPACE/gdk-k8s/api-oci:latest</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push the tagged <em>api</em> microservice container image to the remote repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push $OCI_REGION.ocir.io/$OCI_TENANCY_NAMESPACE/gdk-k8s/api-oci:latest</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="update-the-api-microservice">3.11. Update the <em>api</em> Microservice</h3>
+<div class="paragraph">
+<p>Edit the file named <em>api/k8s-oci.yml</em> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: gdk-k8s
+  name: "api"
+spec:
+  selector:
+    matchLabels:
+      app: "api"
+  template:
+    metadata:
+      labels:
+        app: "api"
+    spec:
+      serviceAccountName: gdk-service
+      containers:
+        - name: "api"
+          image: &lt;region-key&gt;.ocir.io/&lt;tenancy-namespace&gt;/gdk-k8s/api-oci:latest <i class="conum" data-value="1"></i><b>(1)</b>
+          imagePullPolicy: Always <i class="conum" data-value="2"></i><b>(2)</b>
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /health/readiness
+              port: 8080
+            initialDelaySeconds: 5
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /health/liveness
+              port: 8080
+            initialDelaySeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 10
+          env:
+            - name: MICRONAUT_ENVIRONMENTS
+              value: "oraclecloud"
+      imagePullSecrets:
+        - name: ocirsecret <i class="conum" data-value="3"></i><b>(3)</b>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: gdk-k8s
+  name: "api"
+  annotations: <i class="conum" data-value="4"></i><b>(4)</b>
+    oci.oraclecloud.com/load-balancer-type: "lb"
+    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "10"
+spec:
+  selector:
+    app: "api"
+  type: LoadBalancer
+  ports:
+    - protocol: "TCP"
+      port: 8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> The container image tag that exists in Container Registry. <strong>Change</strong> the <code>&lt;region&gt;</code> to your region and replace <code>&lt;tenancy-namespace&gt;</code> with your tenancy namespace. (This MUST match the tag you created above in step <strong>1</strong> of section <strong>3.5</strong>.)</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> The <code>imagePullPolicy</code> to <code>Always</code>, which means that Kubernetes will always pull the latest version of the image from the container registry.</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> The name of a secret to pull container images from Container Registry. (You will create the secret in section <strong>4</strong>.)</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="deploy-microservices-to-oke">4. Deploy Microservices to OKE</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a directory for a <code>kubectl</code> configuration:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mkdir -p $HOME/.kube</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Generate a <code>kubectl</code> configuration for authentication to OKE:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci ce cluster create-kubeconfig \
+      --cluster-id $OCI_CLUSTER_ID \
+      --file $HOME/.kube/config \
+      --region $OCI_REGION \
+      --token-version 2.0.0 \
+      --kube-endpoint PUBLIC_ENDPOINT</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Set <code>KUBECONFIG</code> to the created config file, as shown below. (This variable is consumed by <code>kubectl</code>.)</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export KUBECONFIG=$HOME/.kube/config</code></pre>
+</div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: On Windows, <code>kubectl</code> is typically installed within the Kubernetes extension and is not added to the system path. Windows users should configure a proxy in <em>.kube/config</em> to successfully deploy a project to Oracle Cloud Infrastructure: add a <code>proxy-url</code> property under <code>cluster</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">clusters:
+- name: "dev"
+  cluster:
+    proxy-url: http://user:password@proxy:port
+    ...</code></pre>
+</div>
+</div>
+</blockquote>
+</div>
+</li>
+<li>
+<p>Deploy the <em>auth.yml</em> file that you created in the <a href="/gdk/gdk-modules/kubernetes/micronaut-k8s/">Deploy a Micronaut Microservices Application to a Local Kubernetes Cluster</a> guide:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl apply -f auth.yml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create an <code>ocirsecret</code> secret for authentication to Container Registry using the command below. The secret is a object to store user credential data (encrypted data), for example, the database username and password. In this case, OKE uses it to authenticate to Container Registry to be able to pull microservices container images.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl create secret docker-registry ocirsecret \
+      --docker-server=$OCI_REGION.ocir.io \
+      --docker-username=$OCIR_USERNAME \
+      --docker-password=$AUTH_TOKEN \
+      --namespace=gdk-k8s</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Deploy the <em>users</em> microservice:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl apply -f users/k8s-oci.yml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Deploy the <em>orders</em> microservice:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl apply -f orders/k8s-oci.yml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the next command to deploy the <em>api</em> microservice:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl apply -f api/k8s-oci.yml</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="test-integration-between-the-microservices-deployed-to-oke">5. Test Integration Between the Microservices Deployed to OKE</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run the following command to check the status of the pods and make sure that all of them have the status "Running":</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl get pods -n=gdk-k8s</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"> NAME                      READY   STATUS    RESTARTS   AGE
+ api-6fb4cd949f-kxxx8      1/1     Running   0          13s
+ orders-595887ddd6-6lzp4   1/1     Running   0          25s
+ users-df6f78cd7-lgnzx     1/1     Running   0          37s</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run this command to check the status of the microservices:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl get services -n=gdk-k8s</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">NAME         TYPE           CLUSTER-IP     EXTERNAL-IP      PORT(S)             AGE
+ api          LoadBalancer   10.96.70.48    129.146.149.81   8080:31666/TCP      2m9s
+ orders       NodePort       10.96.94.130   &lt;none&gt;           8080:31702/TCP      2m22s
+ users        NodePort       10.96.34.174   &lt;none&gt;           8080:31528/TCP      2m33s</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>EXTERNAL-IP</code> property of the <em>api</em> service has a <code>&lt;pending&gt;</code> status, wait a few seconds and then run the command again.
+If the <code>&lt;pending&gt;</code> status persists for more than one minute, try the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify that a Load Balancer was created.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>In the Oracle Cloud Console, open the navigation menu.</p>
+</li>
+<li>
+<p>Click <strong>Networking</strong>, and then click <strong>Load balancers</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Load balancer</strong>.</p>
+</li>
+<li>
+<p>Ensure a Load Balancer has been created for your service.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Check Load Balancer quota (if a Load Balancer was not created, you may have reached the quota limit).</p>
+<div class="ulist">
+<ul>
+<li>
+<p>In the Oracle Cloud Console, open the navigation menu.</p>
+</li>
+<li>
+<p>Click <strong>Governance &amp; Administration</strong>.
+Under <strong>Tenancy Management</strong>, click <strong>Limits, Quotas and Usage</strong>.</p>
+</li>
+<li>
+<p>Select the Load Balancer quota.
+If the quota limit has been reached, request a quota increase or delete unused Load Balancers.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Retrieve the URL of the <em>api</em> microservice and set it as the value of the <code>$API_URL</code> environment variable:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export API_URL=http://$(kubectl get svc api -n=gdk-k8s -o json | jq -r '.status.loadBalancer.ingress[0].ip'):8080</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run a <code>curl</code> command to create a new user via the <em>api</em> microservice:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X "POST" "$API_URL/api/users" \
+     -H 'Content-Type: application/json; charset=utf-8' \
+     -d '{ "first_name": "Nemanja", "last_name": "Mikic", "username": "nmikic" }'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Your output should look like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "id":1,
+  "username":"nmikic",
+  "first_name":"Nemanja",
+  "last_name":"Mikic"
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run a <code>curl</code> command to create a new order via the <em>api</em> microservice:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X "POST" "$API_URL/api/orders" \
+     -H 'Content-Type: application/json; charset=utf-8' \
+     -d '{ "user_id": 1, "item_ids": [1,2] }'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Your output should include details of the order, as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "id": 1,
+  "user": {
+    "first_name": "Nemanja",
+    "last_name": "Mikic",
+    "id": 1,
+    "username": "nmikic"
+  },
+  "items": [
+    {
+      "id": 1,
+      "name": "Banana",
+      "price": 1.5
+    },
+    {
+      "id": 2,
+      "name": "Kiwi",
+      "price": 2.5
+    }
+  ],
+  "total": 4.0
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run a <code>curl</code> command to list the orders:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl "$API_URL/api/orders" \
+     -H 'Content-Type: application/json; charset=utf-8'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should see output that is similar to the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">[
+  {
+    "id": 1,
+    "user": {
+      "first_name": "Nemanja",
+      "last_name": "Mikic",
+      "id": 1,
+      "username": "nmikic"
+    },
+    "items": [
+      {
+        "id": 1,
+        "name": "Banana",
+        "price": 1.5
+      },
+      {
+        "id": 2,
+        "name": "Kiwi",
+        "price": 2.5
+      }
+    ],
+    "total": 4.0
+  }
+]</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Try to place an order for a user who does not exist (with <code>id</code> 100). Run a <code>curl</code> command:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X "POST" "$API_URL/api/orders" \
+     -H 'Content-Type: application/json; charset=utf-8' \
+     -d '{ "user_id": 100, "item_ids": [1,2] }'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should see the following error message:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "message": "Bad Request",
+  "_links": {
+    "self": [
+      {
+        "href": "/api/orders",
+        "templated": false
+      }
+    ]
+  },
+  "_embedded": {
+    "errors": [
+      {
+        "message": "User with id 100 doesn't exist"
+      }
+    ]
+  }
+}</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="clean-up-cloud-resources">6. Clean Up Cloud Resources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After you have finished this guide, clean up the resources you created.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Delete all Kubernetes resources that were created in this guide:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl delete namespaces gdk-k8s</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Delete the OKE cluster:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci ce cluster delete --cluster-id $OCI_CLUSTER_ID --force</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Delete the <code>gdk-k8s/users-oci</code> artifacts container repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci artifacts container repository delete --repository-id $USERS_REPOSITORY --force</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Delete the <code>gdk-k8s/order-oci</code> artifacts container repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci artifacts container repository delete --repository-id $ORDERS_REPOSITORY --force</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Delete the <code>gdk-k8s/api-oci</code> artifacts container repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci artifacts container repository delete --repository-id $API_REPOSITORY --force</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<h3 id="summary" class="discrete">Summary</h3>
+<div class="paragraph">
+<p>This guide demonstrated how to use Kubernetes Service Discovery and Distributed Configuration, provided with the Micronaut Kubernetes integration, to connect three microservices, and to deploy these microservices to a Kubernetes cluster in Oracle Cloud Infrastructure Container Engine for Kubernetes.</p>
+</div>
+<h3 id="related-documentation" class="discrete">Related Documentation</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://micronaut-projects.github.io/micronaut-kubernetes/latest/guide/">Micronaut Kubernetes module</a></p>
+</li>
+<li>
+<p><a href="https://docs.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm">Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div></div>
+                        <div role="button" class="menu-btn menu-btn--sidebar js-show-sidebar" title="sweet hamburger">
+                            <div class="hamburger">
+                                <div class="inner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+
+
+        </div>
+
+    </main>
+
+
+    <footer class="footer footer__mobile">
+
+        <div class="container-fluid container-fluid--custom-sm">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="row footer-content">
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">Learn</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/get-started/">Get Started</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/guides/">Guides</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/hands-on-labs/">Labs</a></li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/logo-github.svg" alt="Github icon">
+                                        <a href="https://github.com/oracle/graal-dev-kit" target="blank">Github</a>
+                                    </li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/slack-icon.svg" alt="Github icon">
+                                        <a href="https://bit.ly/odevrel_slack" target="blank">#graal-dev-kit-for-micronaut</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">About</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/about/#gdk-support" target="blank">Commercial Support</a></li>
+                                    <li class="footer-list__item"><a href="https://www.graalvm.org/" target="blank">GraalVM Native Image</a></li>
+                                    <li class="footer-list__item"><a href="https://micronaut.io/" target="_blank">Micronaut<sup>®</sup> Framework</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/multicloud/what-is-multicloud/" target="_blank">Multicloud</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/" target="blank">Oracle Cloud Infrastructure</a></li>
+                                    <li class="footer-list__item"><a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack" target="blank">VS Code Tools</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 aligning_1024">
+                            <div class="card--footer card--hovered box">
+                                <div>
+                                    <div class="rubber-footer footer__oci-section">
+                                        <p class="title-footer quickstart">Build, test, and deploy applications on Oracle Cloud Infrastructure for free</p>
+                                        <a href="https://www.oracle.com/cloud/free/" target="_blank" class="btn btn-primary">Try Oracle Cloud Infrastructure Free Tier</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="copyright">
+                                    Copyright © 2023, 2025, Oracle and/or its affiliates.
+                                    All rights reserved.
+                                    Oracle and Java are registered trademarks of Oracle and/or its affiliates.<br>
+                                    Micronaut<sup>®</sup> is a registered trademark of Object Computing, Inc.
+                                    Use is for referential purposes and does not imply any endorsement or affiliation with any third-party product.
+                                    Unauthorized use is strictly prohibited. Other names may be trademarks of their respective owners.
+                                </p>
+                                <div id="teconsent"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function fadeInAndOut(thz) {
+            var elmt = thz.nextElementSibling;//Get the element that is below the button that
+            //was just clicked
+            if (elmt.clientHeight) {
+                elmt.style.height = 0;
+            } else {
+                var wrapper = elmt.querySelector('ul');
+                elmt.style.height = wrapper.clientHeight + "px";
+            }
+            /*
+                elmt.classList.toggle("acordianPanelHidden");//Toggle the class which changes
+                //attributes which triggers the transition CSS
+                */
+        }
+
+        // Check TRUSTe Consent for Functional or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(2) != -1) ) {
+
+            //The following is a sample of a Maxymiser Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"><\/script>');
+        }
+
+        // Check TRUSTe Consent for Advertising or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(3) != -1) ) {
+
+            //The following is a sample of a BlueKai Core Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript">' +
+                'window.bk_async = function() { ' +
+                'BKTAG.doTag(62581, 1); }; ' +
+                '(function() { ' +
+                'var scripts = document.getElementsByTagName(\'script\')[0]; ' +
+                'var s = document.createElement(\'script\'); ' +
+                's.async = true; ' +
+                's.src = "https://tags.bkrtx.com/js/bk-coretag.js"; ' +
+                'scripts.parentNode.insertBefore(s, scripts); ' +
+                '}()); ' +
+                '<\/script>');
+        }
+    </script><script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"></script><script type="text/javascript">window.bk_async = function() { BKTAG.doTag(62581, 1); }; (function() { var scripts = document.getElementsByTagName('script')[0]; var s = document.createElement('script'); s.async = true; s.src = "https://tags.bkrtx.com/js/bk-coretag.js"; scripts.parentNode.insertBefore(s, scripts); }()); </script>
+
+</div>
+<div class="overlay"></div>
+
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<script src="https://graal.cloud/gdk/resources/lib/slick-slider/slick.min.js"></script>
+<script src='https://graal.cloud/gdk/resources/js/main.js'></script>
+<script src="https://graal.cloud/gdk/resources/js/ui.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/filters.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/sidebar.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/labs.js"></script>
+<!--<script>-->
+<!--    hljs.initHighlightingOnLoad();-->
+<!--</script>-->
+
+
+<iframe name="trustarc_notice" id="trustarcNoticeFrame" title="Trustarc Cross-Domain Consent Frame" src="https://consent.trustarc.com/get?name=crossdomain.html&amp;domain=oracle.com" style="display: none;"></iframe></body></html>

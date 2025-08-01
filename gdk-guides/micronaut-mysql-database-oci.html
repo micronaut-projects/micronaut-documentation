@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en"><head><style type="text/css">.truste_caIcon_display {display: block !important;}</style><style type="text/css">.truste_cursor_pointer {cursor: pointer;}.truste_border_none {border: none;}</style>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:image" content="https://graal.cloud/gdk/resources/img/graalvm.png">
+    <meta name="twitter:widgets:border-color" content="#55acee">
+
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js">
+    <script src="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js"></script>
+
+    <title>Create and Connect a Micronaut Application to the Oracle Cloud Infrastructure MySQL HeatWave Service</title>
+    <meta name="description" content="The Graal Development Kit for Micronaut (GDK) is a build of a curated set of Micronaut framework modules and their required libraries for building portable c...">
+    <meta name="last_modified" content="2024-10-10 16:30:05 +0000">
+    <meta name="last_built" content="2024-10-29 09:25:27 +0000">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/assets/main.css" >
+    <link rel="apple-touch-icon" sizes="180x180" href="https://graal.cloud/gdk/resources/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://graal.cloud/gdk/resources/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://graal.cloud/gdk/resources/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://graal.cloud/gdk/resources/img/favicon/site.webmanifest">
+    <link rel="stylesheet" type="text/css" href="https://graal.cloud/gdk/resources/styles/codicon.css" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="google-site-verification" content="-vRqwa9WYn6AaQGnl88xvrLw6ac4xoKVkZkhanmlRhU">
+    <link rel="canonical" href="https://www.graal.cloud/gdk/gdk-modules/database/micronaut-data-jdbc-repository/">
+
+    <!-- TODO: move to stylesheet -->
+    <style>
+        @media (min-width: 768px) {
+            .content {
+                padding-top: 60px;
+            }
+        }
+
+        .colist table {
+            border: 0;
+
+            td {
+                border: 0;
+            }
+
+            tr {
+                border: 0;
+            }
+        }
+
+        .imageblock {
+            max-width: 50%;
+        }
+
+        main{
+            padding-top: 50px !important;
+        }
+
+        .content{
+            padding-top: 0;
+        }
+
+        ul.sectlevel0 > li > a:first-of-type {
+            color: #F68831 !important;
+            font-weight: 700;
+        }
+
+        ul.sectlevel1 > li > a {
+            color: #dbe6ff;
+            font-weight: 400 !important;
+            padding-left: 20px;
+            font-size: 14px;
+        }
+
+            .conum[data-value]::after {
+                content: attr(data-value);
+                display: inline-block;
+                border: 1px solid;
+                -webkit-border-radius: 50%;
+                border-radius: 50%;
+                text-align: center;
+                font-size: .75em;
+                width: 1.67em;
+                height: 1.67em;
+                line-height: 1.67em;
+                font-family: "Open Sans", "DejaVu Sans", sans-serif;
+                font-style: normal;
+                font-weight: bold;
+            }
+            .conum[data-value]+b {
+                display: none;
+            }
+
+        .sectlevel1 a.active {
+            color: #F68831;
+            font-weight: bold;
+        }
+        a.external {
+            color: #d6d6d6   !important;
+        }
+        a.external:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
+    </style>
+
+    <!-- jQuery UI Tabs -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/jquery/jquery-ui.css">
+    <script type="text/javascript" id="www-widgetapi-script" src="https://www.youtube.com/s/player/a8476471/www-widgetapi.vflset/www-widgetapi.js" async=""></script><script src="https://www.youtube.com/iframe_api"></script><script async="" src="https://tags.bkrtx.com/js/bk-coretag.js"></script><script src="https://graal.cloud/gdk/resources/lib/jquery/jquery-3.7.1.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/bootstrap/js/bootstrap.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/resizeSensor.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/sticky-sidebar.min.js"></script><script async="" defer="" src="https://buttons.github.io/buttons.js"></script><script async="async" type="text/javascript" src="//consent.trustarc.com/notice?domain=oracle.com&amp;c=teconsent&amp;js=bb&amp;noticeType=bb&amp;text=true&amp;cdn=1&amp;pcookie&amp;gtm=1" crossorigin="" id="truste_0.9548969741402604"></script><script src="https://www.oracle.com/assets/truste-oraclelib.js"></script><script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script></head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const menuLinks = document.querySelectorAll(".sectlevel1 a");
+
+        function highlightMenu() {
+            let currentSection = null;
+
+            menuLinks.forEach(link => {
+                const section = document.querySelector(link.getAttribute("href"));
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                        currentSection = link;
+                    }
+                }
+            });
+
+            menuLinks.forEach(link => link.classList.remove("active"));
+
+            if (currentSection) {
+                currentSection.classList.add("active");
+            }
+        }
+
+        window.addEventListener("scroll", highlightMenu);
+        highlightMenu();
+
+        });</script>
+<!-- Add TRUSTe Consent Script and Analytics -->
+
+
+<!-- jQuery UI Tabs -->
+
+<body class="">
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<div class="wrapper wrapper--nofooter">
+
+    <header class="header header--content" role="banner">
+        <nav class="menu">
+            <div class="menu__row">
+                <div>
+                    <a href="/gdk/" class="activeMenuItem">
+                        <img class="logo-mobile" src="https://graal.cloud/gdk/resources/img/gdk-logo-new.svg" alt="Graal Development Kit for Micronaut logo" style="margin-left: 0px;">
+                    </a>
+                </div>
+                <div class="menu__container">
+                    <ul class="menu__list">
+                        <li class="menu__item">
+                            <a href="/gdk/about/" class="menu__link">About</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/gdk/get-started/" class="menu__link">Get Started</a>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Docs</a>
+                                <div class="stack-menu-learn">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/modules.svg">
+                                                <a href="/gdk/modules/" class="item-line">Modules</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/guides.svg">
+                                                <a href="/gdk/guides/" class="item-line">Guides</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/labs.svg">
+                                                <a href="/gdk/hands-on-labs/" class="item-line">Hands-On Labs</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/tools.svg">
+                                                <a href="/gdk/vscode-tools/" class="item-line">Tools</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Graal Projects</a>
+                                <div class="stack-menu">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalstack.svg">
+                                                <a href="/" class="item-line">Graal</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalvm.svg">
+                                                <a href="https://graalvm.org/" class="item-line">GraalVM</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalos.svg">
+                                                <a href="/graalos/" class="item-line">GraalOS</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__launch__mobile">
+                            <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu__launch">
+                    <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                </div>
+            </div>
+
+            <div role="button" class="menu-btn menu-btn--menu js-show-menu" tabindex="-1" title="sweet hamburger">
+                <div class="hamburger">
+                    <div class="inner"></div>
+                </div>
+            </div>
+            <button aria-label="hamburger mobile menu" class="btn btn-mobile-menu js-show-menu">
+                <div class="inner"></div>
+            </button>
+        </nav>
+
+
+    </header>
+
+
+    <main class="content" aria-label="Content">
+        <div class="wrapper wrapper-content">
+            <article>
+                <div class="row d-flex flex-wrap">
+                    <div class="col-sm-3 docsimpro col-bg">
+                        <div class="sidebar-wrap is-affixed" style="height: 473px; position: relative;"><div class="inner-wrapper-sticky" style="position: fixed; top: 74px; left: 0px; width: 300px;">
+                            <div class="sidebar">
+                                <div class="menuabout">
+                                    <img id="sidebarClose" src="https://graal.cloud/gdk/resources/img/arrow_sidebar(close).svg" alt="Expand or collapse sidebar" class="btn-color no-display">
+                                    <img id="sidebarOpen" src="https://graal.cloud/gdk/resources/img/arrow_sidebar.svg" alt="Expand or collapse sidebar">
+                                </div>
+
+                                                                <div class="toc-floating">
+                                <div class="toc-bullets">
+                                    <li class="toc-bullets-main">
+                                        <a href="/gdk/docs/gdk-modules/database/" class="_icon-book">
+                                            Database
+                                        </a>
+                                    </li>
+                                    <li class="toc-bullets-sub toc-bullets-highlight">
+                                        <a href="/gdk/gdk-modules/database/micronaut-mysql-database-oci/" class="activeMenuItem">
+                                            Create and Connect a Micronaut Application to the Oracle Cloud Infrastructure MySQL HeatWave Service
+                                        </a>
+                                    </li>
+                                    <div id="toc" class="toc">
+<div id="toctitle"></div>
+<ul class="sectlevel1">
+<li><a href="#create-the-application">1. Create the Application</a></li>
+<li><a href="#set-up-oracle-cloud-infrastructure">2. Set Up Oracle Cloud Infrastructure</a></li>
+<li><a href="#configure-a-mysql-database">3. Configure a MySQL Database</a></li>
+<li><a href="#run-the-java-application">4. Run the Java Application</a></li>
+<li><a href="#generate-a-native-executable-using-graalvm">5. Generate a Native Executable Using GraalVM</a></li>
+<li><a href="#run-and-test-the-native-executable">6. Run and Test the Native Executable</a></li>
+<li><a href="#clean-up-cloud-resources">7. Clean Up Cloud Resources</a></li>
+</ul>
+</div>
+                                </div>
+                            </div>
+
+
+                            </div>
+                            <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div></div>
+                        <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div>
+
+                    <div class="col-sm-9 docsmod">
+                        <div id="content-wrapper" class="docs-content docs-content--with-sidebar"><h1>Create and Connect a Micronaut Application to the Oracle Cloud Infrastructure MySQL HeatWave Service</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This guide describes how to create a database application using the Graal Development Kit for Micronaut (GDK). The application presents REST endpoints and stores data in an Oracle Cloud Infrastructure MySQL database using Micronaut® Data.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://docs.oracle.com/iaas/mysql-database/index.html">MySQL HeatWave</a> is a fully-managed Oracle Cloud Infrastructure database service developed and supported by the MySQL team in Oracle.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/">Micronaut Data</a> is a database access toolkit that uses ahead-of-time compilation to precompute queries for repository interfaces that are then executed by a thin, lightweight runtime layer. Micronaut Data supports the following back ends: JPA (Hibernate and Hibernate Reactive); SQL (JDBC, R2DBC); and MongoDB.</p>
+</div>
+<h3 id="prerequisites" class="discrete">Prerequisites</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>JDK 17 or higher.See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>.</p>
+</li>
+<li>
+<p>An Oracle Cloud Infrastructure account.See <a href="/gdk/get-started/setting-up-cloud-accounts/">Setting up Your Cloud Accounts</a>.</p>
+</li>
+<li>
+<p>An Oracle Cloud Infrastructure <a href="https://docs.oracle.com/iaas/Content/GSG/Tasks/choosingcompartments.htm">compartment</a>.Ensure appropriate permission is granted to your user account to manage Oracle MySQL HeatWave, Compute instances, Virtual Cloud Networks, and Stacks in the compartment.</p>
+</li>
+<li>
+<p>An SSH key.See <a href="https://docs.oracle.com/en/learn/generate_ssh_keys/index.html">Generate SSH keys</a>.</p>
+</li>
+<li>
+<p>The GDK CLI.See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>.(Optional.)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Follow the steps below to create the application from scratch. However, you can also download the completed example:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_database_oci-db-demo-java-gradle.zip">Gradle Oracle Cloud Infrastructure MySQL Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_database_oci-db-demo-java-maven.zip">Maven Oracle Cloud Infrastructure MySQL Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+</div>
+<div class="paragraph">
+<p>The application ZIP file will be downloaded in your default downloads directory. Unzip it and proceed to the next steps.</p>
+</div>
+<h4 id="a-note-regarding-your-development-environment" class="discrete">A note regarding your development environment</h4>
+<div class="paragraph">
+<p>Consider using Visual Studio Code, which provides native support for developing applications with the <a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack">Graal Development Kit for Micronaut Extension Pack</a>.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: If you use IntelliJ IDEA, <a href="/gdk/resources/img/annotationprocessorsintellij.png">enable annotation processing</a>.</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Windows platform: The GDK guides are compatible with Gradle only. Maven support is coming soon.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-the-application">1. Create the Application</h2>
+<div class="sectionbody">
+<p>Create an application using the GDK Launcher.</p>
+<ol>
+    <li>
+        <p>Open the <a href="https://graal.cloud/gdk/launcher/?advanced=true" target="_blank">GDK Launcher in advanced mode</a>.</p>
+    </li>
+    <li>Create a new project using the following selections.
+        <ul>
+            <li><strong>Project Type</strong>: <em>Application</em> (Default)</li>
+            <li><strong>Project Name</strong>: <em>oci-db-demo</em></li>
+            <li><strong>Base Package</strong>: <em>com.example</em> (Default)</li>
+            <li><strong>Clouds</strong>: <em>OCI</em></li>
+            <li><strong>Build Tool</strong>: <em>Gradle (Groovy)</em> or <em>Maven</em></li>
+            <li><strong>Language</strong>: <em>Java</em> (Default)</li>
+            <li><strong>Test Framework</strong>: <em>JUnit</em> (Default)</li>
+            <li><strong>Java Version</strong>: <em>17</em> (Default)</li>
+            <li><strong>Micronaut Version</strong>: (Default)</li>
+            <li><strong>Cloud Services</strong>: <em>Database</em></li>
+            <li><strong>Features</strong>: <em>GraalVM Native Image</em>, <em>MySQL</em></li>
+            <li><strong>Sample Code</strong>: <em>Yes</em> (Default)</li>
+        </ul>
+    </li>
+    <li>Click <strong>Generate Project</strong>, then click <strong>Download Zip</strong>. The GDK Launcher creates an application with the package <code>com.example</code> in a directory named <em>oci-db-demo</em>. The application ZIP file will be downloaded to your default downloads directory. Unzip it, open it in your code editor, and proceed to the next steps.</li>
+</ol>
+<div class="paragraph">
+<p>Alternatively, use the  <a href="/gdk/get-started/using-gdk-cli/">GDK CLI</a> as follows:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">gdk create-app com.example.oci-db-demo \
+ --clouds=oci \
+ --services=database \
+ --features=graalvm,mysql \
+ --build=gradle \
+ --jdk=17  \
+ --lang=java</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">gdk create-app com.example.oci-db-demo \
+ --clouds=oci \
+ --services=database \
+ --features=graalvm,mysql \
+ --build=maven \
+ --jdk=17  \
+ --lang=java</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>Open the <em>micronaut-cli.yml</em> file, you can see what features are packaged with the application:</p>
+</div>
+<pre><code class="language-bash hljs" data-highlighted="yes">features: [app-name, data, data-jdbc, flyway, gdk-bom, gdk-license, gdk-oci-cloud-app, gdk-oci-database, graalvm, http-client, java, java-application, jdbc-hikari, junit, logback, maven, maven-enforcer-plugin, micronaut-http-validation, mysql, netty-server, properties, readme, serialization-jackson, shade, static-resources, test-resources, validation]</code><button>Copy</button></pre>
+<div class="paragraph">
+<p>The GDK Launcher creates a multi-module project with two subprojects: <strong>oci</strong> for Oracle Cloud, and <strong>lib</strong> for common code and configuration shared across cloud platforms.
+You develop the application logic in the <strong>lib</strong> subproject, and keep the
+Oracle Cloud-specific configurations in the <strong>oci</strong> subproject.</p>
+</div>
+<div class="paragraph">
+<p>If you enable sample code generation, the GDK Launcher creates the main controller, repository interface, entity, service classes, and tests for you.
+Consider checking <a href="/gdk/gdk-modules/database/micronaut-data-jdbc-repository/">this guide</a> where each sample class is closely examined.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="set-up-oracle-cloud-infrastructure">2. Set Up Oracle Cloud Infrastructure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This guide requires the following Oracle Cloud Infrastructure resources (known as a "stack"):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A <a href="https://docs.oracle.com/iaas/mysql-database/doc/db-system.html">MySQL DB System</a></p>
+</li>
+<li>
+<p>A <a href="https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm">Compute instance</a> to host your application (because there is no direct way to externally connect to a MySQL DB System)</p>
+</li>
+<li>
+<p>A <a href="https://docs.oracle.com/iaas/Content/GSG/Tasks/creatingnetwork.htm">Virtual Cloud Network</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>A private subnet allowing traffic between the MySQL DB System and Compute instance</p>
+</li>
+<li>
+<p>A public subnet open to the internet</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Instead of creating the stack manually, use the following steps to provision it using <a href="https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm">Oracle Cloud Infrastructure Resource Manager</a>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the Terraform configuration <a href="https://graal.cloud/gdk/resources/terraform/archives/database/gdk-mysql.zip">GDK MySQL<img class="download-img-guides" src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download Terraform Configuration"></a> to your default downloads directory.</p>
+</li>
+<li>
+<p>Follow the steps in <a href="https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/create-stack-local.htm">Creating a Stack from a Zip File</a>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>In the "ssh_public_key" field of the <strong>Configure variables</strong> panel, paste the contents of your public key.</p>
+</li>
+<li>
+<p>In the <strong>Review</strong> panel, select <strong>Run apply</strong>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Click <strong>Create</strong>. (It can take up to 20 minutes to provision the stack. The <strong>Log</strong> provides details of progress.)</p>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: These resources <strong>must not</strong> already exist in your Oracle Cloud Infrastructure tenancy, otherwise the Resource Manager will fail to provision the stack&mdash;in the Log you will see a message similar to <code>Error: 409-NAMESPACE_CONFLICT, Repository already exists.</code> Delete the conflicting resources before re-attempting to provision the stack.</p>
+</div>
+</blockquote>
+</div>
+</li>
+<li>
+<p>When the job completes, click <strong>Outputs</strong> in the list of the job&#8217;s resources and make note of the IP addresses:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>compute_instance_private_ip</code> (the private IP address of the Compute instance)</p>
+</li>
+<li>
+<p><code>compute_instance_public_ip</code> (the public IP address of the Compute instance)</p>
+</li>
+<li>
+<p><code>mysql_db_private_ip</code> (the private IP address of the MySQL DB System)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>In a local terminal, create an environment variable for the public IP address of the Compute instance, as follows:</p>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+    <div data-value="linux" data-label="Linux &amp; macOS" id="linux" aria-labelledby="ui-id-11" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">export</span> COMPUTE_INSTANCE_PUBLIC_IP=<span class="hljs-string">&lt;compute_instance_public_ip&gt;</span>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> COMPUTE_INSTANCE_PUBLIC_IP=<span class="hljs-string">&lt;compute_instance_public_ip&gt;</span>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> COMPUTE_INSTANCE_PUBLIC_IP=<span class="hljs-string">&lt;compute_instance_public_ip&gt;</span>
+</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>Replacing <code>&lt;compute_instance_public_ip&gt;</code> with its value.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configure-a-mysql-database">3. Configure a MySQL Database</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The GDK Launcher defined default datasources in the <em>oci/src/main/resources/application.properties</em> file.
+The GDK Launcher also included and enabled <a href="http://www.flywaydb.org">Flyway</a> to perform migrations on the default datasources.
+It uses the <a href="https://micronaut-projects.github.io/micronaut-flyway/latest/guide/">Micronaut integration with Flyway</a> to automate schema changes and significantly simplify schema management tasks, such as migrating, rolling back, and reproducing in multiple environments.</p>
+</div>
+<div class="paragraph">
+<p>Flyway will create the database tables the first time the application starts, but you must first create the database and a database user.</p>
+</div>
+<div class="sect2">
+<h3 id="start-mysql-shell">3.1. Start MySQL Shell</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Using your existing local terminal, use <code>ssh</code> to connect to your newly created Compute instance, providing the instance&#8217;s <strong>Public IP address</strong>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">ssh -i /path/to/ssh-key opc@$COMPUTE_INSTANCE_PUBLIC_IP</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For more information, see <a href="https://docs.oracle.com/iaas/Content/GSG/Tasks/testingconnection.htm#connecting">Connecting to Your Linux Instance Using SSH</a>.</p>
+</div>
+</li>
+<li>
+<p>Start the MySQL shell using the admin username ("admin") and password ("Welcome_1"), and the private IP address of the MySQL DB System:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mysqlsh --host &lt;mysql_db_private_ip&gt; -u admin -p</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Switch to "SQL mode" in the shell, as follows:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">\sql</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-a-database-and-user">3.2. Create a Database and User</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>From the MySQL shell, create the database (use any valid database name, for example, "gdkDB"):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">CREATE DATABASE gdkDB;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create a database user. Use any valid MySQL username, for example, "guide_user", and a valid password (at least eight characters long, with at least one numeric character, one lowercase character, one uppercase character, and one non-alphanumeric character):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">CREATE USER 'guide_user'@'&lt;compute_instance_private_ip&gt;' IDENTIFIED BY '&lt;password&gt;';</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Where <code>&lt;compute_instance_private_ip&gt;</code> is the private IP address of your Compute instance as noted earlier.</p>
+</div>
+</li>
+<li>
+<p>Grant access to the database for the new user:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">GRANT ALL ON gdkDB.* TO 'guide_user'@'&lt;compute_instance_private_ip&gt;';</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Exit the MySQL shell by entering "\quit".</p>
+</li>
+<li>
+<p>Close the <code>ssh</code> session by entering "exit".</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-the-java-application">4. Run the Java Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>With almost everything in place, you can run the application.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>From your existing local terminal, copy the ZIP file to the Compute instance using <code>scp</code>:</p>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">scp -i /path/to/ssh-key \
+/path/to/downloads/oci-db-demo-java-gradle.zip \
+opc@$COMPUTE_INSTANCE_PUBLIC_IP:</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">scp -i /path/to/ssh-key \
+/path/to/downloads/oci-db-demo-java-maven.zip \
+opc@$COMPUTE_INSTANCE_PUBLIC_IP:</code><button>Copy</button></pre>
+    </div>
+</div>
+</li>
+<li>
+<p>Use <code>ssh</code> to reconnect to your Compute instance (<code>ssh -i /path/to/ssh-key opc@$COMPUTE_INSTANCE_PUBLIC_IP</code>) and unzip the ZIP file using <code>unzip</code>, then <code>cd</code> into the newly created directory.</p>
+</li>
+<li>
+<p>Set values for additional datasources named <code>datasources.default.url</code>, <code>datasources.default.username</code>, and <code>datasources.default.password</code> by exporting them as environment variables as follows:</p>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+    <div data-value="linux" data-label="Linux &amp; macOS" id="linux" aria-labelledby="ui-id-11" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">export</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://&lt;mysql_db_private_ip&gt;:3306/gdkDB </span><i class="conum" data-value="1"></i><b>(1)</b>
+<span class="hljs-built_in">export</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">&lt;username&gt; </span><i class="conum" data-value="2"></i><b>(2)</b>
+<span class="hljs-built_in">export</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">&lt;password&gt; </span><i class="conum" data-value="3"></i><b>(3)</b>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://&lt;mysql_db_private_ip&gt;:3306/gdkDB </span><i class="conum" data-value="1"/></i><b>(1)</b>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">&lt;username&gt; </span><i class="conum" data-value="2"/></i><b>(2)</b>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">&lt;password&gt; </span><i class="conum" data-value="3"/></i><b>(3)</b>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://&lt;mysql_db_private_ip&gt;:3306/gdkDB </span><i class="conum" data-value="1"/></i><b>(1)</b>
+<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">&lt;username&gt; </span><i class="conum" data-value="2"/></i><b>(2)</b>
+<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">&lt;password&gt; </span><i class="conum" data-value="3"/></i><b>(3)</b>
+</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> Set the value of the <code>datasources.default.url</code> property as the private IP address of the MySQL DB System combined with the name of the database.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> Set the value of the <code>datasources.default.username</code> property as the username of the user you created, for example, "guide_user".</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> Set the value of the <code>datasources.default.password</code> property as the password of the user you created.</p>
+</div>
+</li>
+<li>
+<p>To run the Java application on the Compute instance, use the following command from within the <code>ssh</code> session (which starts the application on port 8080):</p>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :oci:run</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am
+./mvnw mn:run -pl oci</code><button>Copy</button></pre>
+    </div>
+</div>
+</li>
+<li>
+<p>Open a new local terminal, then run this command to test that you can create and store a new <code>Genre</code> in the database:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X "POST" "http://&lt;compute_instance_public_ip&gt;:8080/genres" \
+-H 'Content-Type: application/json; charset=utf-8' \
+-d $'{ "name": "music" }'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Replacing <code>&lt;compute_instance_public_ip&gt;</code> with its value.</p>
+</div>
+<div class="paragraph">
+<p>Then list the genres:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl http://&lt;compute_instance_public_ip&gt;:8080/genres/list</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You have successfully shown that the Java application presents REST endpoints and stores data in the Oracle MySQL database.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="generate-a-native-executable-using-graalvm">5. Generate a Native Executable Using GraalVM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To generate a native executable on the Compute instance, use your existing <code>ssh</code> session:</p>
+</div>
+<div class="paragraph">
+<p>The GDK supports compiling Java applications ahead-of-time into native executables using <a href="https://www.graalvm.org/">GraalVM Native Image</a>.
+You can use the <em><a href="https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html">Gradle plugin for GraalVM Native Image building</a></em>/<em><a href="https://graalvm.github.io/native-build-tools/latest/maven-plugin.html">Maven plugin for GraalVM Native Image building</a></em>.
+Packaged as a native executable, it significantly reduces application startup time and memory footprint.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p><strong>Prerequisites</strong>: Make sure you have installed a GraalVM JDK. The easiest way to get started is with <a href="https://sdkman.io/jdks#graal">SDKMAN!</a>. For other installation options, visit the <a href="https://www.graalvm.org/downloads/">Downloads section</a>.</p>
+</div>
+</blockquote>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>To generate a native executable, use the following command:</p>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :oci:nativeCompile</code><button>Copy</button></pre><p>The native executable is created in the oci/build/native/nativeCompile/ directory</p>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am
+./mvnw clean package -pl  oci -Dpackaging=native-image</code><button>Copy</button></pre><p>The native executable is created in the oci/target/ directory</p>
+    </div>
+</div>
+</li>
+<li>
+<p>You can then run the native executable with the following command:</p>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">oci/build/native/nativeCompile/oci-db-demo-oci</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">oci/target/oci-db-demo-oci</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>You can customize the name of the resulting binary by <a href="https://graalvm.github.io/native-build-tools/latest/index.html">updating the Maven/Gradle plugin for GraalVM Native Image configuration</a>.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-and-test-the-native-executable">6. Run and Test the Native Executable</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the <code>ssh</code> session, run the native executable.</p>
+</li>
+<li>
+<p>Perform the same tests as in step <strong>4</strong>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="clean-up-cloud-resources">7. Clean Up Cloud Resources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After you have finished this guide, clean up the resources you created:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Destroy the resources associated with a stack by following the steps in <a href="https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/create-job-destroy.htm">Creating a Destroy Job</a>.</p>
+</li>
+<li>
+<p>Follow the instructions in <a href="https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/delete-stack.htm">Deleting a Stack</a> to delete the stack.</p>
+</li>
+</ol>
+</div>
+<h3 id="summary" class="discrete">Summary</h3>
+<div class="paragraph">
+<p>This guide demonstrated how to use the GDK to create a database application that stores data in an Oracle MySQL Database.
+You also learned how to package this application into a native executable.</p>
+</div>
+<h3 id="related-documentation" class="discrete">Related Documentation</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/">Micronaut Data</a></p>
+</li>
+<li>
+<p><a href="https://docs.oracle.com/iaas/mysql-database/index.html">Oracle Cloud Infrastructure MySQL Database</a></p>
+</li>
+<li>
+<p><a href="https://graalvm.github.io/native-build-tools/latest/index.html">Native Build Tools</a></p>
+</li>
+<li>
+<p><a href="https://www.graalvm.org/">GraalVM Native Image</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div></div>
+                        <div role="button" class="menu-btn menu-btn--sidebar js-show-sidebar" title="sweet hamburger">
+                            <div class="hamburger">
+                                <div class="inner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+
+
+        </div>
+
+    </main>
+
+
+    <footer class="footer footer__mobile">
+
+        <div class="container-fluid container-fluid--custom-sm">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="row footer-content">
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">Learn</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/get-started/">Get Started</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/guides/">Guides</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/hands-on-labs/">Labs</a></li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/logo-github.svg" alt="Github icon">
+                                        <a href="https://github.com/oracle/graal-dev-kit" target="blank">Github</a>
+                                    </li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/slack-icon.svg" alt="Github icon">
+                                        <a href="https://bit.ly/odevrel_slack" target="blank">#graal-dev-kit-for-micronaut</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">About</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/about/#gdk-support" target="blank">Commercial Support</a></li>
+                                    <li class="footer-list__item"><a href="https://www.graalvm.org/" target="blank">GraalVM Native Image</a></li>
+                                    <li class="footer-list__item"><a href="https://micronaut.io/" target="_blank">Micronaut<sup>®</sup> Framework</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/multicloud/what-is-multicloud/" target="_blank">Multicloud</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/" target="blank">Oracle Cloud Infrastructure</a></li>
+                                    <li class="footer-list__item"><a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack" target="blank">VS Code Tools</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 aligning_1024">
+                            <div class="card--footer card--hovered box">
+                                <div>
+                                    <div class="rubber-footer footer__oci-section">
+                                        <p class="title-footer quickstart">Build, test, and deploy applications on Oracle Cloud Infrastructure for free</p>
+                                        <a href="https://www.oracle.com/cloud/free/" target="_blank" class="btn btn-primary">Try Oracle Cloud Infrastructure Free Tier</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="copyright">
+                                    Copyright © 2023, 2025, Oracle and/or its affiliates.
+                                    All rights reserved.
+                                    Oracle and Java are registered trademarks of Oracle and/or its affiliates.<br>
+                                    Micronaut<sup>®</sup> is a registered trademark of Object Computing, Inc.
+                                    Use is for referential purposes and does not imply any endorsement or affiliation with any third-party product.
+                                    Unauthorized use is strictly prohibited. Other names may be trademarks of their respective owners.
+                                </p>
+                                <div id="teconsent"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function fadeInAndOut(thz) {
+            var elmt = thz.nextElementSibling;//Get the element that is below the button that
+            //was just clicked
+            if (elmt.clientHeight) {
+                elmt.style.height = 0;
+            } else {
+                var wrapper = elmt.querySelector('ul');
+                elmt.style.height = wrapper.clientHeight + "px";
+            }
+            /*
+                elmt.classList.toggle("acordianPanelHidden");//Toggle the class which changes
+                //attributes which triggers the transition CSS
+                */
+        }
+
+        // Check TRUSTe Consent for Functional or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(2) != -1) ) {
+
+            //The following is a sample of a Maxymiser Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"><\/script>');
+        }
+
+        // Check TRUSTe Consent for Advertising or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(3) != -1) ) {
+
+            //The following is a sample of a BlueKai Core Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript">' +
+                'window.bk_async = function() { ' +
+                'BKTAG.doTag(62581, 1); }; ' +
+                '(function() { ' +
+                'var scripts = document.getElementsByTagName(\'script\')[0]; ' +
+                'var s = document.createElement(\'script\'); ' +
+                's.async = true; ' +
+                's.src = "https://tags.bkrtx.com/js/bk-coretag.js"; ' +
+                'scripts.parentNode.insertBefore(s, scripts); ' +
+                '}()); ' +
+                '<\/script>');
+        }
+    </script><script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"></script><script type="text/javascript">window.bk_async = function() { BKTAG.doTag(62581, 1); }; (function() { var scripts = document.getElementsByTagName('script')[0]; var s = document.createElement('script'); s.async = true; s.src = "https://tags.bkrtx.com/js/bk-coretag.js"; scripts.parentNode.insertBefore(s, scripts); }()); </script>
+
+</div>
+<div class="overlay"></div>
+
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<script src="https://graal.cloud/gdk/resources/lib/slick-slider/slick.min.js"></script>
+<script src='https://graal.cloud/gdk/resources/js/main.js'></script>
+<script src="https://graal.cloud/gdk/resources/js/ui.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/filters.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/sidebar.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/labs.js"></script>
+<!--<script>-->
+<!--    hljs.initHighlightingOnLoad();-->
+<!--</script>-->
+
+
+<iframe name="trustarc_notice" id="trustarcNoticeFrame" title="Trustarc Cross-Domain Consent Frame" src="https://consent.trustarc.com/get?name=crossdomain.html&amp;domain=oracle.com" style="display: none;"></iframe></body></html>

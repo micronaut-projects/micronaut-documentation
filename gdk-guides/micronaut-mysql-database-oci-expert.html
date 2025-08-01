@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en"><head><style type="text/css">.truste_caIcon_display {display: block !important;}</style><style type="text/css">.truste_cursor_pointer {cursor: pointer;}.truste_border_none {border: none;}</style>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:image" content="https://graal.cloud/gdk/resources/img/graalvm.png">
+    <meta name="twitter:widgets:border-color" content="#55acee">
+
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js">
+    <script src="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js"></script>
+
+    <title>Expert’s Guide to Create and Connect a Micronaut Application to the Oracle Cloud Infrastructure MySQL HeatWave Service</title>
+    <meta name="description" content="The Graal Development Kit for Micronaut (GDK) is a build of a curated set of Micronaut framework modules and their required libraries for building portable c...">
+    <meta name="last_modified" content="2024-10-10 16:30:05 +0000">
+    <meta name="last_built" content="2024-10-29 09:25:27 +0000">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/assets/main.css" >
+    <link rel="apple-touch-icon" sizes="180x180" href="https://graal.cloud/gdk/resources/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://graal.cloud/gdk/resources/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://graal.cloud/gdk/resources/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://graal.cloud/gdk/resources/img/favicon/site.webmanifest">
+    <link rel="stylesheet" type="text/css" href="https://graal.cloud/gdk/resources/styles/codicon.css" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="google-site-verification" content="-vRqwa9WYn6AaQGnl88xvrLw6ac4xoKVkZkhanmlRhU">
+    <link rel="canonical" href="https://www.graal.cloud/gdk/gdk-modules/database/micronaut-data-jdbc-repository/">
+
+    <!-- TODO: move to stylesheet -->
+    <style>
+        @media (min-width: 768px) {
+            .content {
+                padding-top: 60px;
+            }
+        }
+
+        .colist table {
+            border: 0;
+
+            td {
+                border: 0;
+            }
+
+            tr {
+                border: 0;
+            }
+        }
+
+        .imageblock {
+            max-width: 50%;
+        }
+
+        main{
+            padding-top: 50px !important;
+        }
+
+        .content{
+            padding-top: 0;
+        }
+
+        ul.sectlevel0 > li > a:first-of-type {
+            color: #F68831 !important;
+            font-weight: 700;
+        }
+
+        ul.sectlevel1 > li > a {
+            color: #dbe6ff;
+            font-weight: 400 !important;
+            padding-left: 20px;
+            font-size: 14px;
+        }
+
+            .conum[data-value]::after {
+                content: attr(data-value);
+                display: inline-block;
+                border: 1px solid;
+                -webkit-border-radius: 50%;
+                border-radius: 50%;
+                text-align: center;
+                font-size: .75em;
+                width: 1.67em;
+                height: 1.67em;
+                line-height: 1.67em;
+                font-family: "Open Sans", "DejaVu Sans", sans-serif;
+                font-style: normal;
+                font-weight: bold;
+            }
+            .conum[data-value]+b {
+                display: none;
+            }
+
+        .sectlevel1 a.active {
+            color: #F68831;
+            font-weight: bold;
+        }
+        a.external {
+            color: #d6d6d6   !important;
+        }
+        a.external:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
+    </style>
+
+    <!-- jQuery UI Tabs -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/jquery/jquery-ui.css">
+    <script type="text/javascript" id="www-widgetapi-script" src="https://www.youtube.com/s/player/a8476471/www-widgetapi.vflset/www-widgetapi.js" async=""></script><script src="https://www.youtube.com/iframe_api"></script><script async="" src="https://tags.bkrtx.com/js/bk-coretag.js"></script><script src="https://graal.cloud/gdk/resources/lib/jquery/jquery-3.7.1.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/bootstrap/js/bootstrap.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/resizeSensor.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/sticky-sidebar.min.js"></script><script async="" defer="" src="https://buttons.github.io/buttons.js"></script><script async="async" type="text/javascript" src="//consent.trustarc.com/notice?domain=oracle.com&amp;c=teconsent&amp;js=bb&amp;noticeType=bb&amp;text=true&amp;cdn=1&amp;pcookie&amp;gtm=1" crossorigin="" id="truste_0.9548969741402604"></script><script src="https://www.oracle.com/assets/truste-oraclelib.js"></script><script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script></head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const menuLinks = document.querySelectorAll(".sectlevel1 a");
+
+        function highlightMenu() {
+            let currentSection = null;
+
+            menuLinks.forEach(link => {
+                const section = document.querySelector(link.getAttribute("href"));
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                        currentSection = link;
+                    }
+                }
+            });
+
+            menuLinks.forEach(link => link.classList.remove("active"));
+
+            if (currentSection) {
+                currentSection.classList.add("active");
+            }
+        }
+
+        window.addEventListener("scroll", highlightMenu);
+        highlightMenu();
+
+        });</script>
+<!-- Add TRUSTe Consent Script and Analytics -->
+
+
+<!-- jQuery UI Tabs -->
+
+<body class="">
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<div class="wrapper wrapper--nofooter">
+
+    <header class="header header--content" role="banner">
+        <nav class="menu">
+            <div class="menu__row">
+                <div>
+                    <a href="/gdk/" class="activeMenuItem">
+                        <img class="logo-mobile" src="https://graal.cloud/gdk/resources/img/gdk-logo-new.svg" alt="Graal Development Kit for Micronaut logo" style="margin-left: 0px;">
+                    </a>
+                </div>
+                <div class="menu__container">
+                    <ul class="menu__list">
+                        <li class="menu__item">
+                            <a href="/gdk/about/" class="menu__link">About</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/gdk/get-started/" class="menu__link">Get Started</a>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Docs</a>
+                                <div class="stack-menu-learn">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/modules.svg">
+                                                <a href="/gdk/modules/" class="item-line">Modules</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/guides.svg">
+                                                <a href="/gdk/guides/" class="item-line">Guides</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/labs.svg">
+                                                <a href="/gdk/hands-on-labs/" class="item-line">Hands-On Labs</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/tools.svg">
+                                                <a href="/gdk/vscode-tools/" class="item-line">Tools</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Graal Projects</a>
+                                <div class="stack-menu">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalstack.svg">
+                                                <a href="/" class="item-line">Graal</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalvm.svg">
+                                                <a href="https://graalvm.org/" class="item-line">GraalVM</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalos.svg">
+                                                <a href="/graalos/" class="item-line">GraalOS</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__launch__mobile">
+                            <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu__launch">
+                    <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                </div>
+            </div>
+
+            <div role="button" class="menu-btn menu-btn--menu js-show-menu" tabindex="-1" title="sweet hamburger">
+                <div class="hamburger">
+                    <div class="inner"></div>
+                </div>
+            </div>
+            <button aria-label="hamburger mobile menu" class="btn btn-mobile-menu js-show-menu">
+                <div class="inner"></div>
+            </button>
+        </nav>
+
+
+    </header>
+
+
+    <main class="content" aria-label="Content">
+        <div class="wrapper wrapper-content">
+            <article>
+                <div class="row d-flex flex-wrap">
+                    <div class="col-sm-3 docsimpro col-bg">
+                        <div class="sidebar-wrap is-affixed" style="height: 473px; position: relative;"><div class="inner-wrapper-sticky" style="position: fixed; top: 74px; left: 0px; width: 300px;">
+                            <div class="sidebar">
+                                <div class="menuabout">
+                                    <img id="sidebarClose" src="https://graal.cloud/gdk/resources/img/arrow_sidebar(close).svg" alt="Expand or collapse sidebar" class="btn-color no-display">
+                                    <img id="sidebarOpen" src="https://graal.cloud/gdk/resources/img/arrow_sidebar.svg" alt="Expand or collapse sidebar">
+                                </div>
+
+                                                                <div class="toc-floating">
+                                <div class="toc-bullets">
+                                    <li class="toc-bullets-main">
+                                        <a href="/gdk/docs/gdk-modules/database/" class="_icon-book">
+                                            Database
+                                        </a>
+                                    </li>
+                                    <li class="toc-bullets-sub toc-bullets-highlight">
+                                        <a href="/gdk/gdk-modules/database/micronaut-mysql-database-oci-expert/" class="activeMenuItem">
+                                            Expert’s Guide to Create and Connect a Micronaut Application to the Oracle Cloud Infrastructure MySQL HeatWave Service
+                                        </a>
+                                    </li>
+                                    <div id="toc" class="toc">
+<div id="toctitle"></div>
+<ul class="sectlevel1">
+<li><a href="#create-the-application">1. Create the Application</a></li>
+<li><a href="#create-an-oracle-mysql-db-system">2. Create an Oracle MySQL DB System</a></li>
+<li><a href="#create-a-compute-instance">3. Create a Compute Instance</a></li>
+<li><a href="#configure-a-mysql-database">4. Configure a MySQL Database</a></li>
+<li><a href="#run-the-application">5. Run the Application</a></li>
+<li><a href="#generate-a-native-executable-using-graalvm">6. Generate a Native Executable Using GraalVM</a></li>
+<li><a href="#deploy-from-a-native-executable">7. Deploy from a Native Executable</a></li>
+<li><a href="#clean-up-cloud-resources">8. Clean up Cloud Resources</a></li>
+</ul>
+</div>
+                                </div>
+                            </div>
+
+
+                            </div>
+                            <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div></div>
+                        <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div>
+
+                    <div class="col-sm-9 docsmod">
+                        <div id="content-wrapper" class="docs-content docs-content--with-sidebar"><h1>Expert’s Guide to Create and Connect a Micronaut Application to the Oracle Cloud Infrastructure MySQL HeatWave Service</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This guide describes how to create a database application using the Graal Development Kit for Micronaut (GDK). The application presents REST endpoints and stores data in an Oracle Cloud Infrastructure MySQL database using Micronaut® Data.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: The guide assumes that the reader is familiar with using the Oracle Cloud Infrastructure Command Line Interface (CLI).</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p><a href="https://docs.oracle.com/iaas/mysql-database/index.html">MySQL HeatWave</a> is a fully-managed Oracle Cloud Infrastructure database service developed and supported by the MySQL team in Oracle.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/">Micronaut Data</a> is a database access toolkit that uses ahead-of-time compilation to precompute queries for repository interfaces that are then executed by a thin, lightweight runtime layer. Micronaut Data supports the following back ends: JPA (Hibernate and Hibernate Reactive); SQL (JDBC, R2DBC); and MongoDB.</p>
+</div>
+<div id="prerequisites" class="paragraph">
+<p><strong>Prerequisites</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>JDK 17 or higher. See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>.</p>
+</li>
+<li>
+<p>An Oracle Cloud Infrastructure account. See <a href="/gdk/get-started/setting-up-cloud-accounts/">Setting up Your Cloud Accounts</a>.</p>
+</li>
+<li>
+<p>An Oracle Cloud Infrastructure <a href="https://docs.oracle.com/iaas/Content/GSG/Tasks/choosingcompartments.htm">compartment</a>. Ensure appropriate permission is granted to your user account to manage Oracle MySQL HeatWave, Compute instances, and Virtual Cloud Networks in the compartment.</p>
+</li>
+<li>
+<p>A Virtual Cloud Network (VCN) in Oracle Cloud Infrastructure with a single regional public subnet, for use by Compute and MySQL HeatWave.</p>
+</li>
+<li>
+<p>A Docker-API compatible container runtime such as <a href="https://docs.rancherdesktop.io/getting-started/installation/">Rancher Desktop</a> or <a href="https://www.docker.io/gettingstarted/">Docker</a> to build a GraalVM Native Executable.</p>
+</li>
+<li>
+<p>The GDK CLI. See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>. (Optional.)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Follow the steps below to create the application from scratch. However, you can also download the completed example:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_database_oci-db-demo-java-gradle.zip">Gradle Oracle Cloud Infrastructure MySQL Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_database_oci-db-demo-java-maven.zip">Maven Oracle Cloud Infrastructure MySQL Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+</div>
+<div class="paragraph">
+<p>The application ZIP file will be downloaded in your default downloads directory. Unzip it and proceed to the next steps.</p>
+</div>
+<h4 id="a-note-regarding-your-development-environment" class="discrete">A note regarding your development environment</h4>
+<div class="paragraph">
+<p>Consider using Visual Studio Code, which provides native support for developing applications with the <a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack">Graal Development Kit for Micronaut Extension Pack</a>.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: If you use IntelliJ IDEA, <a href="/gdk/resources/img/annotationprocessorsintellij.png">enable annotation processing</a>.</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Windows platform: The GDK guides are compatible with Gradle only. Maven support is coming soon.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-the-application">1. Create the Application</h2>
+<div class="sectionbody">
+<p>Create an application using the GDK Launcher.</p>
+<ol>
+    <li>
+        <p>Open the <a href="https://graal.cloud/gdk/launcher/?advanced=true" target="_blank">GDK Launcher in advanced mode</a>.</p>
+    </li>
+    <li>Create a new project using the following selections.
+        <ul>
+            <li><strong>Project Type</strong>: <em>Application</em> (Default)</li>
+            <li><strong>Project Name</strong>: <em>oci-db-demo</em></li>
+            <li><strong>Base Package</strong>: <em>com.example</em> (Default)</li>
+            <li><strong>Clouds</strong>: <em>OCI</em></li>
+            <li><strong>Build Tool</strong>: <em>Gradle (Groovy)</em> or <em>Maven</em></li>
+            <li><strong>Language</strong>: <em>Java</em> (Default)</li>
+            <li><strong>Test Framework</strong>: <em>JUnit</em> (Default)</li>
+            <li><strong>Java Version</strong>: <em>17</em> (Default)</li>
+            <li><strong>Micronaut Version</strong>: (Default)</li>
+            <li><strong>Cloud Services</strong>: <em>Database</em></li>
+            <li><strong>Features</strong>: <em>GraalVM Native Image</em>, <em>MySQL</em></li>
+            <li><strong>Sample Code</strong>: <em>Yes</em> (Default)</li>
+        </ul>
+    </li>
+    <li>Click <strong>Generate Project</strong>, then click <strong>Download Zip</strong>. The GDK Launcher creates an application with the package <code>com.example</code> in a directory named <em>oci-db-demo</em>. The application ZIP file will be downloaded to your default downloads directory. Unzip it, open it in your code editor, and proceed to the next steps.</li>
+</ol>
+<div class="paragraph">
+<p>Alternatively, use the  <a href="/gdk/get-started/using-gdk-cli/">GDK CLI</a> as follows:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">gdk create-app com.example.oci-db-demo \
+ --clouds=oci \
+ --services=database \
+ --features=graalvm,mysql \
+ --build=gradle \
+ --jdk=17  \
+ --lang=java</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">gdk create-app com.example.oci-db-demo \
+ --clouds=oci \
+ --services=database \
+ --features=graalvm,mysql \
+ --build=maven \
+ --jdk=17  \
+ --lang=java</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>Open the <em>micronaut-cli.yml</em> file, you can see what features are packaged with the application:</p>
+</div>
+<pre><code class="language-bash hljs" data-highlighted="yes">features: [app-name, data, data-jdbc, flyway, gdk-bom, gdk-license, gdk-oci-cloud-app, gdk-oci-database, graalvm, http-client, java, java-application, jdbc-hikari, junit, logback, maven, maven-enforcer-plugin, micronaut-http-validation, mysql, netty-server, properties, readme, serialization-jackson, shade, static-resources, test-resources, validation]</code><button>Copy</button></pre>
+<div class="paragraph">
+<p>The GDK Launcher creates a multi-module project with two subprojects: <strong>oci</strong> for Oracle Cloud, and <strong>lib</strong> for common code and configuration shared across cloud platforms.
+You develop the application logic in the <strong>lib</strong> subproject, and keep the
+Oracle Cloud-specific configurations in the <strong>oci</strong> subproject.</p>
+</div>
+<div class="paragraph">
+<p>If you enable sample code generation, the GDK Launcher creates the main controller, repository interface, entity, service classes, and tests for you.
+Consider checking <a href="/gdk/gdk-modules/database/micronaut-data-jdbc-repository/">this guide</a> where each sample class is closely examined.</p>
+</div>
+<div class="sect2">
+<h3 id="configure-datasources">1.1. Configure Datasources</h3>
+<div class="paragraph">
+<p>The GDK Launcher included <a href="http://www.flywaydb.org">Flyway</a> for database migrations.
+It uses the <a href="https://micronaut-projects.github.io/micronaut-flyway/latest/guide/">Micronaut integration with Flyway</a> that automates schema changes, significantly simplifies schema management tasks, such as migrating, rolling back, and reproducing in multiple environments.
+The GDK Launcher enables Flyway in the <em>oci/src/main/resources/application.properties</em> file and configures it to perform migrations on the default datasources.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">flyway.datasources.default.enabled=true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you specified Flyway as a project feature in the GDK Launcher the build file includes it as a dependency:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <p>oci/build.gradle</p>
+<pre><code class="language-bash hljs" data-highlighted="yes">implementation("io.micronaut.flyway:micronaut-flyway")
+runtimeOnly("org.flywaydb:flyway-mysql")
+</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <p>oci/pom.xml</p>
+<pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.micronaut.flyway<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>micronaut-flyway<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>compile<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.flywaydb<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>flyway-mysql<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: Flyway migrations require full control over schema management.
+By default, the project does not generate schema automatically in <em>oci/src/main/resources/application.properties</em>.
+If you manually configure <code>datasources.default.schema-generate=CREATE_DROP</code> set it to <code>NONE</code> to ensure that only Flyway manages your schema.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Configuring multiple datasources is as simple as enabling Flyway for each one.
+You can also specify directories that will be used for migrating each datasource.
+For more information, see <a href="https://micronaut-projects.github.io/micronaut-flyway/latest/guide/">Micronaut integration with Flyway</a>.</p>
+</div>
+<div class="paragraph">
+<p>Flyway migration is automatically triggered before your application starts.
+Flyway reads migration file(s) in the <em>lib/src/main/resources/db/migration/</em> directory.
+The migration file with the database schema, <em>lib/src/main/resources/db/migration/V1__schema.sql</em>, was also created for you by the GDK Launcher.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">DROP TABLE IF EXISTS genre;
+
+CREATE TABLE genre (
+   id    BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   name  VARCHAR(255) NOT NULL UNIQUE
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>During application startup, Flyway runs the commands in the SQL file and creates the schema needed for the application.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-an-oracle-mysql-db-system">2. Create an Oracle MySQL DB System</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You will create your Oracle <a href="https://docs.oracle.com/iaas/mysql-database/doc/db-system.html">MySQL DB System</a> using the Oracle Cloud Infrastructure CLI. See the <a href="https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/mysql.html">MySQL Database Service CLI reference</a> for more information.</p>
+</div>
+<div class="paragraph">
+<p>According to the documentation, the <a href="https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/mysql/db-system/create.html"><code>create</code></a> command requires three parameters: compartment OCID, shape name, and subnet OCID. However, to reduce the number of commands, three more parameters are needed: the DB system configuration OCID, the availability domain, the database initial size, admin username, and password.</p>
+</div>
+<div class="sect2">
+<h3 id="compartment-ocid">2.1. Compartment OCID</h3>
+<div class="paragraph">
+<p>Find the <a href="https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/iam/compartment/list.html">OCID of the compartment</a> where you will deploy the MySQL DB System. It is expected that you have already created a compartment in Oracle Cloud Infrastructure (see the <a href="#prerequisites">Prerequisites</a> ).</p>
+</div>
+<div class="paragraph">
+<p>Run the following command to list all the compartments in the root:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci iam compartment list</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Find the required compartment by its name or description in the JSON output. It should look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "compartment-id": "ocid1.tenancy.oc1..aaaaaaaaud4g4e5ovjaw...",
+  "defined-tags": {},
+  "description": "Your Compartment Name",
+  "freeform-tags": {},
+  "id": "ocid1.compartment.oc1..aaaaaaaarkh3s2wcxbbm...",
+  "inactive-status": null,
+  "is-accessible": null,
+  "lifecycle-state": "ACTIVE",
+  "name": "compartment-name",
+  "time-created": "2021-05-02T23:54:28.392000+00:00"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The OCID is the value of the <code>id</code> property; the <code>compartment-id</code> property is the parent compartment.</p>
+</div>
+<div class="paragraph">
+<p>For convenience, save the compartment OCID as an environment variable:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+    <div data-value="linux" data-label="Linux &amp; macOS" id="linux" aria-labelledby="ui-id-11" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">export</span> C=<span class="hljs-string">ocid1.compartment.oc1.aaaaaaaarkh3s2wcxbbm...</span>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> C=<span class="hljs-string">ocid1.compartment.oc1.aaaaaaaarkh3s2wcxbbm...</span>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> C=<span class="hljs-string">ocid1.compartment.oc1.aaaaaaaarkh3s2wcxbbm...</span>
+</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>In the examples below we use the Linux/macOS syntax for environment variables (for example, <code>-c $C</code>). If you use Windows <code>cmd</code>, change those to <code>-c %C%</code> (but no change needed if using PowerShell).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="database-shape-name">2.2. Database Shape Name</h3>
+<div class="paragraph">
+<p>Find the <a href="https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/mysql/shape/list.html">shape name</a> for the MySQL DB System. Run this command to list the available shapes in your compartment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci mysql shape list -c $C</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use the smallest size and shape (8 GB, 1 CPU):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "cpu-core-count": 1,
+  "is-supported-for": [
+    "DBSYSTEM"
+  ],
+  "memory-size-in-gbs": 8,
+  "name": "MySQL.VM.Standard.E3.1.8GB"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="database-system-configuration-ocid">2.3. Database System Configuration OCID</h3>
+<div class="paragraph">
+<p>Find the <a href="https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/mysql/configuration/list.html">OCID of the configuration</a> for the MySQL DB System. Run this command to list the available configurations in your compartment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci mysql configuration list -c $C</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use the <code>id</code> of the smallest configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "compartment-id": null,
+  "defined-tags": null,
+  "description": "Default Standalone configuration for the MySQL.VM.Standard.E3.1.8GB MySQL Shape",
+  "display-name": "MySQL.VM.Standard.E3.1.8GB.Standalone",
+  "freeform-tags": null,
+  "id": "ocid1.mysqlconfiguration.oc1..aaaaaaaalwzc2a22xqm5...",
+  "lifecycle-state": "ACTIVE",
+  "shape-name": "MySQL.VM.Standard.E3.1.8GB",
+  "time-created": "2018-09-21T10:00:00+00:00",
+  "time-updated": null,
+  "type": "DEFAULT"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="subnet-ocid">2.4. Subnet OCID</h3>
+<div class="paragraph">
+<p>To find the subnet OCID, first find the <a href="https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/network/vcn/list.html">OCID of the VCN</a>. It is expected that you have already created a Virtual Cloud Network (VCN) in Oracle Cloud Infrastructure with a single regional <strong>public</strong> subnet (see the  <a href="#prerequisites">Prerequisites</a>).</p>
+</div>
+<div class="paragraph">
+<p>Run this command to list the available VCNs in your compartment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci network vcn list -c $C</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use the <code>id</code> of the required VCN:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "cidr-block": "10.0.0.0/16",
+  "cidr-blocks": [
+    "10.0.0.0/16"
+  ],
+  "compartment-id": "ocid1.compartment.oc1.aaaaaaaarkh3s2wcxbbm...",
+  "default-dhcp-options-id": "ocid1.dhcpoptions.oc1.iad.aaaaaaaahosh4fpep4jz...",
+  "default-route-table-id": "ocid1.routetable.oc1.iad.aaaaaaaaet7wmwm27vzc...",
+  "default-security-list-id": "ocid1.securitylist.oc1.iad.aaaaaaaadlkscc7uktdd...",
+  "defined-tags": {},
+  "display-name": "vcn-20210504-1214",
+  "dns-label": "vcn05041217",
+  "freeform-tags": {},
+  "id": "ocid1.vcn.oc1.iad.amaaaaaabnqp5kqam6cm...",
+  "ipv6-cidr-blocks": null,
+  "lifecycle-state": "AVAILABLE",
+  "time-created": "2021-05-04T16:17:08.461000+00:00",
+  "vcn-domain-name": "vcn05041217.oraclevcn.com"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then use the VCN OCID to find the <a href="https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/network/subnet/list.html">OCID of the subnet</a>. Run this command to list the subnets in your VCN:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci network subnet list -c $C \
+    --vcn-id ocid1.vcn.oc1.iad.amaaaaaabnqp5kqam6cm...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use the <code>id</code> of the required subnet:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  ...
+  "cidr-block": "10.0.0.0/24",
+  "compartment-id": "ocid1.compartment.oc1..aaaaaaaarkh3s2wcxbbm...",
+  "display-name": "subnet-20210504-1214",
+  "id": "ocid1.subnet.oc1.iad.aaaaaaaaxgumfzpn6sul...",
+  "time-created": "2021-05-04T16:17:10.593000+00:00",
+  "vcn-id": "ocid1.vcn.oc1.iad.amaaaaaabnqp5kqam6cm...",
+  ...
+  "security-list-ids": [
+    "ocid1.securitylist.oc1.iad.aaaaaaaadlkscc7uktdd..."
+  ],
+  ...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Save the OCID of the subnet in the response&mdash;you will need it in a later step.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="availability-domain">2.5. Availability Domain</h3>
+<div class="paragraph">
+<p>Find the <a href="https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/iam/availability-domain/list.html">availability domain</a> where the MySQL DB System will be created. Run this command to list the availability domains in your compartment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci iam availability-domain list -c $C</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use the <code>name</code> of the availability domain you want:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "compartment-id": "ocid1.compartment.oc1..aaaaaaaarkh3s2wcxbbm...",
+  "id": "ocid1.availabilitydomain.oc1..aaaaaaaauvt2n7pijol7...",
+  "name": "nFuS:US-ASHBURN-AD-1"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-a-mysql-db-system">2.6. Create a MySQL DB System</h3>
+<div class="paragraph">
+<p>The last required parameters are the admin username and password.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: The username must be 1-32 characters, and it must not contain <code>'</code>, <code> ` </code>, <code>"</code>, or any of the following reserved names: <code>ocirpl</code>, <code>ociadmin</code>, <code>administrator</code>, <code>mysql.sys</code>, <code>mysql.session</code>, or <code>mysql.infoschema</code>. The password must be 8-32 characters and contain at least one uppercase, one lowercase, one numeric, and one special character.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Additionally, specify the display name (because the generated name will be something like <code>mysqldbsystem20220203163902</code>). Choose a name such as "GDK\_Guide\_MySQL".
+Also specify the initial database size; it must be at least 50 GB.</p>
+</div>
+<div class="paragraph">
+<p>Run the <code>create</code> command with your OCIDs and other parameters substituted:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci mysql db-system create -c $C \
+    --shape-name MySQL.VM.Standard.E3.1.8GB \
+    --configuration-id ocid1.mysqlconfiguration.oc1..aaaaaaaalwzc2a22xqm5... \
+    --subnet-id ocid1.subnet.oc1.iad.aaaaaaaaxgumfzpn6sul... \
+    --admin-username &lt;your username&gt; \
+    --admin-password &lt;your password&gt; \
+    --availability-domain nFuS:US-ASHBURN-AD-1 \
+    --data-storage-size-in-gbs 50 \
+    --display-name GDK_Guide_MySQL</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response should look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "data": {
+    "analytics-cluster": null,
+    "availability-domain": "nFuS:US-ASHBURN-AD-1",
+    "backup-policy": {
+      "defined-tags": null,
+      "freeform-tags": null,
+      "is-enabled": true,
+      "retention-in-days": 7,
+      "window-start-time": "07:11"
+    },
+    "channels": [],
+    "compartment-id": "ocid1.compartment.oc1..aaaaaaaarkh3s2wcxbbm...",
+    "configuration-id": "ocid1.mysqlconfiguration.oc1..aaaaaaaalwzc2a22xqm5...",
+    "current-placement": {
+      "availability-domain": null,
+      "fault-domain": null
+    },
+    "data-storage-size-in-gbs": 50,
+    "defined-tags": {},
+    "description": null,
+    "display-name": "GDK_Guide_MySQL",
+    "endpoints": [],
+    "fault-domain": null,
+    "freeform-tags": {},
+    "heat-wave-cluster": null,
+    "hostname-label": null,
+    "id": "ocid1.mysqldbsystem.oc1.iad.aaaaaaaa2pq3a37hftut...",
+    "ip-address": null,
+    "is-analytics-cluster-attached": false,
+    "is-heat-wave-cluster-attached": false,
+    "is-highly-available": false,
+    "lifecycle-details": null,
+    "lifecycle-state": "CREATING",
+    "maintenance": {
+      "window-start-time": "WEDNESDAY 07:09"
+    },
+    "mysql-version": null,
+    "port": null,
+    "port-x": null,
+    "shape-name": "MySQL.VM.Standard.E3.1.8GB",
+    "source": null,
+    "subnet-id": "ocid1.subnet.oc1.iad.aaaaaaaaxgumfzpn6sul...",
+    "time-created": "2022-02-03T16:39:02.762000+00:00",
+    "time-updated": "2022-02-03T16:39:02.762000+00:00"
+  },
+  "etag": "0dea57803672c12742f7710f342bf...",
+  "opc-work-request-id": "ocid1.mysqlworkrequest.oc1.iad.eb66e373-7274-40a..."
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the value for <code>lifecycle-state</code> is <code>CREATING</code>, so not all information is available at this stage (for example, IP address).
+Save the database OCID from the <code>id</code> property in the response.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="retrieve-information-describing-the-mysql-db-system">2.7. Retrieve Information Describing the MySQL DB System</h3>
+<div class="paragraph">
+<p>Wait for the MySQL DB System to be provisioned, then run the <a href="https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/mysql/db-system/get.html">get</a> command with the OCID  of the MySQL DB System as the argument to the <code>--db-system-id</code> option:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci mysql db-system get \
+    --db-system-id ocid1.mysqldbsystem.oc1.iad.aaaaaaaa2pq3a37hftut...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When the <code>lifecycle-state</code> is <code>ACTIVE</code>, make note of <code>ip-address</code> and <code>port</code> (the latter should default to 3306):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"ip-address": "10.0.0.6",
+"lifecycle-state": "ACTIVE",
+"port": 3306,
+"port-x": 33060</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-an-ingress-rule">2.8. Create an Ingress Rule</h3>
+<div class="paragraph">
+<p>To allow your application to connect to the MySQL DB System, <a href="https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/network/security-list/update.html">create an ingress rule</a> for port 3306 in the subnet.</p>
+</div>
+<div class="paragraph">
+<p>Use the OCID of the security list you will update (that you saved earlier when finding the subnet OCID) to retrieve the current state:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci network security-list get --security-list-id ocid1.securitylist.oc1.iad.aaaaaaaadlkscc7uktdd...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output should look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">...
+"id": "ocid1.securitylist.oc1.iad.aaaaaaaadlkscc7uktdd...",
+"ingress-security-rules": [
+  {
+    "description": null,
+    "icmp-options": null,
+    "is-stateless": false,
+    "protocol": "6",
+    "source": "0.0.0.0/0",
+    "source-type": "CIDR_BLOCK",
+    "tcp-options": {
+      "destination-port-range": {
+        "max": 22,
+        "min": 22
+      },
+      "source-port-range": null
+    },
+    "udp-options": null
+  },
+  ...
+],
+"lifecycle-state": "AVAILABLE",
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>update</code> command replaces the existing rules with the those specified in the command, so the command must include the existing rules and a new one for port 3306.</p>
+</div>
+<div class="paragraph">
+<p>Use a text editor to save the JSON list value of <code>ingress-security-rules</code> to a file, for example <em>ingress.json</em>.
+Add a new object to the JSON list for the ingress rule on port 3306:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "description": "MySQL",
+  "isStateless": false,
+  "protocol": "6",
+  "source": "10.0.0.0/16",
+  "sourceType": "CIDR_BLOCK",
+  "tcpOptions": {
+    "destination-port-range": {
+      "max": 3306,
+      "min": 3306
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The final contents of <em>ingress.json</em> should look like this (it will have different rules, but will likely include one for SSH on port 22 and ICMP):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">[
+  {
+    "description": null,
+    "icmp-options": null,
+    "is-stateless": false,
+    "protocol": "6",
+    "source": "0.0.0.0/0",
+    "source-type": "CIDR_BLOCK",
+    "tcp-options": {
+      "destination-port-range": {
+        "max": 22,
+        "min": 22
+      },
+      "source-port-range": null
+    },
+    "udp-options": null
+  },
+  {
+    "description": null,
+    "icmp-options": {
+      "code": 4,
+      "type": 3
+    },
+    "is-stateless": false,
+    "protocol": "1",
+    "source": "0.0.0.0/0",
+    "source-type": "CIDR_BLOCK",
+    "tcp-options": null,
+    "udp-options": null
+  },
+
+  ...
+
+  {
+    "description": "MySQL",
+    "isStateless": false,
+    "protocol": "6",
+    "source": "10.0.0.0/16",
+    "sourceType": "CIDR_BLOCK",
+    "tcpOptions": {
+      "destination-port-range": {
+        "max": 3306,
+        "min": 3306
+      }
+    }
+  }
+]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run this command to add a new ingress rule:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci network security-list update \
+    --security-list-id ocid1.securitylist.oc1.iad.aaaaaaaadlkscc7uktdd... \
+    --ingress-security-rules file://ingress.json</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-a-compute-instance">3. Create a Compute Instance</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There is no direct way to externally <a href="https://docs.oracle.com/iaas/mysql-database/doc/connecting-db-system.html">connect to a MySQL database</a>, so you need to create a Compute instance in Oracle Cloud Infrastructure to host your application.
+Later, you will install a MySQL client on that Compute instance and connect your application to the MySQL DB System.</p>
+</div>
+<div class="paragraph">
+<p>The Compute service comes as part of <strong>Always Free Eligible</strong> Oracle Cloud Infrastructure services (you do not need a paid account).</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the Oracle Cloud console, open the navigation menu. Go to <strong>Compute</strong>, then <strong>Instances</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Create instance</strong>. You are prompted to enter information to describe a new Compute instance. Enter the following information:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha">
+<li>
+<p><strong>Name</strong>: Enter "gdk-demo".</p>
+</li>
+<li>
+<p><strong>Create in compartment</strong>: Select the compartment from the compartment drop-down list, or use the default.</p>
+</li>
+<li>
+<p><strong>Placement</strong>: Use the default.</p>
+</li>
+<li>
+<p><strong>Image and shape</strong>: Use the default.</p>
+</li>
+<li>
+<p><strong>Networking</strong>: Make sure to use the same subnet as the one where you created the MySQL database, otherwise the application will not be able to access the database. Your MySQL database private IP is used to connect the MySQL client.</p>
+</li>
+<li>
+<p><strong>Add SSH keys</strong>: Select "Generate a key pair for me", then click <strong>Save private key</strong> to save the private key locally in a file named <em>ssh-key-(date).key</em>.</p>
+</li>
+<li>
+<p><strong>Boot Volume</strong>: Use the default.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Click <strong>Create</strong>.</p>
+</li>
+<li>
+<p>When the instance is active, take note of the <strong>Public IP address</strong> and <strong>Private IP address</strong> displayed in the <strong>Instance information</strong> tab (click <strong>Copy</strong>).</p>
+</li>
+<li>
+<p>Click <strong>Subnet</strong>, under "Primary VNIC" in the <strong>Instance Information</strong> tab.</p>
+</li>
+<li>
+<p>Click <strong>Default Security List ..</strong>, under <strong>Security Lists</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Add Ingress Rules</strong>, under <strong>Ingress Rules</strong>. Enter the following information:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha">
+<li>
+<p><strong>Source CIDR</strong>: Enter "0.0.0.0/0"</p>
+</li>
+<li>
+<p><strong>Destination Port Range</strong>: Enter "8080"</p>
+</li>
+<li>
+<p><strong>Description</strong>: Enter "micronaut"</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Click <strong>Add Ingress Rules</strong>.</p>
+</li>
+<li>
+<p>Connect to your newly created Compute instance, using the instance&#8217;s <strong>Public IP address</strong>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">ssh -i /path/to/ssh-key-(date).key opc@&lt;COMPUTE_INSTANCE_PUBLIC_IP&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For more information, see <a href="https://docs.oracle.com/iaas/Content/GSG/Tasks/testingconnection.htm#connecting">Connecting to Your Linux Instance Using SSH</a>.</p>
+</div>
+</li>
+<li>
+<p>Once connected, install Oracle GraalVM for JDK 17 (it will be required at a later step).</p>
+<div class="paragraph">
+<p>On Oracle Linux 8 and 9, run these commands one by one:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo dnf update -y oraclelinux-release-el8
+sudo dnf config-manager --set-enabled ol8_codeready_builder
+sudo dnf install graalvm-17-native-image</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Confirm that the installed package size is correct by entering "yes" at the prompt.</p>
+</div>
+<div class="paragraph">
+<p>On Oracle Linux 7.9, run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo yum -y install oracle-softwarecollection-release-el7
+sudo yum install devtoolset-10
+echo 'source scl_source enable devtoolset-10' &gt;&gt; ~/.bashrc
+sudo yum install graalvm-17-native-image</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Open up the firewall to port 8080:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
+sudo firewall-cmd --reload</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Now you have a ready-to-go Compute instance with the Java runtime. For more information, see the <a href="https://docs.oracle.com/en/graalvm/jdk/17/docs/getting-started/oci/compute-instance/#oracle-graalvm-on-oci-compute-instances-with-oracle-linux">Oracle GraalVM on OCI Compute Instances with Oracle Linux</a> guide.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configure-a-mysql-database">4. Configure a MySQL Database</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now connect your application to the MySQL DB System.
+Flyway will create the database tables the first time the application starts, but you must create the database and a database user first.</p>
+</div>
+<div class="sect2">
+<h3 id="mysql-client">4.1. MySQL Client</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Install the MySQL client. From the terminal connected to your Compute instance, run:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo yum install mysql</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Connect to the MySQL client with admin username and password you chose earlier, and your MySQL DB System private IP address:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mysql --host &lt;MySQL_PRIVATE_IP&gt; -u &lt;admin_username&gt; -p</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Where <code>&lt;MySQL_PRIVATE_IP&gt;</code> is the <strong>private IP address</strong> of your Oracle Cloud Infrastructure MySQL DB System.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Once connected, you are taken to the MySQL database command prompt.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-a-database-and-user">4.2. Create a Database and User</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>From the MySQL database command prompt, create the database (use any valid database name, for example, <code>gdkDB</code>):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">CREATE DATABASE gdkDB;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create a database user (use any valid MySQL username, for example, <code>guide_user</code>, and a valid password):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">CREATE USER 'guide_user'@'&lt;COMPUTE_INSTANCE_PRIVATE_IP&gt;' IDENTIFIED BY '&lt;user password&gt;';</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Where <code>&lt;COMPUTE_INSTANCE_PRIVATE_IP&gt;</code> is the <strong>private IP address</strong> of your Compute instance as noted earlier.</p>
+</div>
+</li>
+<li>
+<p>Grant access to the database for the new user:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">GRANT ALL ON gdkDB.* TO 'guide_user'@'&lt;COMPUTE_INSTANCE_PRIVATE_IP&gt;';</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Exit the MySQL command prompt by entering "exit".</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-the-application">5. Run the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>With almost everything in place, you can compile and <strong>run the application from a JAR file</strong>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create an executable JAR file that includes all dependencies:</p>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :oci:shadowJar</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am; ./mvnw package -pl oci -DskipTests</code><button>Copy</button></pre>
+    </div>
+</div>
+</li>
+<li>
+<p>From a local terminal, copy the JAR file from your computer to the Compute instance using <code>scp</code>:</p>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">scp -i /path/to/ssh-key-*.key path/to/oci-db-demo/oci/build/libs/oci-1.0-SNAPSHOT-all.jar opc@COMPUTE_INSTANCE_PUBLIC_IP:~/application.jar</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">scp -i /path/to/ssh-key-*.key path/to/oci-db-demo/oci/target/oci-1.0-SNAPSHOT.jar opc@COMPUTE_INSTANCE_PUBLIC_IP:~/application.jar</code><button>Copy</button></pre>
+    </div>
+</div>
+</li>
+<li>
+<p>Once copied, connect to the Compute instance (if it has disconnected by now):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">ssh -i /path/to/ssh-key-*.key opc@COMPUTE_INSTANCE_PUBLIC_IP</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Set values for the missing <code>datasources.default.url</code>, <code>datasources.default.username</code>, and <code>datasources.default.password</code> properties by exporting them as environment variables as follows:</p>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+    <div data-value="linux" data-label="Linux &amp; macOS" id="linux" aria-labelledby="ui-id-11" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">export</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://$MYSQL_DB_SYSTEM_PRIVATE_IP:3306/db_name </span><i class="conum" data-value="1"></i><b>(1)</b>
+<span class="hljs-built_in">export</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">&lt;username&gt; </span><i class="conum" data-value="2"></i><b>(2)</b>
+<span class="hljs-built_in">export</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">&lt;password&gt; </span><i class="conum" data-value="3"></i><b>(3)</b>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://$MYSQL_DB_SYSTEM_PRIVATE_IP:3306/db_name </span><i class="conum" data-value="1"/></i><b>(1)</b>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">&lt;username&gt; </span><i class="conum" data-value="2"/></i><b>(2)</b>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">&lt;password&gt; </span><i class="conum" data-value="3"/></i><b>(3)</b>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://$MYSQL_DB_SYSTEM_PRIVATE_IP:3306/db_name </span><i class="conum" data-value="1"/></i><b>(1)</b>
+<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">&lt;username&gt; </span><i class="conum" data-value="2"/></i><b>(2)</b>
+<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">&lt;password&gt; </span><i class="conum" data-value="3"/></i><b>(3)</b>
+</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> Set the value of the <code>datasources.default.url</code> property as the private IP address of MySQL DB System (<code>ip-address</code> from section <strong>2.7</strong>) combined with the name of the database, for example, <code>gdkDB</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> Set the value of the <code>datasources.default.username</code> property as the username of the user you created, for example, <code>guide_user</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> Set the value of the <code>datasources.default.password</code> property as the password of the user you created.</p>
+</div>
+</li>
+<li>
+<p>Start the application:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">java -jar application.jar</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>From a local terminal, run this command to test creating and storing a new <code>Genre</code> in the database:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X "POST" "http://[COMPUTE_INSTANCE_PUBLIC_IP]:8080/genres" \
+-H 'Content-Type: application/json; charset=utf-8' \
+-d $'{ "name": "music" }'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then list the genres:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl [COMPUTE_INSTANCE_PUBLIC_IP]:8080/genres/list</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This server application presents REST endpoints and stores data in the Oracle MySQL database.
+Next, you can package this application as a native executable. Deploying as a native executable does not require a JDK to run, so you can copy it to another Linux host and run easily.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="generate-a-native-executable-using-graalvm">6. Generate a Native Executable Using GraalVM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The GDK supports compiling Java applications ahead-of-time into native executables using <a href="https://www.graalvm.org/">GraalVM Native Image</a>.
+You can use the <em><a href="https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html">Gradle plugin for GraalVM Native Image building</a></em>/<em><a href="https://graalvm.github.io/native-build-tools/latest/maven-plugin.html">Maven plugin for GraalVM Native Image building</a></em>.
+Packaged as a native executable, it significantly reduces application startup time and memory footprint.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p><strong>Prerequisites</strong>: Make sure you have installed a GraalVM JDK. The easiest way to get started is with <a href="https://sdkman.io/jdks#graal">SDKMAN!</a>. For other installation options, visit the <a href="https://www.graalvm.org/downloads/">Downloads section</a>.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>If you build a native executable locally, it will only run on your OS, but isn&#8217;t suitable for deployment to a Compute instance. To create deployable native executables, we&#8217;ll use a different packaging command that builds the executable inside a container, which we&#8217;ll extract from the container to deploy to the cloud.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>From a local terminal, generate a native executable by running the following command:</p>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :oci:dockerBuildNative</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am; ./mvnw clean package -pl oci -Dpackaging=docker-native</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>You can customize the name of the resulting binary by <a href="https://graalvm.github.io/native-build-tools/latest/">updating the Maven/Gradle plugin for GraalVM Native Image configuration</a>.</p>
+</div>
+</li>
+<li>
+<p>Find the container image ID that you&#8217;ll use to extract the native executable from the container image you built by running:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker image ls</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The container images are listed chronologically with the most recent at the top, so your output will look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">REPOSITORY   TAG      IMAGE ID       CREATED          SIZE
+oci          latest   41c8a902b2e7   32 seconds ago   100MB</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Extract the native executable by running these commands, replacing <code>&lt;image_id&gt;</code> with the container image ID, for example, <code>41c8a902b2e7</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker create --name container_temp &lt;image_id&gt;
+docker cp container_temp:/app/application .
+docker rm container_temp</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="deploy-from-a-native-executable">7. Deploy from a Native Executable</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>From a local terminal, copy the native executable from your computer to the Compute instance using <code>scp</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">scp -i /path/to/ssh-key-*.key application opc@COMPUTE_INSTANCE_PUBLIC_IP:~/</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Once copied, connect to the Compute instance (if it has disconnected by now):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">ssh -i /path/to/ssh-key-*.key opc@COMPUTE_INSTANCE_PUBLIC_IP</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Stop the application running from the JAR file if it&#8217;s still running.</p>
+</li>
+<li>
+<p>Run the application from the native executable:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./application</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>From a local terminal, run this command to test creating and storing a new <code>Genre</code> in the database:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X "POST" "http://[COMPUTE_INSTANCE_PUBLIC_IP]:8080/genres" \
+-H 'Content-Type: application/json; charset=utf-8' \
+-d $'{ "name": "music" }'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then list all genres:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl [COMPUTE_INSTANCE_PUBLIC_IP]:8080/genres/list</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As a reminder, you do not need to install a Java VM to run the application from a native executable. The native executable is a self-contained binary. Deploying from a native executable significantly reduces application startup time and memory footprint.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="clean-up-cloud-resources">8. Clean up Cloud Resources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you finish using the MySQL DB System, you can <a href="https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/mysql/db-system/delete.html">delete it using the CLI</a>. Run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci mysql db-system delete \
+    --db-system-id ocid1.mysqldbsystem.oc1.iad.aaaaaaaa2pq3a37hftut...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output should look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+"opc-work-request-id": "ocid1.mysqlworkrequest.oc1.iad.e68d5dc7-92be-45..."
+}</code></pre>
+</div>
+</div>
+<h3 id="summary" class="discrete">Summary</h3>
+<div class="paragraph">
+<p>This guide demonstrated how to use the GDK to create and connect a database application that stores data in an Oracle Cloud Infrastructure MySQL database using Micronaut Data. You also learned how to package this application into a native executable and deploy it from a virtual machine.</p>
+</div>
+<h3 id="related-documentation" class="discrete">Related Documentation</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/">Micronaut Data</a></p>
+</li>
+<li>
+<p><a href="https://docs.oracle.com/iaas/mysql-database/index.html">Oracle Cloud Infrastructure MySQL Database</a></p>
+</li>
+<li>
+<p><a href="https://graalvm.github.io/native-build-tools/latest/index.html">Native Build Tools</a></p>
+</li>
+<li>
+<p><a href="https://www.graalvm.org/native-image/">GraalVM Native Image</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div></div>
+                        <div role="button" class="menu-btn menu-btn--sidebar js-show-sidebar" title="sweet hamburger">
+                            <div class="hamburger">
+                                <div class="inner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+
+
+        </div>
+
+    </main>
+
+
+    <footer class="footer footer__mobile">
+
+        <div class="container-fluid container-fluid--custom-sm">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="row footer-content">
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">Learn</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/get-started/">Get Started</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/guides/">Guides</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/hands-on-labs/">Labs</a></li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/logo-github.svg" alt="Github icon">
+                                        <a href="https://github.com/oracle/graal-dev-kit" target="blank">Github</a>
+                                    </li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/slack-icon.svg" alt="Github icon">
+                                        <a href="https://bit.ly/odevrel_slack" target="blank">#graal-dev-kit-for-micronaut</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">About</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/about/#gdk-support" target="blank">Commercial Support</a></li>
+                                    <li class="footer-list__item"><a href="https://www.graalvm.org/" target="blank">GraalVM Native Image</a></li>
+                                    <li class="footer-list__item"><a href="https://micronaut.io/" target="_blank">Micronaut<sup>®</sup> Framework</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/multicloud/what-is-multicloud/" target="_blank">Multicloud</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/" target="blank">Oracle Cloud Infrastructure</a></li>
+                                    <li class="footer-list__item"><a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack" target="blank">VS Code Tools</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 aligning_1024">
+                            <div class="card--footer card--hovered box">
+                                <div>
+                                    <div class="rubber-footer footer__oci-section">
+                                        <p class="title-footer quickstart">Build, test, and deploy applications on Oracle Cloud Infrastructure for free</p>
+                                        <a href="https://www.oracle.com/cloud/free/" target="_blank" class="btn btn-primary">Try Oracle Cloud Infrastructure Free Tier</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="copyright">
+                                    Copyright © 2023, 2025, Oracle and/or its affiliates.
+                                    All rights reserved.
+                                    Oracle and Java are registered trademarks of Oracle and/or its affiliates.<br>
+                                    Micronaut<sup>®</sup> is a registered trademark of Object Computing, Inc.
+                                    Use is for referential purposes and does not imply any endorsement or affiliation with any third-party product.
+                                    Unauthorized use is strictly prohibited. Other names may be trademarks of their respective owners.
+                                </p>
+                                <div id="teconsent"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function fadeInAndOut(thz) {
+            var elmt = thz.nextElementSibling;//Get the element that is below the button that
+            //was just clicked
+            if (elmt.clientHeight) {
+                elmt.style.height = 0;
+            } else {
+                var wrapper = elmt.querySelector('ul');
+                elmt.style.height = wrapper.clientHeight + "px";
+            }
+            /*
+                elmt.classList.toggle("acordianPanelHidden");//Toggle the class which changes
+                //attributes which triggers the transition CSS
+                */
+        }
+
+        // Check TRUSTe Consent for Functional or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(2) != -1) ) {
+
+            //The following is a sample of a Maxymiser Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"><\/script>');
+        }
+
+        // Check TRUSTe Consent for Advertising or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(3) != -1) ) {
+
+            //The following is a sample of a BlueKai Core Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript">' +
+                'window.bk_async = function() { ' +
+                'BKTAG.doTag(62581, 1); }; ' +
+                '(function() { ' +
+                'var scripts = document.getElementsByTagName(\'script\')[0]; ' +
+                'var s = document.createElement(\'script\'); ' +
+                's.async = true; ' +
+                's.src = "https://tags.bkrtx.com/js/bk-coretag.js"; ' +
+                'scripts.parentNode.insertBefore(s, scripts); ' +
+                '}()); ' +
+                '<\/script>');
+        }
+    </script><script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"></script><script type="text/javascript">window.bk_async = function() { BKTAG.doTag(62581, 1); }; (function() { var scripts = document.getElementsByTagName('script')[0]; var s = document.createElement('script'); s.async = true; s.src = "https://tags.bkrtx.com/js/bk-coretag.js"; scripts.parentNode.insertBefore(s, scripts); }()); </script>
+
+</div>
+<div class="overlay"></div>
+
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<script src="https://graal.cloud/gdk/resources/lib/slick-slider/slick.min.js"></script>
+<script src='https://graal.cloud/gdk/resources/js/main.js'></script>
+<script src="https://graal.cloud/gdk/resources/js/ui.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/filters.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/sidebar.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/labs.js"></script>
+<!--<script>-->
+<!--    hljs.initHighlightingOnLoad();-->
+<!--</script>-->
+
+
+<iframe name="trustarc_notice" id="trustarcNoticeFrame" title="Trustarc Cross-Domain Consent Frame" src="https://consent.trustarc.com/get?name=crossdomain.html&amp;domain=oracle.com" style="display: none;"></iframe></body></html>
