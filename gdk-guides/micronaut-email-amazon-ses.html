@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -305,9 +312,6 @@
 <p>An Amazon Web Services (AWS) account. See <a href="/gdk/get-started/setting-up-cloud-accounts/">Setting up Your Cloud Accounts</a>.</p>
 </li>
 <li>
-<p>An AWS user with enough permissions to create and manage AWS S3 buckets.</p>
-</li>
-<li>
 <p>An Amazon SES sender identity. Create an identity at <a href="https://console.aws.amazon.com/ses/home">SES Console</a>.</p>
 </li>
 <li>
@@ -324,10 +328,10 @@
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_email_aws-email-demo-java-gradle.zip">Gradle AWS Email Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_email_aws-email-demo-java-gradle.zip">Gradle AWS Email Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_email_aws-email-demo-java-maven.zip">Maven AWS Email Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_email_aws-email-demo-java-maven.zip">Maven AWS Email Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -730,13 +734,13 @@ class MailControllerTest {
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> AWS_ACCESS_KEY_ID=<span class="hljs-string">xxx</span>
-<span class="hljs-built_in">set</span> AWS_SECRET_ACCESS_KEY=<span class="hljs-string">xxx</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> AWS_ACCESS_KEY_ID=<span>xxx</span>
+<span class="hljs-built_in">set</span> AWS_SECRET_ACCESS_KEY=<span>xxx</span>
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> AWS_ACCESS_KEY_ID=<span class="hljs-string">xxx</span>
-<span class="hljs-variable">$ENV:</span> AWS_SECRET_ACCESS_KEY=<span class="hljs-string">xxx</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span>AWS_ACCESS_KEY_ID=<span class="hljs-string">"xxx"</span>
+<span class="hljs-variable">$ENV:</span>AWS_SECRET_ACCESS_KEY=<span class="hljs-string">"xxx"</span>
 </code><button>Copy</button></pre>
     </div>
 </div>

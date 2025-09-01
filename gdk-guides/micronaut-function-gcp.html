@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -333,10 +340,10 @@ Similarly to Google Cloud Functions, the service provisions and manages servers 
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_serverless_gcp-serverless-demo-java-gradle.zip">Gradle GCP Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_serverless_gcp-serverless-demo-java-gradle.zip">Gradle GCP Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_serverless_gcp-serverless-demo-java-maven.zip">Maven GCP Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_serverless_gcp-serverless-demo-java-maven.zip">Maven GCP Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -663,13 +670,13 @@ class DefaultStorageService implements StorageService {
 </ol>
 </div>
 <div class="paragraph">
-<p>If you wish to implement a more advanced <code>StorageService</code> to be used instead of this one, annotate your implementation with <code>@Singleton</code> as shown above. Use the <code>@Requires(env = "gcp")</code> annotation to make it specific to AWS . Visit the <a href="/gdk/modules/#database">Database Module</a> for details about how to store and manipulate data in a database.</p>
+<p>If you wish to implement a more advanced <code>StorageService</code> to be used instead of this one, annotate your implementation with <code>@Singleton</code> as shown above. Use the <code>@Requires(env = "gcp")</code> annotation to make it specific to Google Cloud Platform. Visit the <a href="/gdk/modules/#database">Database Module</a> for details about how to store and manipulate data in a database.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="tests-to-verify-gateway-function-logic">1.4. Tests to Verify Gateway Function Logic</h3>
 <div class="paragraph">
-<p>The GDK Launcher created a test class for the controller in <em>gcp/src/test/java/com/example/StoreControllerTest.java</em>, as follows:</p>
+<p>Create a test class for the controller in <em>gcp/src/test/java/com/example/StoreControllerTest.java</em>, as follows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -821,14 +828,51 @@ class StoreControllerTest {
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="create-a-google-cloud-project">3.1. Create a Google Cloud Project</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Expose those values in command line or save it in <em>settings</em> file and run it</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export PROJECT_ID=&lt;ProjectId&gt;   <i class="conum" data-value="1"></i><b>(1)</b>
+export FUNCTION_NAME=&lt;FunctionName&gt;   <i class="conum" data-value="2"></i><b>(2)</b>
+export REGION=&lt;Region&gt;   <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">set PROJECT_ID=&lt;ProjectId&gt;     <i class="conum" data-value="1"></i><b>(1)</b>
+set FUNCTION_NAME=&lt;FunctionName&gt;     <i class="conum" data-value="2"></i><b>(2)</b>
+set REGION=&lt;Region&gt;     <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> Replace value with your project ID.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> Replace value with your function name.</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> Replace value with your GCP region.</p>
+</div>
 <div class="paragraph">
 <p>Create a project in GCP and switch to it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export PROJECT_ID=gdk-serverless-demo
-gcloud projects create $PROJECT_ID
-gcloud config set project $PROJECT_ID</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/projects/create" class="external" target="_blank" rel="noopener">gcloud projects create $PROJECT_ID</a>
+<a href="https://cloud.google.com/sdk/gcloud/reference/config/set" class="external" target="_blank" rel="noopener">gcloud config set project $PROJECT_ID</a></code></pre>
 </div>
 </div>
 <div class="quoteblock">
@@ -850,8 +894,9 @@ gcloud config set project $PROJECT_ID</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud services enable cloudbuild.googleapis.com
-gcloud services enable cloudfunctions.googleapis.com</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/services/enable" class="external" target="_blank" rel="noopener">gcloud services enable cloudbuild.googleapis.com</a>
+<a href="https://cloud.google.com/sdk/gcloud/reference/services/enable" class="external" target="_blank" rel="noopener">gcloud services enable cloudfunctions.googleapis.com</a>
+<a href="https://cloud.google.com/sdk/gcloud/reference/services/enable" class="external" target="_blank" rel="noopener">gcloud services enable run.googleapis.com</a></code></pre>
 </div>
 </div>
 </div>
@@ -875,7 +920,7 @@ gcloud services enable cloudfunctions.googleapis.com</code></pre>
 <p>The command should create the file gcp/build/libs/gcp-1.0-SNAPSHOT-all.jar. The JAR file is the only one in the directory, which is required for correct deployment.</p>
 </div>
 <div class="paragraph">
-<p>Create a function from the JAR file with the name <code>gdk-function:</code> set the entry point, the Java runtime version (select <code>java17</code> or <code>java21</code>), the trigger, and the source.</p>
+<p>Create a function from the JAR file with the name given in <code>$FUNCTION_NAME:</code> set the entry point, the Java runtime version (select <code>java17</code> or <code>java21</code>), the trigger, and the source.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -883,12 +928,14 @@ gcloud services enable cloudfunctions.googleapis.com</code></pre>
 <p>For JDK 17:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud functions deploy gdk-function \
-    --entry-point io.micronaut.gcp.function.http.HttpFunction \
-    --runtime java17 \
-    --trigger-http \
-    --source gcp/build/libs \
-    --allow-unauthenticated</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/functions/deploy" class="external" target="_blank" rel="noopener">gcloud functions deploy $FUNCTION_NAME \</a>
+        --region $REGION \
+        --gen2 \
+        --entry-point io.micronaut.gcp.function.http.HttpFunction \
+        --runtime java17 \
+        --trigger-http \
+        --source gcp/build/libs \
+        --allow-unauthenticated</code></pre>
 </div>
 </div>
 </li>
@@ -896,13 +943,14 @@ gcloud services enable cloudfunctions.googleapis.com</code></pre>
 <p>For JDK 21:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud functions deploy gdk-function \
-    --gen2 \
-    --entry-point io.micronaut.gcp.function.http.HttpFunction \
-    --runtime java21 \
-    --trigger-http \
-    --source gcp/build/libs \
-    --allow-unauthenticated</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/functions/deploy" class="external" target="_blank" rel="noopener">gcloud functions deploy $FUNCTION_NAME \</a>
+        --region $REGION \
+        --gen2 \
+        --entry-point io.micronaut.gcp.function.http.HttpFunction \
+        --runtime java21 \
+        --trigger-http \
+        --source gcp/build/libs \
+        --allow-unauthenticated</code></pre>
 </div>
 </div>
 </li>
@@ -928,7 +976,7 @@ mv gcp/target/gcp-1.0-SNAPSHOT.jar gcp/target/jar/gcp.jar</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Create a function from the JAR file with the name <code>gdk-function:</code> set the entry point, the Java runtime version (select <code>java17</code> or <code>java21</code>), the trigger, and the source.</p>
+<p>Create a function from the JAR file with the name given in the <code>$FUNCTION_NAME:</code> set the entry point, the Java runtime version (select <code>java17</code> or <code>java21</code>), the trigger, and the source.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -936,7 +984,9 @@ mv gcp/target/gcp-1.0-SNAPSHOT.jar gcp/target/jar/gcp.jar</code></pre>
 <p>For JDK 17:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud functions deploy gdk-function \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/functions/deploy" class="external" target="_blank" rel="noopener">gcloud functions deploy $FUNCTION_NAME \</a>
+    --region $REGION
+    --gen2 \
     --entry-point io.micronaut.gcp.function.http.HttpFunction \
     --runtime java17 \
     --trigger-http \
@@ -949,7 +999,8 @@ mv gcp/target/gcp-1.0-SNAPSHOT.jar gcp/target/jar/gcp.jar</code></pre>
 <p>For JDK 21:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud functions deploy gdk-function \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/functions/deploy" class="external" target="_blank" rel="noopener">gcloud functions deploy $FUNCTION_NAME \</a>
+    --region $REGION
     --gen2 \
     --entry-point io.micronaut.gcp.function.http.HttpFunction \
     --runtime java21 \
@@ -990,23 +1041,12 @@ Visit <a href="https://console.cloud.google.com/functions">Cloud Functions Conso
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Define an environment variable for your gateway URL. Note that the format for retrieving a URL differs depending if you are running on JDK 17 or JDK 21:</p>
-<div class="paragraph">
-<p>JDK 17:</p>
-</div>
+<p>Define an environment variable for your gateway URL.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export GATEWAY_URL=$(gcloud functions describe gdk-function \
---format='value(httpsTrigger.url)')</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>JDK 21:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export GATEWAY_URL=$(gcloud functions describe gdk-function \
---region=$REGION --format='value(uri)')</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/functions/describe" class="external" target="_blank" rel="noopener">export GATEWAY_URL=$(gcloud functions describe $FUNCTION_NAME \</a>
+      --region $REGION \
+      --format='value(url)')</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1195,7 +1235,7 @@ Status code: 200</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud auth configure-docker</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/auth/configure-docker" class="external" target="_blank" rel="noopener">gcloud auth configure-docker</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1213,7 +1253,7 @@ Status code: 200</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">tasks.named('dockerBuildNative') {
-    images = ["gcr.io/${System.getProperty("projectId")}/gdk-function:latest"]
+    images = ["gcr.io/${System.getProperty("projectId")}/$FUNCTION_NAME:latest"]
 }</code></pre>
 </div>
 </div>
@@ -1231,7 +1271,7 @@ Status code: 200</code></pre>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./mvnw install
 ./mvnw clean deploy -pl gcp \
-    -Djib.to.image=gcr.io/$PROJECT_ID/gdk-function:latest \
+    -Djib.to.image=gcr.io/$PROJECT_ID/$FUNCTION_NAME:latest \
     -Dpackaging=docker-native</code></pre>
 </div>
 </div>
@@ -1244,7 +1284,7 @@ Status code: 200</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push gcr.io/$PROJECT_ID/gdk-function:latest</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push gcr.io/$PROJECT_ID/$FUNCTION_NAME:latest</code></pre>
 </div>
 </div>
 </blockquote>
@@ -1257,9 +1297,9 @@ Status code: 200</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud services enable run.googleapis.com
-gcloud run deploy gdk-function \
-    --image=gcr.io/$PROJECT_ID/gdk-function:latest \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/run/deploy" class="external" target="_blank" rel="noopener">gcloud run deploy $FUNCTION_NAME \</a>
+    --region $REGION \
+    --image=gcr.io/$PROJECT_ID/$FUNCTION_NAME:gradle \
     --platform managed \
     --allow-unauthenticated</code></pre>
 </div>
@@ -1272,8 +1312,9 @@ gcloud run deploy gdk-function \
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export GATEWAY_URL=$(gcloud run services describe gdk-function \
-    --region [REGION] --format 'value(status.url)')</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/functions/describe" class="external" target="_blank" rel="noopener">export GATEWAY_URL=$(gcloud run services describe $FUNCTION_NAME \</a>
+        --region $REGION \
+        --format='value(status.address.url)')</code></pre>
 </div>
 </div>
 <div class="paragraph">

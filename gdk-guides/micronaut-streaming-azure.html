@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -267,7 +274,7 @@
 <li><a href="#create-azure-cloud-resources">3. Create Azure Cloud Resources</a></li>
 <li><a href="#configure-microservices">4. Configure Microservices</a></li>
 <li><a href="#run-the-microservices">5. Run the Microservices</a></li>
-<li><a href="#generate-a-native-executable-using-graalvm">6. Generate a Native Executable Using GraalVM</a></li>
+<li><a href="#generate-native-executables-using-graalvm">6. Generate Native Executables Using GraalVM</a></li>
 <li><a href="#clean-up-cloud-resources">7. Clean up Cloud Resources</a></li>
 </ul>
 </div>
@@ -322,10 +329,10 @@ Applications can stream data to Event Hubs using the Kafka protocol, making it e
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_streaming_azure-streaming-demo-java-gradle.zip">Gradle Azure Streaming Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_streaming_azure-streaming-demo-java-gradle.zip">Gradle Azure Streaming Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_streaming_azure-streaming-demo-java-maven.zip">Maven Azure Streaming Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_streaming_azure-streaming-demo-java-maven.zip">Maven Azure Streaming Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -1194,12 +1201,80 @@ kafka.enabled=true</code></pre>
 <div class="paragraph">
 <p>We recommend that you create a new <a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview#resource-groups">resource group</a> for this guide, but you can use an existing resource group instead.</p>
 </div>
-<div class="paragraph">
-<p>Run the <a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create">az group create</a> command to create a resource group named gdkguides in the eastus region:</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the following values on the command line or save them in a settings file, then run it:</p>
+</li>
+</ol>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az group create --location eastus --name gdkguides</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export LOCATION="&lt;Location&gt;"  <i class="conum" data-value="1"></i><b>(1)</b>
+export RESOURCE_GROUP_NAME="&lt;ResourceGroupName&gt;"  <i class="conum" data-value="2"></i><b>(2)</b>
+export AZURE_NAMESPACE_NAME="&lt;AzureNamespaceName&gt;"  <i class="conum" data-value="3"></i><b>(3)</b>
+export STREAM_TOPIC_NAME="&lt;StreamTopicName&gt;"  <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(1) Set your Azure Region.</p>
+</div>
+<div class="paragraph">
+<p>(2) Set a unique resource group name.</p>
+</div>
+<div class="paragraph">
+<p>(3) Set a unique Namespace name.</p>
+</div>
+<div class="paragraph">
+<p>(4) Set a unique Stream topic name.</p>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">set LOCATION="&lt;Location&gt;"    <i class="conum" data-value="1"></i><b>(1)</b>
+set RESOURCE_GROUP_NAME="&lt;ResourceGroupName&gt;"    <i class="conum" data-value="2"></i><b>(2)</b>
+set AZURE_NAMESPACE_NAME="&lt;AzureNamespaceName&gt;"  <i class="conum" data-value="3"></i><b>(3)</b>
+set STREAM_TOPIC_NAME="&lt;StreamTopicName&gt;"    <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(1) Set your Azure Region.</p>
+</div>
+<div class="paragraph">
+<p>(2) Set a unique resource group name.</p>
+</div>
+<div class="paragraph">
+<p>(3) Set a unique Namespace name.</p>
+</div>
+<div class="paragraph">
+<p>(4) Set a unique Stream topic name.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Then run the <a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create">az group create</a> command to create a resource group in your region:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create" class="external" target="_blank" rel="noopener">az group create --location $LOCATION --name $RESOURCE_GROUP_NAME</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create" class="external" target="_blank" rel="noopener">az group create --location %LOCATION% --name %RESOURCE_GROUP_NAME%</a></code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -1214,13 +1289,24 @@ kafka.enabled=true</code></pre>
 <div class="paragraph">
 <p>Run the <a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/namespace?view=azure-cli-latest#az-eventhubs-namespace-create">az eventhubs namespace create</a> command to create an Event Hubs Namespace:</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az eventhubs namespace create \
-   --name gdkStreaming \
-   --sku Standard \
-   --enable-kafka true \
-   --resource-group gdkguides</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/namespace?view=azure-cli-latest#az-eventhubs-namespace-create" class="external" target="_blank" rel="noopener">az eventhubs namespace create --name $AZURE_NAMESPACE_NAME --sku Standard \</a>
+   --enable-kafka true --resource-group $RESOURCE_GROUP_NAME</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/namespace?view=azure-cli-latest#az-eventhubs-namespace-create" class="external" target="_blank" rel="noopener">az eventhubs namespace create --name %AZURE_NAMESPACE_NAME% --sku Standard &#94;</a>
+        --enable-kafka true --resource-group %RESOURCE_GROUP_NAME%</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1232,42 +1318,55 @@ kafka.enabled=true</code></pre>
 <div class="paragraph">
 <p>Run the <a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/eventhub?view=azure-cli-latest#az-eventhubs-eventhub-create">az eventhubs eventhub create</a> command to create an Event Hub:</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az eventhubs eventhub create \
-   --name analytics \
-   --namespace-name gdkStreaming \
-   --resource-group gdkguides</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/eventhub?view=azure-cli-latest#az-eventhubs-eventhub-create" class="external" target="_blank" rel="noopener">az eventhubs eventhub create --name $STREAM_TOPIC_NAME \</a>
+   --namespace-name $AZURE_NAMESPACE_NAME --resource-group $RESOURCE_GROUP_NAME</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/eventhub?view=azure-cli-latest#az-eventhubs-eventhub-create" class="external" target="_blank" rel="noopener">az eventhubs eventhub create --name %STREAM_TOPIC_NAME% &#94;</a>
+        --namespace-name %AZURE_NAMESPACE_NAME% --resource-group %RESOURCE_GROUP_NAME%</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="retrieve-the-namespace-connection-string">3.4. Retrieve the Namespace Connection String</h3>
 <div class="paragraph">
-<p>Run the <a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/namespace/authorization-rule/keys?view=azure-cli-latest#az-eventhubs-namespace-authorization-rule-keys-list">az eventhubs namespace authorization-rule keys list</a> command to retrieve the Namespace connection string:</p>
+<p>Run the <a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/namespace/authorization-rule/keys?view=azure-cli-latest#az-eventhubs-namespace-authorization-rule-keys-list">az eventhubs namespace authorization-rule keys list</a> command to retrieve the Namespace connection string, and save the value of the <code><em>primaryConnectionString</em></code> attribute. This is your connection string, and it will be needed later.</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az eventhubs namespace authorization-rule keys list \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/namespace/authorization-rule/keys?view=azure-cli-latest#az-eventhubs-namespace-authorization-rule-keys-list" class="external" target="_blank" rel="noopener">export AZURE_EVENTHUB_CONNECTION_STRING=$(az eventhubs namespace authorization-rule keys list \</a>
    --name RootManageSharedAccessKey \
-   --namespace-name gdkStreaming \
-   --resource-group gdkguides</code></pre>
+   --namespace-name $AZURE_NAMESPACE_NAME \
+   --resource-group $RESOURCE_GROUP_NAME | jq -r '.primaryConnectionString')</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>The response should look like this:</p>
 </div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-   "keyName": "RootManageSharedAccessKey",
-   "primaryConnectionString": "Endpoint=sb://gdkstreaming.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=/w3z7RZ...",
-   ...
-}</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/namespace/authorization-rule/keys?view=azure-cli-latest#az-eventhubs-namespace-authorization-rule-keys-list" class="external" target="_blank" rel="noopener">az eventhubs namespace authorization-rule keys list &#94;</a>
+   --name RootManageSharedAccessKey --namespace-name %AZURE_NAMESPACE_NAME% ^
+   --resource-group %RESOURCE_GROUP_NAME% | jq -r &quot;.primaryConnectionString&quot; &gt; temp.txt
+set /p AZURE_EVENTHUB_CONNECTION_STRING=&lt;temp.txt</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Save the value of the <em>primaryConnectionString</em> attribute. This is your connection string, and it will be needed later.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1434,7 +1533,7 @@ cmd /C "set MICRONAUT_ENVIRONMENTS=azure &amp;&amp; mvnw -pl {oci} mn:run"</code
 </div>
 </div>
 <div class="sect1">
-<h2 id="generate-a-native-executable-using-graalvm">6. Generate a Native Executable Using GraalVM</h2>
+<h2 id="generate-native-executables-using-graalvm">6. Generate Native Executables Using GraalVM</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The GDK supports compiling Java applications ahead-of-time into native executables using <a href="https://www.graalvm.org/">GraalVM Native Image</a>.
@@ -1450,6 +1549,117 @@ Packaged as a native executable, it significantly reduces application startup ti
 </div>
 <div class="paragraph">
 <p>Generate a native executable for each microservice, using the following commands.</p>
+</div>
+<div class="paragraph">
+<p>Before building the native executables, you need to extract the <a href="https://github.com/luben/zstd-jni">Zstd native library</a> for your OS and architecture from a JAR file and add its location to the <code>LD_LIBRARY_PATH</code> environment variable.
+The JAR file already exists in your build tool cache, since it is a dependency JAR that was already downloaded with the other 3rd-party jars.
+Note that this is only required for Linux and macOS, for Windows the library is resolved correctly.</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./gradlew -q dependencies --configuration runtimeClasspath | grep zstd</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should see output like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">|    |    +--- com.github.luben:zstd-jni:1.5.6-3 -&gt; 1.5.6-3-reduced-oracle-00001
+|    +--- com.github.luben:zstd-jni:{strictly 1.5.6-3-reduced-oracle-00001} -&gt; 1.5.6-3-reduced-oracle-00001 (c)</code></pre>
+</div>
+</div>
+</div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mvn dependency:tree | grep zstd</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should see a similar output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">[INFO] |     +- com.github.luben:zstd-jni:jar:1.5.6-3-reduced-oracle-00001:runtime</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>From the output you can see that the version is <code>1.5.6-3-reduced-oracle-00001</code>.</p>
+</div>
+<div class="paragraph">
+<p>Next, create a directory and extract the JAR into it:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mkdir zstd
+cd /path/to/zstd</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The JAR resolved by Gradle will be in a uniquely named subdirectory of <code>com.github.luben/zstd-jni/1.5.6-3-reduced-oracle-00001</code> in your Gradle cache. Run <code>ls</code> to find the directory name:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">ls -l ~/.gradle/caches/modules-2/files-2.1/com.github.luben/zstd-jni/1.5.6-3-reduced-oracle-00001</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should see a similar output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">drwxr-xr-x  3 bbeckwit  staff  96 Jul  1 16:20 e0fdf76516db79348095715dd269f6ba9d8e3969</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the following command to extract the contents of the JAR:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">jar xf ~/.gradle/caches/modules-2/files-2.1/com.github.luben/zstd-jni/1.5.6-3-reduced-oracle-00001/e0fdf76516db79348095715dd269f6ba9d8e3969/zstd-jni-1.5.6-3-reduced-oracle-00001.jar</code></pre>
+</div>
+</div>
+</div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mkdir zstd
+cd /path/to/zstd
+jar xf ~/.m2/repository/com/github/luben/zstd-jni/1.5.6-3-reduced-oracle-00001/zstd-jni-1.5.6-3-reduced-oracle-00001.jar</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The path you add to the <code>LD_LIBRARY_PATH</code> environment variable depends on your OS and architecture. For example, if you use x86 Linux, run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/zstd/linux/amd64</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you use ARM/AArch64 macOS, run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/zstd/darwin/aarch64</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Generate a Native Executable for the <em>Books</em> microservice, as follows:</p>
@@ -1548,27 +1758,63 @@ Packaged as a native executable, it significantly reduces application startup ti
 <div class="paragraph">
 <p>Delete the resource group and all of its resources with:</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az group delete --name gdkguides</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name $RESOURCE_GROUP_NAME --yes</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name %RESOURCE_GROUP_NAME% --yes</a></code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
-<p>Alternatively, run these commands to delete resources individually:</p>
+<p>or run these commands to delete resources individually:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/eventhub?view=azure-cli-latest#az-eventhubs-eventhub-delete" class="external" target="_blank" rel="noopener">az eventhubs eventhub delete --name $STREAM_TOPIC_NAME --namespace-name $AZURE_NAMESPACE_NAME --resource-group $RESOURCE_GROUP_NAME</a></code></pre>
+</div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az eventhubs eventhub delete --name analytics --namespace-name gdkStreaming  --resource-group gdkguides</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/namespace?view=azure-cli-latest#az-eventhubs-namespace-delete" class="external" target="_blank" rel="noopener">az eventhubs namespace delete --name $AZURE_NAMESPACE_NAME --resource-group $RESOURCE_GROUP_NAME</a></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az eventhubs namespace delete --name gdkStreaming --resource-group gdkguides</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name $RESOURCE_GROUP_NAME --yes</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/eventhub?view=azure-cli-latest#az-eventhubs-eventhub-delete" class="external" target="_blank" rel="noopener">az eventhubs eventhub delete --name %STREAM_TOPIC_NAME% --namespace-name %AZURE_NAMESPACE_NAME% --resource-group %RESOURCE_GROUP_NAME%</a></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az group delete --name gdkguides</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/eventhubs/namespace?view=azure-cli-latest#az-eventhubs-namespace-delete" class="external" target="_blank" rel="noopener">az eventhubs namespace delete --name %AZURE_NAMESPACE_NAME% --resource-group %RESOURCE_GROUP_NAME%</a></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name %RESOURCE_GROUP_NAME% --yes</a></code></pre>
+</div>
+</div>
 </div>
 </div>
 <h3 id="summary" class="discrete">Summary</h3>

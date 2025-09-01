@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -337,10 +344,10 @@
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_object-storage_gcp-storage-demo-java-gradle.zip">Gradle GCP Object Storage Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_object-storage_gcp-storage-demo-java-gradle.zip">Gradle GCP Object Storage Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_object-storage_gcp-storage-demo-java-maven.zip">Maven GCP Object Storage Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_object-storage_gcp-storage-demo-java-maven.zip">Maven GCP Object Storage Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -649,7 +656,7 @@ class ProfilePicturesController implements ProfilePicturesApi {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud auth login</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/auth/login" class="external" target="_blank" rel="noopener">gcloud auth login</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -657,7 +664,7 @@ class ProfilePicturesController implements ProfilePicturesApi {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud config set project gdk-guides</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/config/set" class="external" target="_blank" rel="noopener">gcloud config set project gdk-guides</a></code></pre>
 </div>
 </div>
 <div class="quoteblock">
@@ -671,11 +678,56 @@ class ProfilePicturesController implements ProfilePicturesApi {
 <div class="sect2">
 <h3 id="create-a-bucket">3.2. Create a Bucket</h3>
 <div class="paragraph">
+<p>You can use the Google Cloud Console or the Google Cloud CLI to create a bucket.</p>
+</div>
+<div id="res-block" class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="resource">
+<div data-value="console" data-label="Console" id="console" aria-labelledby="ui-id-20" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">         <style>#console a { color: #1E90FF;}</style>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the Google Cloud Console, open the navigation menu, click <strong>Cloud Storage</strong>, then click <strong>Bucket</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Create</strong>.</p>
+</li>
+<li>
+<p>Enter a unique bucket name such as <em>gdk-guide-object-storage</em>, then click <strong>Continue</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: Bucket names must be unique across all GCP accounts.</p>
+</div>
+</blockquote>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Choose a <strong>location type</strong> (e.g., <strong>Region</strong>) and select a location (e.g., <strong>us-east1</strong>), then click <strong>Continue</strong>.</p>
+</li>
+<li>
+<p>Leave <strong>storage class</strong>, <strong>access control</strong>, and other options as default unless you need something specific.</p>
+</li>
+<li>
+<p>Click <strong>Create</strong> to create the bucket.</p>
+</li>
+<li>
+<p>Once created, go to the <strong>bucket details</strong> page and make note of the bucket name.</p>
+</li>
+</ol>
+</div>
+</div>
+    <div data-value="cli" data-label="CLI" id="cli" aria-labelledby="ui-id-21" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="paragraph">
 <p>Use the Google Cloud CLI to create a bucket with the name "gdk-guide-object-storage":</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud storage buckets create gs://gdk-guide-object-storage</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/storage/buckets/create" class="external" target="_blank" rel="noopener">gcloud storage buckets create gs://gdk-guide-object-storage</a></code></pre>
 </div>
 </div>
 <div class="quoteblock">
@@ -684,6 +736,8 @@ class ProfilePicturesController implements ProfilePicturesApi {
 <p>Note: Bucket names must be unique across all GCP accounts, so you might need to change the bucket name and retry the command with a different name.</p>
 </div>
 </blockquote>
+</div>
+</div>
 </div>
 <div class="paragraph">
 <p>Then, configure the bucket in <em>gcp/src/main/resources/application.properties</em>:</p>
@@ -741,7 +795,7 @@ micronaut.server.multipart.max-file-size=20971520</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud auth application-default login</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/auth/application-default/login" class="external" target="_blank" rel="noopener">gcloud auth application-default login</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -785,7 +839,7 @@ transfer-encoding: chunked</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud storage ls --recursive gs://gdk-guide-object-storage</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/storage/ls" class="external" target="_blank" rel="noopener">gcloud storage ls --recursive gs://gdk-guide-object-storage</a></code></pre>
 </div>
 </div>
 </div>
@@ -818,7 +872,7 @@ transfer-encoding: chunked</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud storage ls --recursive gs://gdk-guide-object-storage</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://cloud.google.com/sdk/gcloud/reference/storage/ls" class="external" target="_blank" rel="noopener">gcloud storage ls --recursive gs://gdk-guide-object-storage</a></code></pre>
 </div>
 </div>
 </div>
@@ -921,7 +975,7 @@ Packaged as a native executable, it significantly reduces application startup ti
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gcloud projects delete gdk-guides</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="{guidesRef}/projects/delete" class="external" target="_blank" rel="noopener">gcloud projects delete gdk-guides</a></code></pre>
 </div>
 </div>
 </div>

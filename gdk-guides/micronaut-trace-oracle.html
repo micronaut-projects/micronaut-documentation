@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -321,10 +328,10 @@ Tracing gives you observability into what is causing bottlenecks and failures.</
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_tracing_oci-tracing-demo-java-gradle.zip">Gradle OCI Tracing Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_tracing_oci-tracing-demo-java-gradle.zip">Gradle OCI Tracing Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_tracing_oci-tracing-demo-java-maven.zip">Maven OCI Tracing Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_tracing_oci-tracing-demo-java-maven.zip">Maven OCI Tracing Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -736,6 +743,9 @@ class WarehouseController {
 </div>
 <div class="sect2">
 <h3 id="create-an-application-performance-monitoring-domain">2.1. Create an Application Performance Monitoring Domain</h3>
+<div id="res-block" class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="resource">
+<div data-value="console" data-label="Console" id="console" aria-labelledby="ui-id-20" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">         <style>#console a { color: #1E90FF;}</style>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -772,6 +782,155 @@ class WarehouseController {
 </ol>
 </div>
 </div>
+    <div data-value="cli" data-label="CLI" id="cli" aria-labelledby="ui-id-21" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the following values on the command line or save them in a settings file, then run it:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export COMPARTMENT_ID="&lt;CompartmentId&gt;"  <i class="conum" data-value="1"></i><b>(1)</b>
+export APM_DOMAIN_NAME="&lt;ApmDomainName&gt;"  <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(1) Replace the value with your Compartment OCID.</p>
+</div>
+<div class="paragraph">
+<p>(2) Set a unique APM Domain name.</p>
+</div>
+</li>
+<li>
+<p>Create an APM Domain and export its OCID:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/apm-control-plane/apm-domain/create.html" class="external" target="_blank" rel="noopener">oci apm-control-plane apm-domain create \</a>
+ --compartment-id $COMPARTMENT_ID \
+ --display-name $APM_DOMAIN_NAME \
+ --description &quot;A domain to demo APM with GDK&quot;</code></pre>
+</div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: You may have to wait up to 5 minutes before the APM Domain is in the ACTIVE state.</p>
+</div>
+</blockquote>
+</div>
+</li>
+<li>
+<p>Once the APM Domain is in the ACTIVE state, retrieve its ID, which you are going to use later.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/apm-control-plane/apm-domain/list.html" class="external" target="_blank" rel="noopener">export APM_DOMAIN_OCID=$(oci apm-control-plane apm-domain list \</a>
+   --compartment-id $COMPARTMENT_ID  --all  \
+   | jq -r '.data[] | select(.[&quot;display-name&quot;] == &quot;gcn-apm-guide-test&quot; and .[&quot;lifecycle-state&quot;] == &quot;ACTIVE&quot;) | .id')</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>When the APM domain is created and in ACTIVE state, run this command to get the Data Upload Endpoint:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/apm-control-plane/apm-domain/get.html" class="external" target="_blank" rel="noopener">export APM_DOMAIN_DATA_ENDPOINT=$(oci apm-control-plane apm-domain get \</a>
+    --apm-domain-id $APM_DOMAIN_OCID \
+    | jq -r '.data.&quot;data-upload-endpoint&quot;'
+    | sed 's/https:\/\///')</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Get the public key from Data Keys in the list of resources. (This guide refers to it as <code>[public key]</code>.):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/apm-control-plane/data-key/list.html" class="bare external" target="_blank" rel="noopener">https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/apm-control-plane/data-key/list.html</a>
+     --apm-domain-id $APM_DOMAIN_OCID \
+      | jq -r '.data[] | select(.type == &quot;PUBLIC&quot;) | .value')</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the following values on the command line or save them in a settings file, then run it:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">set COMPARTMENT_ID="&lt;CompartmentId&gt;"   <i class="conum" data-value="1"></i><b>(1)</b>
+set APM_DOMAIN_NAME="&lt;ApmDomainName&gt;"  <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(1) Replace the value with your Compartment OCID.</p>
+</div>
+<div class="paragraph">
+<p>(2) Set a unique APM Domain name.</p>
+</div>
+</li>
+<li>
+<p>Create an APM Domain and export its OCID:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/apm-control-plane/apm-domain/create.html" class="external" target="_blank" rel="noopener">oci apm-control-plane apm-domain create &#94;</a>
+   --compartment-id %COMPARTMENT_ID% ^
+   --display-name %APM_DOMAIN_NAME% ^
+   --description &quot;A domain to demo APM with GDK&quot;</code></pre>
+</div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: You may have to wait up to 5 minutes before the APM Domain is in the ACTIVE state.</p>
+</div>
+</blockquote>
+</div>
+</li>
+<li>
+<p>Once the APM Domain is in the ACTIVE state, retrieve its ID, which you are going to use later.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/apm-control-plane/apm-domain/list.html" class="external" target="_blank" rel="noopener">oci apm-control-plane apm-domain list &#94;</a>
+   --compartment-id %COMPARTMENT_ID%  --all  ^
+   | jq -r &quot;.data[] | select(.['display-name'] == 'gcn-apm-guide-test' and .['lifecycle-state'] == 'ACTIVE') | .id&quot;) &gt; temp.txt
+ set /p APM_DOMAIN_OCID=&lt;temp.txt</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>When the APM domain is created and in ACTIVE state, run this command to get the Data Upload Endpoint:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/apm-control-plane/apm-domain/get.html" class="external" target="_blank" rel="noopener">oci apm-control-plane apm-domain get &#94;</a>
+    --apm-domain-id %APM_DOMAIN_OCID% | jq -r &quot;.data.'data-upload-endpoint'&quot;| sed &quot;s/https:\/\///&quot;) &gt; temp.txt
+ set /p APM_DOMAIN_DATA_ENDPOINT=&lt;temp.txt</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Get the public key from Data Keys in the list of resources. (This guide refers to it as <code>[public key]</code>.):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/apm-control-plane/data-key/list.html" class="external" target="_blank" rel="noopener">oci apm-control-plane data-key list &#94;</a>
+   --apm-domain-id %APM_DOMAIN_OCID% | jq -r &quot;.data[] | select(.type == 'PUBLIC') | .value&quot;) &gt; temp.txt
+ set /p PUBLIC_KEY=&lt;temp.txt</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="sect2">
 <h3 id="configure-the-tracer">2.2. Configure the Tracer</h3>
 <div class="paragraph">
@@ -787,13 +946,13 @@ class WarehouseController {
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> OTEL_EXPORTER_ZIPKIN_PATH=<span class="hljs-string">/20200101/observations/public-span?dataFormat=zipkin&dataFormatVersion=2&dataKey=[public key]</span>
-<span class="hljs-built_in">set</span> OTEL_EXPORTER_ZIPKIN_URL=<span class="hljs-string">&lt;DataUploadEndpoint&gt;</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> OTEL_EXPORTER_ZIPKIN_PATH=<span>/20200101/observations/public-span?dataFormat=zipkin&dataFormatVersion=2&dataKey=[public key]</span>
+<span class="hljs-built_in">set</span> OTEL_EXPORTER_ZIPKIN_URL=<span>&lt;DataUploadEndpoint&gt;</span>
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> OTEL_EXPORTER_ZIPKIN_PATH=<span class="hljs-string">/20200101/observations/public-span?dataFormat=zipkin&dataFormatVersion=2&dataKey=[public key]</span>
-<span class="hljs-variable">$ENV:</span> OTEL_EXPORTER_ZIPKIN_URL=<span class="hljs-string">&lt;DataUploadEndpoint&gt;</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span>OTEL_EXPORTER_ZIPKIN_PATH=<span class="hljs-string">"/20200101/observations/public-span?dataFormat=zipkin&dataFormatVersion=2&dataKey=[public key]"</span>
+<span class="hljs-variable">$ENV:</span>OTEL_EXPORTER_ZIPKIN_URL=<span class="hljs-string">"&lt;DataUploadEndpoint&gt;"</span>
 </code><button>Copy</button></pre>
     </div>
 </div>

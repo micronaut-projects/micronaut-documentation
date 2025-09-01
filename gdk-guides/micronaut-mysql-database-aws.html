@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -307,6 +314,12 @@
 <p>The <a href="https://dev.mysql.com/doc/refman/8.0/en/mysql.html">MySQL client CLI</a>.</p>
 </li>
 <li>
+<p>An <a href="https://docs.aws.amazon.com/vpc/latest/userguide/create-vpc.html#create-vpc-only">Amazon Virtual Private Cloud</a> with a <code>10.0.0.0/16</code> CIDR block that you have permission to manage.</p>
+</li>
+<li>
+<p>An Internet Gateway attached to your Virtual Private Cloud. See How to  <a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/create-internet-gateway.html">create</a> and <a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/attach-internet-gateway.html">attach</a> an internet gateway to your VPC.</p>
+</li>
+<li>
 <p>The GDK CLI. See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>. (Optional.)</p>
 </li>
 </ul>
@@ -320,10 +333,10 @@
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_database_aws-db-demo-java-gradle.zip">Gradle AWS Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_database_aws-db-demo-java-gradle.zip">Gradle AWS Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_database_aws-db-demo-java-maven.zip">Maven AWS Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_database_aws-db-demo-java-maven.zip">Maven AWS Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -509,24 +522,246 @@ See the <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/refere
 <div class="sect2">
 <h3 id="create-vpc-security-group-subnets-and-subnet-group-optional">3.2. Create VPC, Security Group, Subnets, and Subnet Group (Optional)</h3>
 <div class="paragraph">
-<p>Define the subnet group name:</p>
-</div>
-<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
-    <div data-value="linux" data-label="Linux &amp; macOS" id="linux" aria-labelledby="ui-id-11" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">export</span> DB_SUBNET_GROUP_NAME=<span class="hljs-string">micronaut-guides-mysql-sng</span>
-</code><button>Copy</button></pre>
-    </div>
-    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DB_SUBNET_GROUP_NAME=<span class="hljs-string">micronaut-guides-mysql-sng</span>
-</code><button>Copy</button></pre>
-    </div>
-    <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> DB_SUBNET_GROUP_NAME=<span class="hljs-string">micronaut-guides-mysql-sng</span>
-</code><button>Copy</button></pre>
-    </div>
+<p>To allow connections to the database from your local computer, create the following resources in addition to your VPC to allow access to the database default port from your current public IP address.</p>
 </div>
 <div class="paragraph">
-<p>To allow connections to the database from your local computer, create a VPC, and a security group that allows access to the database default port from your current public IP address.</p>
+<p>Define the VPC name, IG name, subnet group name, the security group name, and the subnets CIDR Blocks:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export VPC_NAME="&lt;VpcName&gt;"  <i class="conum" data-value="1"></i><b>(1)</b>
+export IG_NAME="&lt;IgName&gt;"  <i class="conum" data-value="2"></i><b>(2)</b>
+export SECURITY_GROUP_NAME="&lt;SecurityGroupName&gt;"  <i class="conum" data-value="3"></i><b>(3)</b>
+export SUBNET_GROUP_NAME="&lt;SubnetGroupName&gt;"  <i class="conum" data-value="4"></i><b>(4)</b>
+export SUBNET1_CIDR="&lt;Subnet1CIDRBlock&gt;"  <i class="conum" data-value="5"></i><b>(5)</b>
+export SUBNET2_CIDR="&lt;Subnet2CIDRBlock&gt;"  <i class="conum" data-value="6"></i><b>(6)</b></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">set VPC_NAME="&lt;VpcName&gt;"  <i class="conum" data-value="1"></i><b>(1)</b>
+set IG_NAME="&lt;IgName&gt;"  <i class="conum" data-value="2"></i><b>(2)</b>
+set SECURITY_GROUP_NAME="&lt;SecurityGroupName&gt;"  <i class="conum" data-value="3"></i><b>(3)</b>
+set SUBNET_GROUP_NAME="&lt;SubnetGroupName&gt;"  <i class="conum" data-value="4"></i><b>(4)</b>
+set SUBNET1_CIDR="&lt;Subnet1CIDRBlock&gt;"  <i class="conum" data-value="5"></i><b>(5)</b>
+set SUBNET2_CIDR="&lt;Subnet2CIDRBlock&gt;"  <i class="conum" data-value="6"></i><b>(6)</b></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> Set your VPC name Ex. <em>GdkVpc</em></p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> Set your IG name Ex. <em>GdkIG</em></p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> Set security group name Ex. <em>GdkSecurityGroup</em></p>
+</div>
+<div class="paragraph">
+<p><strong>4</strong> Set subnet group name Ex. <em>GdkSubnetGroup</em></p>
+</div>
+<div class="paragraph">
+<p><strong>5</strong> Set CIDR block for subnet 1 Ex. <em>10.0.0.0/20</em></p>
+</div>
+<div class="paragraph">
+<p><strong>6</strong> Set CIDR block for subnet 2 Ex. <em>10.0.16.0/20</em></p>
+</div>
+<div class="paragraph">
+<p>Create VPC and IG with following commands:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/create-vpc.html">export VPC_ID=$(aws ec2 create-vpc --cidr-block 10.0.0.0/16 --tag-specification &quot;ResourceType=vpc</a>&quot; | jq -r '.Vpc.VpcId'),role=external,window=_blank]
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-route-tables.html">export IG_ID=$(aws ec2 create-internet-gateway  --tag-specification &quot;ResourceType=internet-gateway</a>&quot; | jq -r '.InternetGateway.InternetGatewayId'),role=external,window=_blank]
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-route-tables.html" class="external" target="_blank" rel="noopener">aws ec2 attach-internet-gateway --internet-gateway-id $IG_ID --vpc-id $VPC_ID</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/create-vpc.html">aws ec2 create-vpc --cidr-block 10.0.0.0/16 --tag-specification &quot;ResourceType=vpc</a>&quot; | jq -r '.Vpc.VpcId' &gt; temp.txt,role=external,window=_blank]
+ set /p VPC_ID=&lt;temp.txt
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-route-tables.html">aws ec2 create-internet-gateway  --tag-specification &quot;ResourceType=internet-gateway</a>&quot; | jq -r '.InternetGateway.InternetGatewayId' &gt; temp.txt,role=external,window=_blank]
+ set /p IG_ID=&lt;temp.txt
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-route-tables.html" class="external" target="_blank" rel="noopener">aws ec2 attach-internet-gateway --internet-gateway-id %IG_ID% --vpc-id %VPC_ID%</a></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Make sure DNS hostname is enabled on your VPC, if not run the following command:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-vpc-attribute.html" class="external" target="_blank" rel="noopener">aws ec2 modify-vpc-attribute --enable-dns-hostnames --vpc-id $VPC_ID</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-vpc-attribute.html" class="external" target="_blank" rel="noopener">aws ec2 modify-vpc-attribute --enable-dns-hostnames --vpc-id %VPC_ID%</a></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Some of the following commands use <a href="https://stedolan.github.io/jq/"><code>jq</code></a>, which is a lightweight and flexible command-line JSON processor.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s create a Route :</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-route-tables.html" class="external" target="_blank" rel="noopener">export RT_ID=$(aws ec2 describe-route-tables \</a>
+      --filters &quot;Name=vpc-id,Values=$VPC_ID&quot; \
+      --query &quot;RouteTables[].RouteTableId&quot; --output text)
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/create-route.html" class="external" target="_blank" rel="noopener">export RTD_RES=$(aws ec2 create-route --route-table-id $RT_ID \</a>
+      --destination-cidr-block 0.0.0.0/0 \
+      --gateway-id $IG_ID)</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-route-tables.html" class="external" target="_blank" rel="noopener">aws ec2 describe-route-tables  &#94;</a>
+        --filters &quot;Name=vpc-id,Values=%VPC_ID%&quot; --query &quot;RouteTables[].RouteTableId&quot; --output text &gt; temp.txt
+set /p RT_ID=&lt;temp.txt
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/create-route.html" class="external" target="_blank" rel="noopener">aws ec2 create-route --route-table-id %RT_ID% &#94;</a>
+    --destination-cidr-block 0.0.0.0/0 --gateway-id %IG_ID%</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Create security group and allow TCP traffic on port 3306 :</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/create-security-group.html" class="external" target="_blank" rel="noopener">export SG_ID=$(aws ec2 create-security-group --group-name $SECURITY_GROUP_NAME \</a>
+      --description &quot;Security Group for the GDK DB guide&quot; \
+      --vpc-id $VPC_ID | jq -r '.GroupId')
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/authorize-security-group-ingress.html" class="external" target="_blank" rel="noopener">aws ec2 authorize-security-group-ingress --group-id $SG_ID \</a>
+      --protocol tcp --port 3306 \
+      --cidr $(curl ifconfig.me)/32 | jq -r '.SecurityGroupRules[0]'</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/create-security-group.html" class="external" target="_blank" rel="noopener">aws ec2 create-security-group --group-name %SECURITY_GROUP_NAME%  &#94;</a>
+        --description &quot;Security Group for the Test GCN MySQL guide&quot; --vpc-id %VPC_ID% | jq -r &quot;.GroupId&quot; &gt; temp.txt
+set /p SG_ID=&lt;temp.txt
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/authorize-security-group-ingress.html" class="external" target="_blank" rel="noopener">aws ec2 authorize-security-group-ingress --group-id %SG_ID% --protocol tcp  &#94;</a>
+        --port 3306 --cidr 0.0.0.0/0 | jq -r &quot;.SecurityGroupRules[0]&quot;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Create two subnets on two different availability zones and add them to a subnet group :</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-availability-zones.html" class="external" target="_blank" rel="noopener">export AZ_0=$(aws ec2 describe-availability-zones \</a>
+      --filters &quot;Name=state,Values=available&quot; \
+      --query &quot;AvailabilityZones[0].ZoneName&quot; --output text)
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-availability-zones.html" class="external" target="_blank" rel="noopener">export AZ_1=$(aws ec2 describe-availability-zones \</a>
+      --filters &quot;Name=state,Values=available&quot; \
+      --query &quot;AvailabilityZones[1].ZoneName&quot; --output text)
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/create-subnet.html" class="external" target="_blank" rel="noopener">export SN0_ID=$(aws ec2 create-subnet --vpc-id $VPC_ID \</a>
+      --cidr-block $SUBNET1_CIDR \
+      --availability-zone $AZ_0 | jq -r '.Subnet.SubnetId')
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/create-subnet.html" class="external" target="_blank" rel="noopener">export SN1_ID=$(aws ec2 create-subnet --vpc-id $VPC_ID \</a>
+      --cidr-block $SUBNET2_CIDR \
+      --availability-zone $AZ_1 | jq -r '.Subnet.SubnetId')
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-subnet-attribute.html" class="external" target="_blank" rel="noopener">aws ec2 modify-subnet-attribute --subnet-id $SN0_ID --map-public-ip-on-launch</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-subnet-attribute.html" class="external" target="_blank" rel="noopener">aws ec2 modify-subnet-attribute --subnet-id $SN1_ID --map-public-ip-on-launch</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-availability-zones.html" class="external" target="_blank" rel="noopener">aws ec2 describe-availability-zones  &#94;</a>
+        --filters &quot;Name=state,Values=available&quot;  ^
+        --query &quot;AvailabilityZones[0].ZoneName&quot; --output text  &gt; temp.txt
+set /p AZ_0=&lt;temp.txt
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-availability-zones.html" class="external" target="_blank" rel="noopener">aws ec2 describe-availability-zones  &#94;</a>
+        --filters &quot;Name=state,Values=available&quot;  ^
+        --query &quot;AvailabilityZones[1].ZoneName&quot; --output text  &gt; temp.txt
+set /p AZ_1=&lt;temp.txt
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/create-subnet.html" class="external" target="_blank" rel="noopener">aws ec2 create-subnet --vpc-id %VPC_ID% --cidr-block %SUBNET1_CIDR%  &#94;</a>
+        --availability-zone %AZ_0% | jq -r &quot;.Subnet.SubnetId&quot;  &gt; temp.txt
+set /p SN0_ID=&lt;temp.txt
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/create-subnet.html" class="external" target="_blank" rel="noopener">aws ec2 create-subnet --vpc-id %VPC_ID% --cidr-block %SUBNET2_CIDR%  &#94;</a>
+        --availability-zone %AZ_1% | jq -r &quot;.Subnet.SubnetId&quot;  &gt; temp.txt
+set /p SN1_ID=&lt;temp.txt
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-subnet-attribute.html" class="external" target="_blank" rel="noopener">aws ec2 modify-subnet-attribute --subnet-id %SN0_ID% --map-public-ip-on-launch</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-subnet-attribute.html" class="external" target="_blank" rel="noopener">aws ec2 modify-subnet-attribute --subnet-id %SN1_ID% --map-public-ip-on-launch</a></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>And finally create a subnet group and add the subnets to it :</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/rds/create-db-subnet-group.html" class="external" target="_blank" rel="noopener">export DBSubnetGroup=$(aws rds create-db-subnet-group \</a>
+      --db-subnet-group-name $SUBNET_GROUP_NAME \
+      --db-subnet-group-description &quot;DB subnet group for the GDK Oracle DB guide&quot; \
+      --subnet-ids &quot;$SN0_ID&quot; &quot;$SN1_ID&quot;)</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/rds/create-db-subnet-group.html" class="external" target="_blank" rel="noopener">aws rds create-db-subnet-group --db-subnet-group-name %SUBNET_GROUP_NAME%  &#94;</a>
+        --db-subnet-group-description &quot;DB subnet group for GDK Oracle DB guide&quot;  ^
+        --subnet-ids &quot;%SN0_ID%&quot; &quot;%SN1_ID%&quot;</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="quoteblock">
 <blockquote>
@@ -535,79 +770,39 @@ See the <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/refere
 </div>
 </blockquote>
 </div>
-<div class="paragraph">
-<p>You will also create two subnets in different availability zones and a subnet group to associate them.</p>
-</div>
-<div class="paragraph">
-<p>Some of the following commands use <a href="https://stedolan.github.io/jq/"><code>jq</code></a>, which is a lightweight and flexible command-line JSON processor.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># VPC, internet gateway and route table
-export VPC_ID=$(aws ec2 create-vpc --cidr-block 10.0.0.0/16 --tag-specification "ResourceType=vpc,Tags=[{Key=Name,Value=GcnAutomatedTestVPC}]" | jq -r '.Vpc.VpcId')
-export IG_ID=$(aws ec2 create-internet-gateway  --tag-specification "ResourceType=internet-gateway,Tags=[{Key=Name,Value=GcnAutomatedTestIG}]" | jq -r '.InternetGateway.InternetGatewayId')
-aws ec2 attach-internet-gateway --internet-gateway-id $IG_ID --vpc-id $VPC_ID
-aws ec2 modify-vpc-attribute --enable-dns-hostnames --vpc-id $VPC_ID
-export RT_ID=$(aws ec2 describe-route-tables --filters "Name=vpc-id,Values=$VPC_ID" --query "RouteTables[].RouteTableId" --output text)
-export TMP_RES=$(aws ec2 create-route --route-table-id $RT_ID --destination-cidr-block 0.0.0.0/0 --gateway-id $IG_ID)
-
-# Security group
-export SG_ID=$(aws ec2 create-security-group --group-name gcn-test-guides-mysql-sg --description "Security Group for the Test GCN MySQL guide" --vpc-id $VPC_ID | jq -r '.GroupId')
-aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 3306 --cidr $(curl ifconfig.me)/32 | jq -r '.SecurityGroupRules[0]'
-
-# Subnets and subnet group
-export AZ_0=$(aws ec2 describe-availability-zones --filters "Name=state,Values=available" --query "AvailabilityZones[0].ZoneName" --output text)
-export AZ_1=$(aws ec2 describe-availability-zones --filters "Name=state,Values=available" --query "AvailabilityZones[1].ZoneName" --output text)
-export SN0_ID=$(aws ec2 create-subnet --vpc-id $VPC_ID --cidr-block 10.0.0.0/20 --availability-zone $AZ_0 | jq -r '.Subnet.SubnetId')
-export SN1_ID=$(aws ec2 create-subnet --vpc-id $VPC_ID --cidr-block 10.0.16.0/20 --availability-zone $AZ_1 | jq -r '.Subnet.SubnetId')
-aws ec2 modify-subnet-attribute --subnet-id $SN0_ID --map-public-ip-on-launch
-aws ec2 modify-subnet-attribute --subnet-id $SN1_ID --map-public-ip-on-launch
-export DBSubnetGroup=$(aws rds create-db-subnet-group --db-subnet-group-name $DB_SUBNET_GROUP_NAME --db-subnet-group-description "DB subnet group for Testing the GCN  MySQL guide" --subnet-ids "$SN0_ID" "$SN1_ID")</code></pre>
-</div>
-</div>
 </div>
 <div class="sect2">
 <h3 id="create-a-mysql-instance">3.3. Create a MySQL Instance</h3>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="olist arabic">
 <ol class="arabic">
 <li>
 <p>Set the following environment variables (you can change the values to any of your choice):</p>
-<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
-    <div data-value="linux" data-label="Linux &amp; macOS" id="linux" aria-labelledby="ui-id-11" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">export</span> DB_INSTANCE_NAME=<span class="hljs-string">awsguidetemp</span>
-<span class="hljs-built_in">export</span> ADMIN_PASSWORD=<span class="hljs-string">Passw0rd1234!</span>
-<span class="hljs-built_in">export</span> ADMIN_USERNAME=<span class="hljs-string">admin</span>
-</code><button>Copy</button></pre>
-    </div>
-    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DB_INSTANCE_NAME=<span class="hljs-string">awsguidetemp</span>
-<span class="hljs-built_in">set</span> ADMIN_PASSWORD=<span class="hljs-string">Passw0rd1234!</span>
-<span class="hljs-built_in">set</span> ADMIN_USERNAME=<span class="hljs-string">admin</span>
-</code><button>Copy</button></pre>
-    </div>
-    <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> DB_INSTANCE_NAME=<span class="hljs-string">awsguidetemp</span>
-<span class="hljs-variable">$ENV:</span> ADMIN_PASSWORD=<span class="hljs-string">Passw0rd1234!</span>
-<span class="hljs-variable">$ENV:</span> ADMIN_USERNAME=<span class="hljs-string">admin</span>
-</code><button>Copy</button></pre>
-    </div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export DB_INSTANCE_NAME=awsguidetemp
+export ADMIN_USERNAME=admin
+export ADMIN_PASSWORD=Passw0rd1234!</code></pre>
+</div>
 </div>
 </li>
 <li>
 <p>Run this command to create a MySQL instance in AWS RDS:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export DBInstanceArn=$(aws rds create-db-instance \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/rds/create-db-instance.html" class="external" target="_blank" rel="noopener">aws rds create-db-instance \</a>
      --db-instance-identifier $DB_INSTANCE_NAME \
      --db-instance-class db.t3.micro \
      --engine mysql \
      --master-username $ADMIN_USERNAME \
      --master-user-password $ADMIN_PASSWORD \
      --allocated-storage 20 \
-     --db-subnet-group-name $DB_SUBNET_GROUP_NAME \
+     --db-subnet-group-name $SUBNET_GROUP_NAME \
      --vpc-security-group-ids $SG_ID \
      --publicly-accessible \
-     --output json | jq -r '.DBInstance.DBInstanceArn')</code></pre>
+     --output json</code></pre>
 </div>
 </div>
 </li>
@@ -615,7 +810,8 @@ export DBSubnetGroup=$(aws rds create-db-subnet-group --db-subnet-group-name $DB
 <p>Wait for the instance to become available:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">aws rds wait db-instance-available --db-instance-identifier "$DB_INSTANCE_NAME" --output text</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/rds/wait/db-instance-available.html" class="external" target="_blank" rel="noopener">aws rds wait db-instance-available --output text \</a>
+      --db-instance-identifier &quot;$DB_INSTANCE_NAME&quot;</code></pre>
 </div>
 </div>
 </li>
@@ -623,7 +819,9 @@ export DBSubnetGroup=$(aws rds create-db-subnet-group --db-subnet-group-name $DB
 <p>Once the instance is available, set the value of an environment variable (named <code>MYSQL_HOST</code>) to represent its hostname:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export MYSQL_HOST=$(aws rds describe-db-instances --query 'DBInstances[?DBInstanceIdentifier==`awsguidetemp`].Endpoint.Address' --output text)</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export MYSQL_HOST=$(aws rds describe-db-instances --output text \
+                          --db-instance-identifier "$DB_INSTANCE_NAME" \
+                          --query "DBInstances[0].Endpoint.Address")</code></pre>
 </div>
 </div>
 </li>
@@ -636,6 +834,70 @@ export DBSubnetGroup=$(aws rds create-db-subnet-group --db-subnet-group-name $DB
 </div>
 </li>
 </ol>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the following environment variables (you can change the values to any of your choice):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">set DB_INSTANCE_NAME=awsguidetemp
+set ADMIN_USERNAME=admin
+set ADMIN_PASSWORD=Passw0rd1234!</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run this command to create a MySQL instance in AWS RDS:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/rds/create-db-instance.html" class="external" target="_blank" rel="noopener">aws rds create-db-instance &#94;</a>
+     --db-instance-identifier %DB_INSTANCE_NAME% ^
+     --db-instance-class db.t3.micro ^
+     --engine mysql ^
+     --master-username %ADMIN_USERNAME% ^
+     --master-user-password %ADMIN_PASSWORD% ^
+     --allocated-storage 20 ^
+     --db-subnet-group-name %SUBNET_GROUP_NAME% ^
+     --vpc-security-group-ids %SG_ID% ^
+     --publicly-accessible ^
+     --output json</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Wait for the instance to become available:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/rds/wait/db-instance-available.html" class="external" target="_blank" rel="noopener">aws rds wait db-instance-available --db-instance-identifier &quot;%DB_INSTANCE_NAME%&quot; --output text</a></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Once the instance is available, set the value of an environment variable (named <code>MYSQL_HOST</code>) to represent its hostname:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/rds/create-db-subnet-group.html" class="external" target="_blank" rel="noopener">aws rds describe-db-instances --output text &#94;</a>
+     --db-instance-identifier %DB_INSTANCE_NAME% ^
+     --query &quot;DBInstances[0].Endpoint.Address&quot; &gt; temp.txt
+set /p MYSQL_HOST=&lt;temp.txt</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Finally, test connectivity to the database using the MySQL client CLI:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mysql -u admin -p</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -697,6 +959,9 @@ datasources.default.dialect=MYSQL
 datasources.default.driver-class-name=com.mysql.cj.jdbc.Driver</code></pre>
 </div>
 </div>
+</li>
+</ol>
+</div>
 <div class="paragraph">
 <p>Set values for the missing <code>datasources.default.url</code>, <code>datasources.default.username</code>, and <code>datasources.default.password</code> properties by exporting them as environment variables as follows:</p>
 </div>
@@ -708,30 +973,20 @@ datasources.default.driver-class-name=com.mysql.cj.jdbc.Driver</code></pre>
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">M1cr0n4ut!</span>
-<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://$MYSQL_HOST:3306/awsdb</span>
-<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">awsdb_user</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_PASSWORD=<span>M1cr0n4ut!</span>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_URL=<span>jdbc:mysql://%MYSQL_HOST%:3306/awsdb</span>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_USERNAME=<span>awsdb_user</span>
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">M1cr0n4ut!</span>
-<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://$MYSQL_HOST:3306/awsdb</span>
-<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">awsdb_user</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span>DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">"M1cr0n4ut!"</span>
+<span class="hljs-variable">$ENV:</span>DATASOURCES_DEFAULT_URL=<span class="hljs-string">"jdbc:mysql://$MYSQL_HOST:3306/awsdb"</span>
+<span class="hljs-variable">$ENV:</span>DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">"awsdb_user"</span>
 </code><button>Copy</button></pre>
     </div>
 </div>
 <div class="paragraph">
 <p>where the value of <code>MYSQL_HOST</code> is the <strong>private IP address</strong> of your MySQL database instance (see section <strong>2.3</strong>).</p>
-</div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>Note: If you use Windows Command Prompt, replace <code>export</code> with <code>set</code>, for example, <code>set DATASOURCES_DEFAULT_USERNAME=awsdb_user</code>. If you use Windows PowerShell, replace <code>export</code> with <code>$</code> and surround the value with double quote marks, for example, <code>$DATASOURCES_DEFAULT_USERNAME="awsdb_user"</code>.</p>
-</div>
-</blockquote>
-</div>
-</li>
-</ol>
 </div>
 <div class="paragraph">
 <p>Run the tests:</p>
@@ -843,17 +1098,58 @@ echo "Result: $TEST_RES"</code></pre>
 <p>Once you are done with this guide, you can stop and/or delete the AWS resources created to avoid incurring unnecessary charges.
 Run these commands:</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">DB_INSTANCE=$(aws rds delete-db-instance --db-instance-identifier $DB_INSTANCE_NAME --skip-final-snapshot --query "DBInstance.DBInstanceIdentifier" --output json)
-aws rds wait db-instance-deleted --db-instance-identifier $DB_INSTANCE_NAME
-aws ec2 delete-subnet --subnet-id $SN0_ID
-aws ec2 delete-subnet --subnet-id $SN1_ID
-aws rds delete-db-subnet-group --db-subnet-group-name $DB_SUBNET_GROUP_NAME
-aws ec2 delete-security-group --group-id $SG_ID
-aws ec2 detach-internet-gateway --internet-gateway-id $IG_ID --vpc-id $VPC_ID
-aws ec2 delete-internet-gateway --internet-gateway-id $IG_ID
-aws ec2 delete-vpc --vpc-id $VPC_ID</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/rds/delete-db-instance.html" class="external" target="_blank" rel="noopener">aws rds delete-db-instance --db-instance-identifier $DB_INSTANCE_NAME --skip-final-snapshot --query &quot;DBInstance.DBInstanceIdentifier&quot; --output json</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/rds/wait/db-instance-deleted.html" class="external" target="_blank" rel="noopener">aws rds wait db-instance-deleted --db-instance-identifier $DB_INSTANCE_NAME</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-subnet.html" class="external" target="_blank" rel="noopener">aws ec2 delete-subnet --subnet-id $SN0_ID</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-subnet.html" class="external" target="_blank" rel="noopener">aws ec2 delete-subnet --subnet-id $SN1_ID</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/rds/delete-db-subnet-group.html" class="external" target="_blank" rel="noopener">aws rds delete-db-subnet-group --db-subnet-group-name $SUBNET_GROUP_NAME</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-security-group.html" class="external" target="_blank" rel="noopener">aws ec2 delete-security-group --group-id $SG_ID</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/rds/delete-db-instance.html" class="external" target="_blank" rel="noopener">aws rds delete-db-instance --db-instance-identifier %DB_INSTANCE_NAME% --skip-final-snapshot --query &quot;DBInstance.DBInstanceIdentifier&quot; --output json</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/rds/wait/db-instance-deleted.html" class="external" target="_blank" rel="noopener">aws rds wait db-instance-deleted --db-instance-identifier %DB_INSTANCE_NAME%</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-subnet.html" class="external" target="_blank" rel="noopener">aws ec2 delete-subnet --subnet-id %SN0_ID%</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-subnet.html" class="external" target="_blank" rel="noopener">aws ec2 delete-subnet --subnet-id %SN1_ID%</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/rds/delete-db-subnet-group.html" class="external" target="_blank" rel="noopener">aws rds delete-db-subnet-group --db-subnet-group-name %SUBNET_GROUP_NAME%</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-security-group.html" class="external" target="_blank" rel="noopener">aws ec2 delete-security-group --group-id %SG_ID%</a></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>And to delete the created VPC and internet gateway IG.
+Run these commands:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/detach-internet-gateway.html" class="external" target="_blank" rel="noopener">aws ec2 detach-internet-gateway --internet-gateway-id $IG_ID --vpc-id $VPC_ID</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-internet-gateway.html" class="external" target="_blank" rel="noopener">aws ec2 delete-internet-gateway --internet-gateway-id $IG_ID</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-vpc.html" class="external" target="_blank" rel="noopener">aws ec2 delete-vpc --vpc-id $VPC_ID</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/detach-internet-gateway.html" class="external" target="_blank" rel="noopener">aws ec2 detach-internet-gateway --internet-gateway-id %IG_ID% --vpc-id %VPC_ID%</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-internet-gateway.html" class="external" target="_blank" rel="noopener">aws ec2 delete-internet-gateway --internet-gateway-id %IG_ID%</a>
+<a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-vpc.html" class="external" target="_blank" rel="noopener">aws ec2 delete-vpc --vpc-id %VPC_ID%</a></code></pre>
+</div>
+</div>
 </div>
 </div>
 <h3 id="summary" class="discrete">Summary</h3>

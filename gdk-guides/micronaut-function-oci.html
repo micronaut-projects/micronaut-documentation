@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -353,10 +360,10 @@
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_serverless_oci-serverless-demo-java-gradle.zip">Gradle OCI Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_serverless_oci-serverless-demo-java-gradle.zip">Gradle OCI Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_serverless_oci-serverless-demo-java-maven.zip">Maven OCI Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_serverless_oci-serverless-demo-java-maven.zip">Maven OCI Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -686,13 +693,13 @@ class DefaultStorageService implements StorageService {
 </ol>
 </div>
 <div class="paragraph">
-<p>If you wish to implement a more advanced <code>StorageService</code> to be used instead of this one, annotate your implementation with <code>@Singleton</code> as shown above. Use the <code>@Requires(env = "oraclecloud")</code> annotation to make it specific to AWS . Visit the <a href="/gdk/modules/#database">Database Module</a> for details about how to store and manipulate data in a database.</p>
+<p>If you wish to implement a more advanced <code>StorageService</code> to be used instead of this one, annotate your implementation with <code>@Singleton</code> as shown above. Use the <code>@Requires(env = "oraclecloud")</code> annotation to make it specific to Oracle Cloud. Visit the <a href="/gdk/modules/#database">Database Module</a> for details about how to store and manipulate data in a database.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="tests-to-verify-gateway-function-logic">1.4. Tests to Verify Gateway Function Logic</h3>
 <div class="paragraph">
-<p>The GDK Launcher created a test class for the controller in <em>oci/src/test/java/com/example/StoreControllerTest.java</em>, as follows:</p>
+<p>Create a test class for the controller in <em>oci/src/test/java/com/example/StoreControllerTest.java</em>, as follows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -810,6 +817,25 @@ class StoreControllerTest {
 <div class="sect1">
 <h2 id="run-the-tests">2. Run the Tests</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Run the tests:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :oci:test</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am
+./mvnw mn:test -pl oci</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>Then open the file <em>oci/build/reports/tests/test/index.html</em> in a browser to view the results.</p>
+</div>
 <div class="paragraph">
 <p>Although you created this gateway function to run on OCI Functions runtime, the tests should run successfully on your local machine.</p>
 </div>

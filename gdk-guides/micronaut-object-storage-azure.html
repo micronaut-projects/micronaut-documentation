@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -340,10 +347,10 @@
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_object-storage_azure-storage-demo-java-gradle.zip">Gradle Azure Object Storage Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_object-storage_azure-storage-demo-java-gradle.zip">Gradle Azure Object Storage Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_object-storage_azure-storage-demo-java-maven.zip">Maven Azure Object Storage Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_object-storage_azure-storage-demo-java-maven.zip">Maven Azure Object Storage Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -653,21 +660,21 @@ class ProfilePicturesController implements ProfilePicturesApi {
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> LOCATION=<span class="hljs-string">eastus</span>
-<span class="hljs-built_in">set</span> STORAGE_NAME=<span class="hljs-string">gdkstorage</span>
-<span class="hljs-built_in">set</span> SUBSCRIPTION_ID=<span class="hljs-string">&lt;subscription-id&gt;</span>
-<span class="hljs-built_in">set</span> RESOURCE_GROUP_NAME=<span class="hljs-string">gdkguides</span>
-<span class="hljs-built_in">set</span> SUBSCRIPTION_EMAIL=<span class="hljs-string">&lt;email&gt;</span>
-<span class="hljs-built_in">set</span> CONTAINER_NAME=<span class="hljs-string">gdkcontainer</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> LOCATION=<span>eastus</span>
+<span class="hljs-built_in">set</span> STORAGE_NAME=<span>gdkstorage</span>
+<span class="hljs-built_in">set</span> SUBSCRIPTION_ID=<span>&lt;subscription-id&gt;</span>
+<span class="hljs-built_in">set</span> RESOURCE_GROUP_NAME=<span>gdkguides</span>
+<span class="hljs-built_in">set</span> SUBSCRIPTION_EMAIL=<span>&lt;email&gt;</span>
+<span class="hljs-built_in">set</span> CONTAINER_NAME=<span>gdkcontainer</span>
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> LOCATION=<span class="hljs-string">eastus</span>
-<span class="hljs-variable">$ENV:</span> STORAGE_NAME=<span class="hljs-string">gdkstorage</span>
-<span class="hljs-variable">$ENV:</span> SUBSCRIPTION_ID=<span class="hljs-string">&lt;subscription-id&gt;</span>
-<span class="hljs-variable">$ENV:</span> RESOURCE_GROUP_NAME=<span class="hljs-string">gdkguides</span>
-<span class="hljs-variable">$ENV:</span> SUBSCRIPTION_EMAIL=<span class="hljs-string">&lt;email&gt;</span>
-<span class="hljs-variable">$ENV:</span> CONTAINER_NAME=<span class="hljs-string">gdkcontainer</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span>LOCATION=<span class="hljs-string">"eastus"</span>
+<span class="hljs-variable">$ENV:</span>STORAGE_NAME=<span class="hljs-string">"gdkstorage"</span>
+<span class="hljs-variable">$ENV:</span>SUBSCRIPTION_ID=<span class="hljs-string">"&lt;subscription-id&gt;"</span>
+<span class="hljs-variable">$ENV:</span>RESOURCE_GROUP_NAME=<span class="hljs-string">"gdkguides"</span>
+<span class="hljs-variable">$ENV:</span>SUBSCRIPTION_EMAIL=<span class="hljs-string">"&lt;email&gt;"</span>
+<span class="hljs-variable">$ENV:</span>CONTAINER_NAME=<span class="hljs-string">"gdkcontainer"</span>
 </code><button>Copy</button></pre>
     </div>
 </div>
@@ -682,9 +689,22 @@ class ProfilePicturesController implements ProfilePicturesApi {
 <div class="paragraph">
 <p>Run the <a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create">az group create</a> command to create a resource group named <em>gdkguides</em> in the <em>eastus</em> region:</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az group create --location $LOCATION --name $RESOURCE_GROUP_NAME</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create" class="external" target="_blank" rel="noopener">az group create --location $LOCATION --name $RESOURCE_GROUP_NAME</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create" class="external" target="_blank" rel="noopener">az group create --location %LOCATION% --name %RESOURCE_GROUP_NAME%</a></code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -698,7 +718,7 @@ class ProfilePicturesController implements ProfilePicturesApi {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az provider register --namespace 'Microsoft.Storage'</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/role/assignment?view=azure-cli-latest#az-role-assignment-create" class="external" target="_blank" rel="noopener">az provider register --namespace 'Microsoft.Storage'</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -706,7 +726,7 @@ class ProfilePicturesController implements ProfilePicturesApi {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az provider show --namespace Microsoft.Storage</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/provider?view=azure-cli-latest#az-provider-show" class="external" target="_blank" rel="noopener">az provider show --namespace Microsoft.Storage</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -718,9 +738,12 @@ class ProfilePicturesController implements ProfilePicturesApi {
 <div class="paragraph">
 <p>Run the <a href="https://learn.microsoft.com/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-create"><code>az storage account create</code></a> command to create a storage account:</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az storage account create \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-create" class="external" target="_blank" rel="noopener">az storage account create \</a>
    --name $STORAGE_NAME \
    --resource-group $RESOURCE_GROUP_NAME \
    --encryption-services blob \
@@ -729,17 +752,48 @@ class ProfilePicturesController implements ProfilePicturesApi {
 </div>
 </div>
 </div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-create" class="external" target="_blank" rel="noopener">az storage account create &#94;</a>
+   --name %STORAGE_NAME% ^
+   --resource-group %RESOURCE_GROUP_NAME% ^
+   --encryption-services blob ^
+   --location %LOCATION% ^
+   --sku Standard_ZRS</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="sect2">
 <h3 id="create-a-storage-container">3.4. Create a Storage Container</h3>
 <div class="paragraph">
 <p>Run the <a href="https://learn.microsoft.com/cli/azure/storage/container?view=azure-cli-latest#az-storage-container-create"><code>az storage container create</code></a> command to create a storage container named <em>gdkcontainer</em>:</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az storage container create \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/storage/container?view=azure-cli-latest#az-storage-container-create" class="external" target="_blank" rel="noopener">az storage container create \</a>
     --account-name $STORAGE_NAME \
     --name $CONTAINER_NAME \
     --auth-mode login</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/storage/container?view=azure-cli-latest#az-storage-container-create" class="external" target="_blank" rel="noopener">az storage container create &#94;</a>
+    --account-name %STORAGE_NAME% ^
+    --name %CONTAINER_NAME% ^
+    --auth-mode login</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -757,12 +811,28 @@ micronaut.object-storage.azure.default.endpoint=https://gdkstorage.blob.core.win
 <div class="paragraph">
 <p>Authorize access to your storage container by <a href="https://learn.microsoft.com/azure/storage/blobs/assign-azure-role-data-access?tabs=azure-cli">assigning the <em>Storage Blob Data Contributor</em> role to yourself</a>:</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az role assignment create \
-   --role "Storage Blob Data Contributor" \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/role/assignment?view=azure-cli-latest#az-role-assignment-create" class="external" target="_blank" rel="noopener">az role assignment create \</a>
+   --role &quot;Storage Blob Data Contributor&quot; \
    --assignee $SUBSCRIPTION_EMAIL \
-   --scope "/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP_NAME/providers/Microsoft.Storage/storageAccounts/$STORAGE_NAME/blobServices/default/containers/$CONTAINER_NAME"</code></pre>
+   --scope &quot;/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP_NAME/providers/Microsoft.Storage/storageAccounts/$STORAGE_NAME/blobServices/default/containers/$CONTAINER_NAME&quot;</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/role/assignment?view=azure-cli-latest#az-role-assignment-create" class="external" target="_blank" rel="noopener">az role assignment create &#94;</a>
+   --role &quot;Storage Blob Data Contributor&quot; ^
+   --assignee %SUBSCRIPTION_EMAIL% ^
+   --scope &quot;/subscriptions/%SUBSCRIPTION_ID%/resourceGroups/%RESOURCE_GROUP_NAME%/providers/Microsoft.Storage/storageAccounts/%STORAGE_NAME%/blobServices/default/containers/%CONTAINER_NAME%&quot;</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -920,27 +990,63 @@ Packaged as a native executable, it significantly reduces application startup ti
 <div class="paragraph">
 <p>Delete the resource group and all of its resources with:</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az group delete --name $RESOURCE_GROUP_NAME</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name $RESOURCE_GROUP_NAME  --yes</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name %RESOURCE_GROUP_NAME% --yes</a></code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
 <p>or run these commands to delete resources individually:</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az storage container delete --name $CONTAINER_NAME --account-name $STORAGE_NAME</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/storage/container?view=azure-cli-latest#az-storage-container-delete" class="external" target="_blank" rel="noopener">az storage container delete --name $CONTAINER_NAME --account-name $STORAGE_NAME</a></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az storage account delete --name $STORAGE_NAME --resource-group $RESOURCE_GROUP_NAME</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-delete" class="external" target="_blank" rel="noopener">az storage account delete --name $STORAGE_NAME --resource-group $RESOURCE_GROUP_NAME  --yes</a></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az group delete --name $RESOURCE_GROUP_NAME</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name $RESOURCE_GROUP_NAME  --yes</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/storage/container?view=azure-cli-latest#az-storage-container-delete" class="external" target="_blank" rel="noopener">az storage container delete --name %CONTAINER_NAME% --account-name %STORAGE_NAME%</a></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-delete" class="external" target="_blank" rel="noopener">az storage account delete --name %STORAGE_NAME% --resource-group %RESOURCE_GROUP_NAME% --yes</a></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name %RESOURCE_GROUP_NAME% --yes</a></code></pre>
+</div>
+</div>
 </div>
 </div>
 <h3 id="summary" class="discrete">Summary</h3>

@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -323,10 +330,10 @@
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_logging_oci-logging-demo-java-gradle.zip">Gradle OCI Logging Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_logging_oci-logging-demo-java-gradle.zip">Gradle OCI Logging Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_logging_oci-logging-demo-java-maven.zip">Maven OCI Logging Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_logging_oci-logging-demo-java-maven.zip">Maven OCI Logging Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -451,6 +458,9 @@ class LogController {
 <div class="sect1">
 <h2 id="get-started-with-the-oracle-cloud-infrastructure-logging-service">2. Get Started with the Oracle Cloud Infrastructure Logging Service</h2>
 <div class="sectionbody">
+<div id="res-block" class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="resource">
+<div data-value="console" data-label="Console" id="console" aria-labelledby="ui-id-20" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">         <style>#console a { color: #1E90FF;}</style>
 <div class="paragraph">
 <p>To use the Oracle Cloud Infrastructure Logging service, first create a <strong>Log Group</strong> and then a <strong>Custom Log</strong>.</p>
 </div>
@@ -466,6 +476,99 @@ class LogController {
 <p>Click the name of the new custom log to view its details, and from the <strong>Log Information</strong> tab, copy its OCID (click <strong>Copy</strong>).</p>
 </li>
 </ol>
+</div>
+</div>
+    <div data-value="cli" data-label="CLI" id="cli" aria-labelledby="ui-id-21" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set these values on the command line or save them in a settings file and run it:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export C="&lt;CompartmentId&gt;" <i class="conum" data-value="1"></i><b>(1)</b>
+export LOG_GROUP="&lt;LogGroupName&gt;" <i class="conum" data-value="2"></i><b>(2)</b>
+export CUSTOM_LOG="&lt;CustomLogName&gt;" <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(1) Replace value with your Compartment OCID.</p>
+</div>
+<div class="paragraph">
+<p>(2) Set a unique LOG_GROUP name.</p>
+</div>
+<div class="paragraph">
+<p>(3) Set a unique CUSTOM_LOG name.</p>
+</div>
+</li>
+<li>
+<p>Create the log group and export its OCID:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/oci_cli_docs/cmdref/logging/log-group/create.html">export LOG_GROUP_OCID=$(oci logging log-group create --compartment-id &quot;$C&quot; --display-name &quot;$LOG_GROUP&quot; --wait-for-state SUCCEEDED | jq -r '.data.resources[0</a>.identifier'),role=external,window=_blank]</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create the log :</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/oci_cli_docs/cmdref/logging/log/create.html">export CUSTOM_LOG_OCID=$(oci logging log create --display-name &quot;$CUSTOM_LOG&quot; --log-group-id &quot;$LOG_GROUP_OCID&quot; --log-type CUSTOM --wait-for-state SUCCEEDED | jq -r '.data.resources[0</a>.identifier'),role=external,window=_blank]</code></pre>
+</div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set these values on the command line or save them in a settings file and run it:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">set "C=&lt;CompartmentId&gt;"  <i class="conum" data-value="1"></i><b>(1)</b>
+set "LOG_GROUP=&lt;LogGroupName&gt;"  <i class="conum" data-value="2"></i><b>(2)</b>
+set "CUSTOM_LOG=&lt;CustomLogName&gt;"  <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(1) Replace value with your Compartment OCID.</p>
+</div>
+<div class="paragraph">
+<p>(2) Set a unique LOG_GROUP name.</p>
+</div>
+<div class="paragraph">
+<p>(3) Set a unique CUSTOM_LOG name.</p>
+</div>
+</li>
+<li>
+<p>Create the log group and export its OCID:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/oci_cli_docs/cmdref/logging/log-group/create.html">oci logging log-group create --compartment-id %C% --display-name %LOG_GROUP% --wait-for-state SUCCEEDED | jq -r &quot;.data.resources[0</a>.identifier&quot; &gt; temp.txt,role=external,window=_blank]
+set /p LOG_GROUP_OCID=&lt;temp.txt</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create the log :</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/oci_cli_docs/cmdref/logging/log/create.html">oci logging log create --display-name %CUSTOM_LOG% --log-group-id %LOG_GROUP_OCID% --log-type CUSTOM --wait-for-state SUCCEEDED | jq -r &quot;.data.resources[0</a>.identifier&quot; &gt; temp.txt,role=external,window=_blank]
+set /p CUSTOM_LOG_OCID=&lt;temp.txt</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>

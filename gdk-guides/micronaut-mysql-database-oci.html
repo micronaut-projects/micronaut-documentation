@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -321,10 +328,10 @@
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_database_oci-db-demo-java-gradle.zip">Gradle Oracle Cloud Infrastructure MySQL Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_database_oci-db-demo-java-gradle.zip">Gradle Oracle Cloud Infrastructure MySQL Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_database_oci-db-demo-java-maven.zip">Maven Oracle Cloud Infrastructure MySQL Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_database_oci-db-demo-java-maven.zip">Maven Oracle Cloud Infrastructure MySQL Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -502,11 +509,11 @@ Consider checking <a href="/gdk/gdk-modules/database/micronaut-data-jdbc-reposit
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> COMPUTE_INSTANCE_PUBLIC_IP=<span class="hljs-string">&lt;compute_instance_public_ip&gt;</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> COMPUTE_INSTANCE_PUBLIC_IP=<span>&lt;compute_instance_public_ip&gt;</span>
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> COMPUTE_INSTANCE_PUBLIC_IP=<span class="hljs-string">&lt;compute_instance_public_ip&gt;</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span>COMPUTE_INSTANCE_PUBLIC_IP=<span class="hljs-string">"&lt;compute_instance_public_ip&gt;"</span>
 </code><button>Copy</button></pre>
     </div>
 </div>
@@ -623,12 +630,12 @@ It uses the <a href="https://micronaut-projects.github.io/micronaut-flyway/lates
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
         <pre><code class="language-bash hljs" data-highlighted="yes">scp -i /path/to/ssh-key \
 /path/to/downloads/oci-db-demo-java-gradle.zip \
-opc@$COMPUTE_INSTANCE_PUBLIC_IP:</code><button>Copy</button></pre>
+opc@$COMPUTE_INSTANCE_PUBLIC_IP</code><button>Copy</button></pre>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
         <pre><code class="language-bash hljs" data-highlighted="yes">scp -i /path/to/ssh-key \
 /path/to/downloads/oci-db-demo-java-maven.zip \
-opc@$COMPUTE_INSTANCE_PUBLIC_IP:</code><button>Copy</button></pre>
+opc@$COMPUTE_INSTANCE_PUBLIC_IP</code><button>Copy</button></pre>
     </div>
 </div>
 </li>
@@ -645,15 +652,15 @@ opc@$COMPUTE_INSTANCE_PUBLIC_IP:</code><button>Copy</button></pre>
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://&lt;mysql_db_private_ip&gt;:3306/gdkDB </span><i class="conum" data-value="1"/></i><b>(1)</b>
-<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">&lt;username&gt; </span><i class="conum" data-value="2"/></i><b>(2)</b>
-<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">&lt;password&gt; </span><i class="conum" data-value="3"/></i><b>(3)</b>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_URL=<span>jdbc:mysql://&lt;mysql_db_private_ip&gt;:3306/gdkDB </span><i class="conum" data-value="1"/></i><b>(1)</b>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_USERNAME=<span>&lt;username&gt; </span><i class="conum" data-value="2"/></i><b>(2)</b>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_PASSWORD=<span>&lt;password&gt; </span><i class="conum" data-value="3"/></i><b>(3)</b>
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://&lt;mysql_db_private_ip&gt;:3306/gdkDB </span><i class="conum" data-value="1"/></i><b>(1)</b>
-<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">&lt;username&gt; </span><i class="conum" data-value="2"/></i><b>(2)</b>
-<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">&lt;password&gt; </span><i class="conum" data-value="3"/></i><b>(3)</b>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span>DATASOURCES_DEFAULT_URL=<span class="hljs-string">"jdbc:mysql://&lt;mysql_db_private_ip&gt;:3306/gdkDB "</span><i class="conum" data-value="1"/></i><b>(1)</b>
+<span class="hljs-variable">$ENV:</span>DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">"&lt;username&gt; "</span><i class="conum" data-value="2"/></i><b>(2)</b>
+<span class="hljs-variable">$ENV:</span>DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">"&lt;password&gt; "</span><i class="conum" data-value="3"/></i><b>(3)</b>
 </code><button>Copy</button></pre>
     </div>
 </div>
@@ -687,20 +694,17 @@ opc@$COMPUTE_INSTANCE_PUBLIC_IP:</code><button>Copy</button></pre>
 <p>Open a new local terminal, then run this command to test that you can create and store a new <code>Genre</code> in the database:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X "POST" "http://&lt;compute_instance_public_ip&gt;:8080/genres" \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X "POST" "http://$COMPUTE_INSTANCE_PUBLIC_IP:8080/genres" \
 -H 'Content-Type: application/json; charset=utf-8' \
 -d $'{ "name": "music" }'</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Replacing <code>&lt;compute_instance_public_ip&gt;</code> with its value.</p>
 </div>
 <div class="paragraph">
 <p>Then list the genres:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl http://&lt;compute_instance_public_ip&gt;:8080/genres/list</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl http://$COMPUTE_INSTANCE_PUBLIC_IP:8080/genres/list</code></pre>
 </div>
 </div>
 </li>

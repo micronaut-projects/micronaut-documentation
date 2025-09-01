@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en"><head><style type="text/css">.truste_caIcon_display {display: block !important;}</style><style type="text/css">.truste_cursor_pointer {cursor: pointer;}.truste_border_none {border: none;}</style>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:image" content="https://graal.cloud/gdk/resources/img/graalvm.png">
+    <meta name="twitter:widgets:border-color" content="#55acee">
+
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js">
+    <script src="https://graal.cloud/gdk/resources/lib/highlight/highlight.min.js"></script>
+
+    <title>Create and Trace a Micronaut Application Using Azure Monitor</title>
+    <meta name="description" content="The Graal Development Kit for Micronaut (GDK) is a build of a curated set of Micronaut framework modules and their required libraries for building portable c...">
+    <meta name="last_modified" content="2024-10-10 16:30:05 +0000">
+    <meta name="last_built" content="2024-10-29 09:25:27 +0000">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/assets/main.css" >
+    <link rel="apple-touch-icon" sizes="180x180" href="https://graal.cloud/gdk/resources/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://graal.cloud/gdk/resources/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://graal.cloud/gdk/resources/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://graal.cloud/gdk/resources/img/favicon/site.webmanifest">
+    <link rel="stylesheet" type="text/css" href="https://graal.cloud/gdk/resources/styles/codicon.css" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="google-site-verification" content="-vRqwa9WYn6AaQGnl88xvrLw6ac4xoKVkZkhanmlRhU">
+    <link rel="canonical" href="https://www.graal.cloud/gdk/gdk-modules/database/micronaut-data-jdbc-repository/">
+
+    <!-- TODO: move to stylesheet -->
+    <style>
+        @media (min-width: 768px) {
+            .content {
+                padding-top: 60px;
+            }
+        }
+
+        .colist table {
+            border: 0;
+
+            td {
+                border: 0;
+            }
+
+            tr {
+                border: 0;
+            }
+        }
+
+        .imageblock {
+            max-width: 50%;
+        }
+
+        main{
+            padding-top: 50px !important;
+        }
+
+        .content{
+            padding-top: 0;
+        }
+
+        ul.sectlevel0 > li > a:first-of-type {
+            color: #F68831 !important;
+            font-weight: 700;
+        }
+
+        ul.sectlevel1 > li > a {
+            color: #dbe6ff;
+            font-weight: 400 !important;
+            padding-left: 20px;
+            font-size: 14px;
+        }
+
+            .conum[data-value]::after {
+                content: attr(data-value);
+                display: inline-block;
+                border: 1px solid;
+                -webkit-border-radius: 50%;
+                border-radius: 50%;
+                text-align: center;
+                font-size: .75em;
+                width: 1.67em;
+                height: 1.67em;
+                line-height: 1.67em;
+                font-family: "Open Sans", "DejaVu Sans", sans-serif;
+                font-style: normal;
+                font-weight: bold;
+            }
+            .conum[data-value]+b {
+                display: none;
+            }
+
+        .sectlevel1 a.active {
+            color: #F68831;
+            font-weight: bold;
+        }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
+        a.external {
+            color: #d6d6d6   !important;
+        }
+        a.external:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
+    </style>
+
+    <!-- jQuery UI Tabs -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://graal.cloud/gdk/resources/lib/jquery/jquery-ui.css">
+    <script type="text/javascript" id="www-widgetapi-script" src="https://www.youtube.com/s/player/a8476471/www-widgetapi.vflset/www-widgetapi.js" async=""></script><script src="https://www.youtube.com/iframe_api"></script><script async="" src="https://tags.bkrtx.com/js/bk-coretag.js"></script><script src="https://graal.cloud/gdk/resources/lib/jquery/jquery-3.7.1.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/bootstrap/js/bootstrap.min.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/resizeSensor.js"></script><script src="https://graal.cloud/gdk/resources/lib/sticky-sidebar/sticky-sidebar.min.js"></script><script async="" defer="" src="https://buttons.github.io/buttons.js"></script><script async="async" type="text/javascript" src="//consent.trustarc.com/notice?domain=oracle.com&amp;c=teconsent&amp;js=bb&amp;noticeType=bb&amp;text=true&amp;cdn=1&amp;pcookie&amp;gtm=1" crossorigin="" id="truste_0.9548969741402604"></script><script src="https://www.oracle.com/assets/truste-oraclelib.js"></script><script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script></head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const menuLinks = document.querySelectorAll(".sectlevel1 a");
+
+        function highlightMenu() {
+            let currentSection = null;
+
+            menuLinks.forEach(link => {
+                const section = document.querySelector(link.getAttribute("href"));
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                        currentSection = link;
+                    }
+                }
+            });
+
+            menuLinks.forEach(link => link.classList.remove("active"));
+
+            if (currentSection) {
+                currentSection.classList.add("active");
+            }
+        }
+
+        window.addEventListener("scroll", highlightMenu);
+        highlightMenu();
+
+        });</script>
+<!-- Add TRUSTe Consent Script and Analytics -->
+
+
+<!-- jQuery UI Tabs -->
+
+<body class="">
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<div class="wrapper wrapper--nofooter">
+
+    <header class="header header--content" role="banner">
+        <nav class="menu">
+            <div class="menu__row">
+                <div>
+                    <a href="/gdk/" class="activeMenuItem">
+                        <img class="logo-mobile" src="https://graal.cloud/gdk/resources/img/gdk-logo-new.svg" alt="Graal Development Kit for Micronaut logo" style="margin-left: 0px;">
+                    </a>
+                </div>
+                <div class="menu__container">
+                    <ul class="menu__list">
+                        <li class="menu__item">
+                            <a href="/gdk/about/" class="menu__link">About</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/gdk/get-started/" class="menu__link">Get Started</a>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Docs</a>
+                                <div class="stack-menu-learn">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/modules.svg">
+                                                <a href="/gdk/modules/" class="item-line">Modules</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/guides.svg">
+                                                <a href="/gdk/guides/" class="item-line">Guides</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/labs.svg">
+                                                <a href="/gdk/hands-on-labs/" class="item-line">Hands-On Labs</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/tools.svg">
+                                                <a href="/gdk/vscode-tools/" class="item-line">Tools</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__item">
+                            <div class="stack-container">
+                                <a href="#" class="menu__link stack__header">Graal Projects</a>
+                                <div class="stack-menu">
+                                    <div class="stack-row">
+                                        <div class="stack-column">
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalstack.svg">
+                                                <a href="/" class="item-line">Graal</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalvm.svg">
+                                                <a href="https://graalvm.org/" class="item-line">GraalVM</a>
+                                            </div>
+                                            <div class="stack__item">
+                                                <img src="https://graal.cloud/gdk/resources/img/header-navigation/graalos.svg">
+                                                <a href="/graalos/" class="item-line">GraalOS</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="menu__launch__mobile">
+                            <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu__launch">
+                    <a href="/gdk/launcher/" class="btn-launch btn btn-primary" target="blank">Create App</a>
+                </div>
+            </div>
+
+            <div role="button" class="menu-btn menu-btn--menu js-show-menu" tabindex="-1" title="sweet hamburger">
+                <div class="hamburger">
+                    <div class="inner"></div>
+                </div>
+            </div>
+            <button aria-label="hamburger mobile menu" class="btn btn-mobile-menu js-show-menu">
+                <div class="inner"></div>
+            </button>
+        </nav>
+
+
+    </header>
+
+
+    <main class="content" aria-label="Content">
+        <div class="wrapper wrapper-content">
+            <article>
+                <div class="row d-flex flex-wrap">
+                    <div class="col-sm-3 docsimpro col-bg">
+                        <div class="sidebar-wrap is-affixed" style="height: 473px; position: relative;"><div class="inner-wrapper-sticky" style="position: fixed; top: 74px; left: 0px; width: 300px;">
+                            <div class="sidebar">
+                                <div class="menuabout">
+                                    <img id="sidebarClose" src="https://graal.cloud/gdk/resources/img/arrow_sidebar(close).svg" alt="Expand or collapse sidebar" class="btn-color no-display">
+                                    <img id="sidebarOpen" src="https://graal.cloud/gdk/resources/img/arrow_sidebar.svg" alt="Expand or collapse sidebar">
+                                </div>
+
+                                                                <div class="toc-floating">
+                                <div class="toc-bullets">
+                                    <li class="toc-bullets-main">
+                                        <a href="/gdk/docs/gdk-modules/tracing/" class="_icon-book">
+                                            Tracing
+                                        </a>
+                                    </li>
+                                    <li class="toc-bullets-sub toc-bullets-highlight">
+                                        <a href="/gdk/gdk-modules/tracing/micronaut-trace-azure/" class="activeMenuItem">
+                                            Create and Trace a Micronaut Application Using Azure Monitor
+                                        </a>
+                                    </li>
+                                    <div id="toc" class="toc">
+<div id="toctitle"></div>
+<ul class="sectlevel1">
+<li><a href="#create-the-application">1. Create the Application</a></li>
+<li><a href="#create-azure-cloud-resources">2. Create Azure Cloud Resources</a></li>
+<li><a href="#run-the-application">3. Run the Application</a></li>
+<li><a href="#test-the-application">4. Test the Application</a></li>
+<li><a href="#generate-a-native-executable-using-graalvm">5. Generate a Native Executable Using GraalVM</a></li>
+<li><a href="#run-and-test-the-native-executable">6. Run and Test the Native Executable</a></li>
+<li><a href="#clean-up-cloud-resources">7. Clean up Cloud Resources</a></li>
+</ul>
+</div>
+                                </div>
+                            </div>
+
+
+                            </div>
+                            <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div></div>
+                        <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div>
+
+                    <div class="col-sm-9 docsmod">
+                        <div id="content-wrapper" class="docs-content docs-content--with-sidebar"><h1>Create and Trace a Micronaut Application Using Azure Monitor</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This guide describes how to use the Graal Development Kit for Micronaut (GDK) to create and trace a Micronaut® application using Azure Monitor.</p>
+</div>
+<div class="paragraph">
+<p>Tracing enables you to track service requests in a single or distributed application. Trace data shows the path, time spent in each section (called a <em>span</em>), and other information collected along during the trace.
+Tracing gives you observability into what is causing bottlenecks and failures.</p>
+</div>
+<div class="paragraph">
+<p><strong>Prerequisites</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>JDK 17 or higher. See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>.</p>
+</li>
+<li>
+<p>An Azure account. See <a href="/gdk/get-started/setting-up-cloud-accounts/">Setting up Your Cloud Accounts</a>.</p>
+</li>
+<li>
+<p>The Azure CLI. Follow the <a href="https://learn.microsoft.com/cli/azure/install-azure-cli">Azure documentation</a> for installing or updating the latest version of the Azure CLI.</p>
+</li>
+<li>
+<p>An Azure user with sufficient permissions to configure Azure Monitor Logs.</p>
+</li>
+<li>
+<p>The GDK CLI. See <a href="/gdk/get-started/setting-up-desktop/">Setting up Your Desktop</a>. (Optional.)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Follow the steps below to create the application from scratch. However, you can also download the completed example:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_tracing_azure-tracing-demo-java-gradle.zip">Gradle Azure Tracing Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_tracing_azure-tracing-demo-java-maven.zip">Maven Azure Tracing Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+    </div>
+</div>
+<div class="paragraph">
+<p>The application ZIP file will be downloaded in your default downloads directory. Unzip it and proceed to the next steps.</p>
+</div>
+<h4 id="a-note-regarding-your-development-environment" class="discrete">A note regarding your development environment</h4>
+<div class="paragraph">
+<p>Consider using Visual Studio Code, which provides native support for developing applications with the <a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack">Graal Development Kit for Micronaut Extension Pack</a>.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: If you use IntelliJ IDEA, <a href="/gdk/resources/img/annotationprocessorsintellij.png">enable annotation processing</a>.</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Windows platform: The GDK guides are compatible with Gradle only. Maven support is coming soon.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-the-application">1. Create the Application</h2>
+<div class="sectionbody">
+<p>Create an application using the GDK Launcher.</p>
+<ol>
+    <li>
+        <p>Open the <a href="https://graal.cloud/gdk/launcher/?advanced=true" target="_blank">GDK Launcher in advanced mode</a>.</p>
+    </li>
+    <li>Create a new project using the following selections.
+        <ul>
+            <li><strong>Project Type</strong>: <em>Application</em> (Default)</li>
+            <li><strong>Project Name</strong>: <em>azure-tracing-demo</em></li>
+            <li><strong>Base Package</strong>: <em>com.example</em> (Default)</li>
+            <li><strong>Clouds</strong>: <em>Azure</em></li>
+            <li><strong>Build Tool</strong>: <em>Gradle (Groovy)</em> or <em>Maven</em></li>
+            <li><strong>Language</strong>: <em>Java</em> (Default)</li>
+            <li><strong>Test Framework</strong>: <em>JUnit</em> (Default)</li>
+            <li><strong>Java Version</strong>: <em>17</em> (Default)</li>
+            <li><strong>Micronaut Version</strong>: (Default)</li>
+            <li><strong>Cloud Services</strong>: <em>Tracing</em></li>
+            <li><strong>Features</strong>: <em>GraalVM Native Image</em> (Default)</li>
+            <li><strong>Sample Code</strong>: <em>Yes</em> (Default)</li>
+        </ul>
+    </li>
+    <li>Click <strong>Generate Project</strong>, then click <strong>Download Zip</strong>. The GDK Launcher creates an application with the package <code>com.example</code> in a directory named <em>azure-tracing-demo</em>. The application ZIP file will be downloaded to your default downloads directory. Unzip it, open it in your code editor, and proceed to the next steps.</li>
+</ol>
+<div class="paragraph">
+<p>Alternatively, use the  <a href="/gdk/get-started/using-gdk-cli/">GDK CLI</a> as follows:</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">gdk create-app com.example.azure-tracing-demo \
+ --clouds=azure \
+ --services=tracing \
+ --features=graalvm \
+ --build=gradle \
+ --jdk=17  \
+ --lang=java</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">gdk create-app com.example.azure-tracing-demo \
+ --clouds=azure \
+ --services=tracing \
+ --features=graalvm \
+ --build=maven \
+ --jdk=17  \
+ --lang=java</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>Open the <em>micronaut-cli.yml</em> file, you can see what features are packaged with the application:</p>
+</div>
+<pre><code class="language-bash hljs" data-highlighted="yes">features: [app-name, azure-tracing, gdk-azure-cloud-app, gdk-azure-tracing, gdk-bom, gdk-license, graalvm, http-client, java, java-application, junit, logback, maven, maven-enforcer-plugin, micronaut-http-validation, netty-server, properties, readme, serialization-jackson, shade, static-resources]</code><button>Copy</button></pre>
+<div class="paragraph">
+<p>The GDK Launcher creates a multi-module project with two subprojects: <strong>azure</strong> for Microsoft Azure, and <strong>lib</strong> for common code and configuration shared across cloud platforms.
+You develop the application logic in the <strong>lib</strong> subproject, and keep the
+Microsoft Azure-specific configurations in the <strong>azure</strong> subproject.</p>
+</div>
+<div class="sect2">
+<h3 id="tracing-annotations">1.1. Tracing Annotations</h3>
+<div class="paragraph">
+<p>The Micronaut framework uses the <a href="https://micronaut-projects.github.io/micronaut-tracing/latest/api/io/micronaut/tracing/annotation/package-summary.html"><code>io.micronaut.tracing.annotation</code></a> package and <a href="https://opentelemetry.io/">OpenTelemetry</a> to generate and export tracing data.</p>
+</div>
+<div class="paragraph">
+<p>The <code>io.micronaut.tracing.annotation</code> package provides the following three annotations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://micronaut-projects.github.io/micronaut-tracing/latest/api/io/micronaut/tracing/annotation/NewSpan.html"><code>@NewSpan</code></a>: Used on methods to create a new span; defaults to the <em>method</em> name, but you can assign a unique name instead.</p>
+</li>
+<li>
+<p><a href="https://micronaut-projects.github.io/micronaut-tracing/latest/api/io/micronaut/tracing/annotation/ContinueSpan.html"><code>@ContinueSpan</code></a>: Used on methods to continue an existing span; primarily used in conjunction with <code>@SpanTag</code> (below).</p>
+</li>
+<li>
+<p><a href="https://micronaut-projects.github.io/micronaut-tracing/latest/api/io/micronaut/tracing/annotation/SpanTag.html"><code>@SpanTag</code></a>: Used on method parameters to assign a value to a span; defaults to the <em>parameter</em> name, but you can assign a unique name instead. To use the <code>@SpanTag</code> on a method parameter, the method must be annotated with either <code>@NewSpan</code> or <code>@ContinueSpan</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Your build configuration file contains the <code>io.micronaut.tracing</code> dependency which means all HTTP server methods (those annotated with <code>@Get</code>, <code>@Post</code>, and so on) create spans automatically.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="inventoryservice">1.2. InventoryService</h3>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Note: The <code>InventoryService</code> class demonstrates how to create and use spans from <code>io.micronaut.tracing.annotation</code> and OpenTelemetry.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>The GDK Launcher created the <code>InventoryService</code> class in a file named <em>lib/src/main/java/com/example/InventoryService.java</em>, as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.tracing.annotation.NewSpan;
+import io.micronaut.tracing.annotation.SpanTag;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.Tracer;
+import jakarta.inject.Singleton;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Singleton
+public class InventoryService {
+
+    private static final String storeName = "my_store";
+
+    private final Tracer tracer;
+    private final WarehouseClient warehouse;
+    private final Map&lt;String, Integer&gt; inventory = new ConcurrentHashMap&lt;&gt;();
+
+    InventoryService(Tracer tracer, WarehouseClient warehouse) { <i class="conum" data-value="1"></i><b>(1)</b>
+        this.tracer = tracer;
+        this.warehouse = warehouse;
+
+        inventory.put("laptop", 4);
+        inventory.put("desktop", 2);
+        inventory.put("monitor", 11);
+    }
+
+    public Collection&lt;String&gt; getProductNames() {
+        return inventory.keySet();
+    }
+
+    @NewSpan("stock-counts") <i class="conum" data-value="2"></i><b>(2)</b>
+    public Map&lt;String, Integer&gt; getStockCounts(@SpanTag("inventory.item") String item) { <i class="conum" data-value="3"></i><b>(3)</b>
+        Map&lt;String, Integer&gt; counts = new HashMap&lt;&gt;();
+        if (inventory.containsKey(item)) {
+            int count = inventory.get(item);
+            counts.put("store", count);
+
+            if (count &lt; 10) {
+                counts.put("warehouse", inWarehouse(storeName, item));
+            }
+        }
+
+        return counts;
+    }
+
+    private int inWarehouse(String store, String item) {
+        Span.current().setAttribute("inventory.store-name", store); <i class="conum" data-value="4"></i><b>(4)</b>
+
+        return warehouse.getItemCount(store, getUPC(item));
+    }
+
+    public void order(String item, int count) {
+        orderFromWarehouse(item, count);
+        if (inventory.containsKey(item)) {
+            count += inventory.get(item);
+        }
+        inventory.put(item, count);
+    }
+
+    private void orderFromWarehouse(String item, int count) {
+        Span span = tracer.spanBuilder("warehouse-order") <i class="conum" data-value="5"></i><b>(5)</b>
+                .setAttribute("item", item)
+                .setAttribute("count", count)
+                .startSpan();
+
+        warehouse.order(Map.of(
+                "store", storeName,
+                "product", item,
+                "amount", count,
+                "upc", getUPC(item)));
+
+        span.end(); <i class="conum" data-value="6"></i><b>(6)</b>
+    }
+
+    private int getUPC(String item) {
+        return Math.abs(item.hashCode());
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> Inject an OpenTelemetry Tracing bean into the class.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> Create a new <code>io.micronaut.tracing.annotation</code> span called "stock-counts".</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> Add a <code>io.micronaut.tracing.annotation</code> tag called "inventory.item" that will contain the value contained in the parameter <code>item</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>4</strong> Get the current OpenTelemetry span and set the value of its attribute named "inventory.store-name" to the <code>store</code> parameter.</p>
+</div>
+<div class="paragraph">
+<p><strong>5</strong> Create an OpenTelemetry span named "warehouse-order", set its attributes and start the span.</p>
+</div>
+<div class="paragraph">
+<p><strong>6</strong> End the span started in <strong>5</strong>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="store-controller">1.3. Store Controller</h3>
+<div class="paragraph">
+<p>The GDK Launcher created the <code>StoreController</code> class in a file named <em>lib/src/main/java/com/example/StoreController.java</em>, as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.Status;
+import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.annotation.ExecuteOn;
+import io.micronaut.tracing.annotation.ContinueSpan;
+import io.micronaut.tracing.annotation.NewSpan;
+import io.micronaut.tracing.annotation.SpanTag;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static io.micronaut.http.HttpStatus.CREATED;
+
+@ExecuteOn(TaskExecutors.IO)
+@Controller("/store")
+class StoreController {
+
+    private final InventoryService inventory;
+
+    StoreController(InventoryService inventory) {
+        this.inventory = inventory;
+    }
+
+    @Post("/order")
+    @Status(CREATED)
+    @NewSpan("store.order") <i class="conum" data-value="1"></i><b>(1)</b>
+    void order(@SpanTag("order.item") String item, @SpanTag int count) { <i class="conum" data-value="2"></i><b>(2)</b>
+        inventory.order(item, count);
+    }
+
+    @Get("/inventory") <i class="conum" data-value="3"></i><b>(3)</b>
+    List&lt;Map&lt;String, Object&gt;&gt; getInventory() {
+        return inventory.getProductNames().stream()
+                .map(this::getInventory)
+                .collect(Collectors.toList());
+    }
+
+    @Get("/inventory/{item}")
+    @ContinueSpan <i class="conum" data-value="4"></i><b>(4)</b>
+    Map&lt;String, Object&gt; getInventory(@SpanTag("item") String item) { <i class="conum" data-value="5"></i><b>(5)</b>
+        Map&lt;String, Object&gt; counts = new HashMap&lt;&gt;(inventory.getStockCounts(item));
+        if (counts.isEmpty()) {
+            counts.put("note", "Not available at store");
+        }
+
+        counts.put("item", item);
+
+        return counts;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> Create a new span called "store.order".</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> Add tags for the method parameters. Name the first parameter "order.item", and use the default name for the second parameter.</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> A span is created automatically if your build configuration file contains the <code>io.micronaut.tracing</code> dependency.</p>
+</div>
+<div class="paragraph">
+<p><strong>4</strong> Required for <code>@SpanTag</code> (see <strong>5</strong>).</p>
+</div>
+<div class="paragraph">
+<p><strong>5</strong> Add a tag for the method parameter.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="warehouse-client">1.4. Warehouse Client</h3>
+<div class="paragraph">
+<p>The GDK Launcher created the <code>WarehouseClient</code> class in a file named <em>lib/src/main/java/com/example/WarehouseClient.java</em>, as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.QueryValue;
+import io.micronaut.http.client.annotation.Client;
+import io.micronaut.tracing.annotation.ContinueSpan;
+import io.micronaut.tracing.annotation.NewSpan;
+import io.micronaut.tracing.annotation.SpanTag;
+
+import java.util.Map;
+
+@Client("/warehouse") <i class="conum" data-value="1"></i><b>(1)</b>
+public interface WarehouseClient {
+
+    @Post("/order")
+    @NewSpan
+    void order(@SpanTag("warehouse.order") Map&lt;String, ?&gt; json);
+
+    @Get("/count")
+    @ContinueSpan
+    int getItemCount(@QueryValue String store,
+                     @SpanTag @QueryValue int upc);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> Some external service without tracing.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="warehouse-controller">1.5. Warehouse Controller</h3>
+<div class="paragraph">
+<p>The GDK Launcher created a <code>WarehouseController</code> class to represent an external service that will be called by <code>WarehouseClient</code> in a file named <em>lib/src/main/java/com/example/WarehouseController.java</em>, as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
+import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.annotation.ExecuteOn;
+
+import java.util.Random;
+
+@ExecuteOn(TaskExecutors.IO) <i class="conum" data-value="1"></i><b>(1)</b>
+@Controller("/warehouse") <i class="conum" data-value="2"></i><b>(2)</b>
+class WarehouseController {
+
+    @Get("/count") <i class="conum" data-value="3"></i><b>(3)</b>
+    HttpResponse&lt;?&gt; getItemCount() {
+        return HttpResponse.ok(new Random().nextInt(11));
+    }
+
+    @Post("/order") <i class="conum" data-value="4"></i><b>(4)</b>
+    HttpResponse&lt;?&gt; order() {
+        try {
+            //To simulate an external process taking time
+            Thread.sleep(500);
+        } catch (InterruptedException ignored) {
+        }
+
+        return HttpResponse.accepted();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> It is critical that any blocking I/O operations (such as fetching the data from the database) are offloaded to a separate thread pool that does not block the event loop.</p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> The class is defined as a controller with the <a href="https://docs.micronaut.io/latest/api/io/micronaut/http/annotation/Controller.html"><code>@Controller</code></a> annotation mapped to the path <code>/warehouse</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> The <a href="https://docs.micronaut.io/latest/api/io/micronaut/http/annotation/Get.html"><code>@Get</code></a> annotation maps the <code>getItemCount</code> method to an HTTP GET request on <code>/warehouse/count</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>4</strong> The <a href="https://docs.micronaut.io/latest/api/io/micronaut/http/annotation/Get.html"><code>@Get</code></a> annotation maps the <code>order</code> method to an HTTP GET request on <code>/warehouse/order</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-azure-cloud-resources">2. Create Azure Cloud Resources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You will create a resource group, a Log Analytics Workspace, and an Application Insights Resource.</p>
+</div>
+<div class="paragraph">
+<p>First define the following environment variables. You can customize the values as needed:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+    <div data-value="linux" data-label="Linux &amp; macOS" id="linux" aria-labelledby="ui-id-11" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">export</span> LOCATION=<span class="hljs-string">eastus</span>
+<span class="hljs-built_in">export</span> RESOURCE_GROUP_NAME=<span class="hljs-string">gdkguides</span>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> LOCATION=<span>eastus</span>
+<span class="hljs-built_in">set</span> RESOURCE_GROUP_NAME=<span>gdkguides</span>
+</code><button>Copy</button></pre>
+    </div>
+    <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span>LOCATION=<span class="hljs-string">"eastus"</span>
+<span class="hljs-variable">$ENV:</span>RESOURCE_GROUP_NAME=<span class="hljs-string">"gdkguides"</span>
+</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="sect2">
+<h3 id="create-a-resource-group">2.1. Create a Resource Group</h3>
+<div class="paragraph">
+<p>We recommend that you create a new <a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview#resource-groups">resource group</a> for this guide, but you can use an existing resource group instead.</p>
+</div>
+<div class="paragraph">
+<p>Run the <a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create">az group create</a> command to create a resource group named <em>gdkguides</em> in the <em>eastus</em> region:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create" class="external" target="_blank" rel="noopener">az group create --location $LOCATION --name $RESOURCE_GROUP_NAME</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create" class="external" target="_blank" rel="noopener">az group create --location %LOCATION% --name %RESOURCE_GROUP_NAME%</a></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>If you prefer using the region geographically closer to you, run <code>az account list-locations</code> to list all available regions.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="register-microsoft-operationalinsights-as-a-resource-provider">2.2. Register Microsoft.OperationalInsights as a Resource Provider</h3>
+<div class="paragraph">
+<p>Run the <a href="https://learn.microsoft.com/en-us/cli/azure/provider?view=azure-cli-latest#az-provider-register">az provider register</a> command to register <em>Microsoft.OperationalInsights</em> as a Resource Provider:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az provider register --namespace 'Microsoft.OperationalInsights'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will take a while to execute. Check the status with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az provider show --namespace Microsoft.OperationalInsights</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once the <code>"registrationState": "Registering"</code> changes to <code>"registrationState": "Registered"</code>, the registration is complete.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-a-log-analytics-workspace">2.3. Create a Log Analytics Workspace</h3>
+<div class="paragraph">
+<p>Run the <a href="https://learn.microsoft.com/en-us/cli/azure/monitor/log-analytics/workspace?view=azure-cli-latest#az-monitor-log-analytics-workspace-create">az monitor log-analytics workspace create</a> command to create a log analytics workspace:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az monitor log-analytics workspace create \
+   --workspace-name gdkworkspace \
+   --location $LOCATION \
+   --resource-group $RESOURCE_GROUP_NAME</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="add-the-application-insights-cli-extension">2.4. Add the application-insights CLI Extension</h3>
+<div class="paragraph">
+<p>Run the <a href="https://learn.microsoft.com/en-us/cli/azure/extension?view=azure-cli-latest#az-extension-add">az extension add</a> command to add the <em>application-insights</em> CLI Extension:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az extension add --name application-insights</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-an-application-insights-resource">2.5. Create an Application Insights Resource</h3>
+<div class="paragraph">
+<p>Run the <a href="https://learn.microsoft.com/en-us/cli/azure/monitor/app-insights/component?view=azure-cli-latest#az-monitor-app-insights-component-create">az monitor app-insights component create</a> command to create an Application Insights resource:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az monitor app-insights component create \
+   --app gdkapp \
+   --location $LOCATION \
+   --resource-group $RESOURCE_GROUP_NAME \
+   --workspace gdkworkspace</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response should look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "appId": "e0cc1a...",
+  "applicationId": "gdkapp",
+  "applicationType": "web",
+  "connectionString": "InstrumentationKey=2ad36...;IngestionEndpoint=https://eastus.../;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/;ApplicationId=09de44...",
+  ...
+  "ingestionMode": "LogAnalytics",
+  "instrumentationKey": "46b7c...",
+  "kind": "web",
+  "laMigrationDate": null,
+  "location": "eastus",
+  "name": "gdkapp",
+  "namePropertiesName": "gdkapp",
+  "privateLinkScopedResources": null,
+  "provisioningState": "Succeeded",
+  "publicNetworkAccessForIngestion": "Enabled",
+  "publicNetworkAccessForQuery": "Enabled",
+  "requestSource": "rest",
+  ...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Save the value of the <em>connectionString</em> attribute from the response, you&#8217;ll need it in the next step.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="configure-the-connection-string">2.6. Configure the Connection String</h3>
+<div class="paragraph">
+<p>To run the application, specify the <code>azure.tracing.connection-string</code> in <em>azure/src/main/resources/application.properties</em> with the value you saved from the previous step:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">azure.tracing.connection-string=InstrumentationKey=2ad36...;IngestionEndpoint=https://eastus.../;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/;ApplicationId=09de44...</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-the-application">3. Run the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>An application can send traces to Azure Monitor from outside Azure Cloud.
+This enables you to run the application locally and then view the traces in Azure Monitor.</p>
+</div>
+<div class="paragraph">
+<p>To run the application, use the following command, which starts the application on port 8080.</p>
+</div>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :azure:run</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am
+./mvnw mn:run -pl azure</code><button>Copy</button></pre>
+    </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="test-the-application">4. Test the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You will test the application by accessing its REST endpoints, then review the trace output.</p>
+</div>
+<div class="paragraph">
+<p>Navigate to <a href="https://portal.azure.com/#browse/microsoft.insights%2Fcomponents">Application Insights</a> and open the <code>gdkapp</code> Application Insights Resource that you created earlier.</p>
+</div>
+<div class="sect2">
+<h3 id="get-item-count">4.1. Get Item Count</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Send an HTTP GET request to the <code>/store/inventory/{item}</code> endpoint to get the count of an item, for example:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl http://localhost:8080/store/inventory/laptop</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>You should see data in the <code>Server requests</code> pane. It may take a few seconds for data to appear. If necessary, refresh the page.</p>
+<div class="imageblock">
+<div class="content">
+<img src="/gdk/images/tracing/azure-inventory-item.png" alt="Application Insights Get Count">
+</div>
+</div>
+</li>
+<li>
+<p>Click the requests to view the details:</p>
+<div class="imageblock">
+<div class="content">
+<img src="/gdk/images/tracing/azure-trace-details.png" alt="Trace Details Get Count">
+</div>
+</div>
+</li>
+<li>
+<p>Click <code>Drill into&#8230;&#8203; 2 Samples</code> to view the spans. Each span is represented by a blue bar.</p>
+<div class="imageblock">
+<div class="content">
+<img src="/gdk/images/tracing/azure-trace-details-spans.png" alt="Trace Details Get Count">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="order-an-item">4.2. Order an Item</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Send an HTTP POST request to the <code>/store/order</code> endpoint to order an item, as follows:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X POST http://localhost:8080/store/order \
+     -H 'Content-Type: application/json; charset=utf-8' \
+     -d '{"item":"laptop", "count":5}'</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Return to the <code>gdkapp</code> Application Insight: you should see new request data that represents the trace of the order; click it to view the details:</p>
+<div class="imageblock">
+<div class="content">
+<img src="/gdk/images/tracing/azure-trace-post.png" alt="Application Insights Post Order">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="get-inventory">4.3. Get Inventory</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Send an HTTP GET request to the <code>/store/inventory</code> endpoint to get the inventory:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl http://localhost:8080/store/inventory</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Navigate again to the <code>gdkapp</code> Application Insight and click the latest requests to see the data for the <code>inventory</code> request:</p>
+<div class="imageblock">
+<div class="content">
+<img src="/gdk/images/tracing/azure-inventory-all.png" alt="inventory all">
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Looking at the trace, you may conclude that retrieving the items sequentially might not be the best design choice.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="generate-a-native-executable-using-graalvm">5. Generate a Native Executable Using GraalVM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The GDK supports compiling Java applications ahead-of-time into native executables using <a href="https://www.graalvm.org/">GraalVM Native Image</a>.
+You can use the <em><a href="https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html">Gradle plugin for GraalVM Native Image building</a></em>/<em><a href="https://graalvm.github.io/native-build-tools/latest/maven-plugin.html">Maven plugin for GraalVM Native Image building</a></em>.
+Packaged as a native executable, it significantly reduces application startup time and memory footprint.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p><strong>Prerequisites</strong>: Make sure you have installed a GraalVM JDK. The easiest way to get started is with <a href="https://sdkman.io/jdks#graal">SDKMAN!</a>. For other installation options, visit the <a href="https://www.graalvm.org/downloads/">Downloads section</a>.</p>
+</div>
+</blockquote>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>To generate a native executable, use the following command:</p>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./gradlew :azure:nativeCompile</code><button>Copy</button></pre><p>The native executable is created in the azure/build/native/nativeCompile/ directory</p>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">./mvnw install -pl lib -am
+./mvnw clean package -pl  azure -Dpackaging=native-image</code><button>Copy</button></pre><p>The native executable is created in the azure/target/ directory</p>
+    </div>
+</div>
+</li>
+<li>
+<p>You can then run the native executable with the following command:</p>
+<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
+        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
+    </ul>
+    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+        <pre><code class="language-bash hljs" data-highlighted="yes">azure/build/native/nativeCompile/azure-tracing-demo-azure</code><button>Copy</button></pre>
+    </div>
+    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+        <pre><code class="language-bash hljs" data-highlighted="yes">azure/target/azure-tracing-demo-azure</code><button>Copy</button></pre>
+    </div>
+</div>
+<div class="paragraph">
+<p>You can customize the name of the resulting binary by <a href="https://graalvm.github.io/native-build-tools/latest/index.html">updating the Maven/Gradle plugin for GraalVM Native Image configuration</a>.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-and-test-the-native-executable">6. Run and Test the Native Executable</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Run the native executable, and then perform the same tests as in step <strong>4</strong>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="clean-up-cloud-resources">7. Clean up Cloud Resources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Once you are done with this guide, you can delete the Azure resources created to avoid incurring unnecessary charges.</p>
+</div>
+<div class="paragraph">
+<p>Delete the resource group and all of its resources with:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name $RESOURCE_GROUP_NAME --yes</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name %RESOURCE_GROUP_NAME% --yes</a></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively, run these commands to delete resources individually:</p>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/monitor/log-analytics/workspace?view=azure-cli-latest#az-monitor-log-analytics-workspace-delete" class="external" target="_blank" rel="noopener">az monitor log-analytics workspace delete --workspace-name $GDK_WORKSPACE --resource-group $RESOURCE_GROUP_NAME --force</a></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name $RESOURCE_GROUP_NAME</a></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/monitor/log-analytics/workspace?view=azure-cli-latest#az-monitor-log-analytics-workspace-delete" class="external" target="_blank" rel="noopener">az monitor log-analytics workspace delete --workspace-name %GDK_WORKSPACE% --resource-group %RESOURCE_GROUP_NAME% --force</a></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name %RESOURCE_GROUP_NAME%</a></code></pre>
+</div>
+</div>
+</div>
+</div>
+<h3 id="summary" class="discrete">Summary</h3>
+<div class="paragraph">
+<p>This guide demonstrated how to create and trace a Micronaut application using Azure Monitor.</p>
+</div>
+<h3 id="related-documentation" class="discrete">Related Documentation</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://micronaut-projects.github.io/micronaut-tracing/latest/guide/">Micronaut Tracing</a></p>
+</li>
+<li>
+<p><a href="https://micronaut-projects.github.io/micronaut-azure/latest/guide/#tracing">Micronaut Azure Tracing</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div></div>
+                        <div role="button" class="menu-btn menu-btn--sidebar js-show-sidebar" title="sweet hamburger">
+                            <div class="hamburger">
+                                <div class="inner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+
+
+        </div>
+
+    </main>
+
+
+    <footer class="footer footer__mobile">
+
+        <div class="container-fluid container-fluid--custom-sm">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="row footer-content">
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">Learn</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/get-started/">Get Started</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/guides/">Guides</a></li>
+                                    <li class="footer-list__item"><a href="/gdk/hands-on-labs/">Labs</a></li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/logo-github.svg" alt="Github icon">
+                                        <a href="https://github.com/oracle/graal-dev-kit" target="blank">Github</a>
+                                    </li>
+                                    <li class="footer-list__github">
+                                        <img class="footer__icon" src="https://graal.cloud/gdk/resources/img/footer/slack-icon.svg" alt="Github icon">
+                                        <a href="https://bit.ly/odevrel_slack" target="blank">#graal-dev-kit-for-micronaut</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4">
+                            <h6 class="title-footer" onclick="fadeInAndOut(this)">About</h6>
+                            <div class="grow">
+                                <ul class="footer-list">
+                                    <li class="footer-list__item"><a href="/gdk/about/#gdk-support" target="blank">Commercial Support</a></li>
+                                    <li class="footer-list__item"><a href="https://www.graalvm.org/" target="blank">GraalVM Native Image</a></li>
+                                    <li class="footer-list__item"><a href="https://micronaut.io/" target="_blank">Micronaut<sup>®</sup> Framework</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/multicloud/what-is-multicloud/" target="_blank">Multicloud</a></li>
+                                    <li class="footer-list__item"><a href="https://www.oracle.com/cloud/" target="blank">Oracle Cloud Infrastructure</a></li>
+                                    <li class="footer-list__item"><a href="https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.graal-cloud-native-pack" target="blank">VS Code Tools</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 aligning_1024">
+                            <div class="card--footer card--hovered box">
+                                <div>
+                                    <div class="rubber-footer footer__oci-section">
+                                        <p class="title-footer quickstart">Build, test, and deploy applications on Oracle Cloud Infrastructure for free</p>
+                                        <a href="https://www.oracle.com/cloud/free/" target="_blank" class="btn btn-primary">Try Oracle Cloud Infrastructure Free Tier</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="copyright">
+                                    Copyright © 2023, 2025, Oracle and/or its affiliates.
+                                    All rights reserved.
+                                    Oracle and Java are registered trademarks of Oracle and/or its affiliates.<br>
+                                    Micronaut<sup>®</sup> is a registered trademark of Object Computing, Inc.
+                                    Use is for referential purposes and does not imply any endorsement or affiliation with any third-party product.
+                                    Unauthorized use is strictly prohibited. Other names may be trademarks of their respective owners.
+                                </p>
+                                <div id="teconsent"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function fadeInAndOut(thz) {
+            var elmt = thz.nextElementSibling;//Get the element that is below the button that
+            //was just clicked
+            if (elmt.clientHeight) {
+                elmt.style.height = 0;
+            } else {
+                var wrapper = elmt.querySelector('ul');
+                elmt.style.height = wrapper.clientHeight + "px";
+            }
+            /*
+                elmt.classList.toggle("acordianPanelHidden");//Toggle the class which changes
+                //attributes which triggers the transition CSS
+                */
+        }
+
+        // Check TRUSTe Consent for Functional or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(2) != -1) ) {
+
+            //The following is a sample of a Maxymiser Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"><\/script>');
+        }
+
+        // Check TRUSTe Consent for Advertising or Implied Approval
+        // The if test verifies if the user has given the consent
+        if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+            (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+                oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(3) != -1) ) {
+
+            //The following is a sample of a BlueKai Core Tag being written to the DOM
+            //If the user did not give consent, then the tag is not included and not invoked in the Browser
+            document.write('<script type="text/javascript">' +
+                'window.bk_async = function() { ' +
+                'BKTAG.doTag(62581, 1); }; ' +
+                '(function() { ' +
+                'var scripts = document.getElementsByTagName(\'script\')[0]; ' +
+                'var s = document.createElement(\'script\'); ' +
+                's.async = true; ' +
+                's.src = "https://tags.bkrtx.com/js/bk-coretag.js"; ' +
+                'scripts.parentNode.insertBefore(s, scripts); ' +
+                '}()); ' +
+                '<\/script>');
+        }
+    </script><script type="text/javascript" src="//service.maxymiser.net/cdn/oracle/js/mmcore.js"></script><script type="text/javascript">window.bk_async = function() { BKTAG.doTag(62581, 1); }; (function() { var scripts = document.getElementsByTagName('script')[0]; var s = document.createElement('script'); s.async = true; s.src = "https://tags.bkrtx.com/js/bk-coretag.js"; scripts.parentNode.insertBefore(s, scripts); }()); </script>
+
+</div>
+<div class="overlay"></div>
+
+<!-- Start SiteCatalyst code -->
+<script language="JavaScript" src="https://www.oracle.com/us/assets/metrics/ora_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code_otn.js"></script><script type="text/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_code.js"></script>
+<!-- End SiteCatalyst code -->
+
+<script src="https://graal.cloud/gdk/resources/lib/slick-slider/slick.min.js"></script>
+<script src='https://graal.cloud/gdk/resources/js/main.js'></script>
+<script src="https://graal.cloud/gdk/resources/js/ui.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/filters.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/sidebar.js"></script>
+<script src="https://graal.cloud/gdk/resources/js/labs.js"></script>
+<!--<script>-->
+<!--    hljs.initHighlightingOnLoad();-->
+<!--</script>-->
+
+
+<iframe name="trustarc_notice" id="trustarcNoticeFrame" title="Trustarc Cross-Domain Consent Frame" src="https://consent.trustarc.com/get?name=crossdomain.html&amp;domain=oracle.com" style="display: none;"></iframe></body></html>

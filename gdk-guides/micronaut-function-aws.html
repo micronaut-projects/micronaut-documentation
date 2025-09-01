@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -326,10 +333,10 @@
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_serverless_aws-serverless-demo-java-gradle.zip">Gradle AWS Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_serverless_aws-serverless-demo-java-gradle.zip">Gradle AWS Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_serverless_aws-serverless-demo-java-maven.zip">Maven AWS Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_serverless_aws-serverless-demo-java-maven.zip">Maven AWS Serverless Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -656,13 +663,13 @@ class DefaultStorageService implements StorageService {
 </ol>
 </div>
 <div class="paragraph">
-<p>If you wish to implement a more advanced <code>StorageService</code> to be used instead of this one, annotate your implementation with <code>@Singleton</code> as shown above. Use the <code>@Requires(env = "ec2")</code> annotation to make it specific to AWS . Visit the <a href="/gdk/modules/#database">Database Module</a> for details about how to store and manipulate data in a database.</p>
+<p>If you wish to implement a more advanced <code>StorageService</code> to be used instead of this one, annotate your implementation with <code>@Singleton</code> as shown above. Use the <code>@Requires(env = "ec2")</code> annotation to make it specific to Amazon Web Services. Visit the <a href="/gdk/modules/#database">Database Module</a> for details about how to store and manipulate data in a database.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="tests-to-verify-gateway-function-logic">1.4. Tests to Verify Gateway Function Logic</h3>
 <div class="paragraph">
-<p>The GDK Launcher created a test class for the controller in <em>aws/src/test/java/com/example/StoreControllerTest.java</em>, as follows:</p>
+<p>Create a test class for the controller in <em>aws/src/test/java/com/example/StoreControllerTest.java</em>, as follows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -886,6 +893,12 @@ Packaged as a native executable, it significantly reduces application startup ti
 </div>
 <div class="sect2">
 <h3 id="create-a-lambda-function">3.2. Create a Lambda Function</h3>
+<div class="paragraph">
+<p>You can use the Console or the CLI to create a Lambda Function.</p>
+</div>
+<div id="res-block" class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="resource">
+<div data-value="console" data-label="Console" id="console" aria-labelledby="ui-id-20" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">         <style>#console a { color: #1E90FF;}</style>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -935,6 +948,180 @@ As Handler, enter <code>io.micronaut.function.aws.proxy.MicronautLambdaHandler</
 </ol>
 </div>
 </div>
+    <div data-value="cli" data-label="CLI" id="cli" aria-labelledby="ui-id-21" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Expose those values in command line or save it in <em>settings</em> file and run it.</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export FUNCTION_NAME=gdk-serverless-func
+export REGION=us-east-2
+export ROLE_NAME=gdk-lambda-role
+
+#gradle
+export ZIP_FILE="fileb://&lt;projectDirectory&gt;/aws/build/libs/aws-1.0-SNAPSHOT-lambda.zip"
+#maven
+export ZIP_FILE="fileb://&lt;projectDirectory&gt;/aws/target/function.zip"</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-dos hljs" data-lang="dos">set FUNCTION_NAME=gdk-serverless-func
+set REGION=us-east-2
+set ROLE_NAME=gdk-lambda-role
+
+#gradle
+set ZIP_FILE="fileb://&lt;projectDirectory&gt;/aws/build/libs/aws-1.0-SNAPSHOT-lambda.zip"
+#maven
+set ZIP_FILE="fileb://&lt;projectDirectory&gt;/aws/target/function.zip"</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Create a file named <em>trust-policy.json</em> with the following content :</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Create a role for Lambda with the trust policy, as follows:</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/iam/create-role.html" class="external" target="_blank" rel="noopener">export ROLE=(aws iam create-role \</a>
+  --role-name $ROLE_NAME \
+  --assume-role-policy-document &quot;<a href="file://trust-policy.json&quot" class="bare">file://trust-policy.json&quot</a>; \
+  --query &quot;Role.Arn&quot; \
+  --output text)</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-dos hljs" data-lang="dos">FOR /F &quot;tokens=*&quot; %I IN (
+<a href="https://docs.aws.amazon.com/cli/latest/reference/iam/create-role.html" class="external" target="_blank" rel="noopener">'aws iam create-role &#94;</a>
+   --role-name %ROLE_NAME% ^
+   --assume-role-policy-document &quot;<a href="file://trust-policy.json&quot" class="bare">file://trust-policy.json&quot</a>; ^
+   --query &quot;Role.Arn&quot; ^
+   --output text'
+) do set ROLE=%I</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="4">
+<li>
+<p>Attach the <em>AWSLambdaBasicExecutionRole</em> managed policy to the role:</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/iam/attach-role-policy.html" class="external" target="_blank" rel="noopener">aws iam attach-role-policy \</a>
+  --role-name $ROLE_NAME \
+  --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-dos hljs" data-lang="dos"><a href="https://docs.aws.amazon.com/cli/latest/reference/iam/attach-role-policy.html" class="external" target="_blank" rel="noopener">aws iam attach-role-policy &#94;</a>
+  --role-name %ROLE_NAME% ^
+  --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="5">
+<li>
+<p>Create the Lambda function.</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/lambda/create-function.html" class="external" target="_blank" rel="noopener">export FUNCTION_ARN=$(aws lambda create-function \</a>
+  --function-name $FUNCTION_NAME \
+  --region $REGION \
+  --runtime provided.al2023 \
+  --zip-file $ZIP_FILE \
+  --handler io.micronaut.function.aws.proxy.MicronautLambdaHandler \
+  --role $ROLE \
+  --query 'FunctionArn' \
+  --output text)</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-dos hljs" data-lang="dos">FOR /F &quot;tokens=*&quot; %I IN (
+<a href="https://docs.aws.amazon.com/cli/latest/reference/lambda/create-function.html" class="external" target="_blank" rel="noopener">'aws lambda create-function &#94;</a>
+   --function-name %FUNCTION_NAME% ^
+   --region %REGION%
+   --runtime provided.al2023 ^
+   --zip-file %ZIP_FILE% ^
+   --handler io.micronaut.function.aws.proxy.MicronautLambdaHandler ^
+   --role %ROLE% ^
+   --query &quot;FunctionArn&quot; ^
+   --output text'
+) do set FUNCTION_ARN=%I</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="sect2">
 <h3 id="test-the-lambda-function">3.3. Test the Lambda Function</h3>
 <div class="olist arabic">
@@ -968,6 +1155,12 @@ Enter a name for the new test (such as "test") and paste the following event in 
 <div class="sect1">
 <h2 id="create-an-aws-api-gateway">4. Create an AWS API Gateway</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>You can use the Console or the CLI to create an AWS API Gateway.</p>
+</div>
+<div id="res-block" class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="resource">
+<div data-value="console" data-label="Console" id="console" aria-labelledby="ui-id-20" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">         <style>#console a { color: #1E90FF;}</style>
 <div class="paragraph">
 <p>This section describes how to create an API Gateway to provide access to the function.</p>
 </div>
@@ -1013,6 +1206,264 @@ If a dialog box appears, click <strong>OK</strong> to give the gateway permissio
 <p>In the stage you just created (named "default"), copy the <strong>Invoke URL</strong> value.</p>
 </li>
 </ol>
+</div>
+</div>
+    <div data-value="cli" data-label="CLI" id="cli" aria-labelledby="ui-id-21" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a REST API</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-rest-api.html" class="external" target="_blank" rel="noopener">export GATEWAY_REST_API_ID=$(aws apigateway create-rest-api \</a>
+  --name &quot;${FUNCTION_NAME}-rest-API&quot; \
+  --endpoint-configuration '{&quot;types&quot;:[&quot;REGIONAL&quot;]}' \
+  --region &quot;$REGION&quot; \
+  --query 'id' \
+  --output text)</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-dos hljs" data-lang="dos">FOR /F &quot;tokens=*&quot; %I IN (
+<a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-rest-api.html" class="external" target="_blank" rel="noopener">'aws apigateway create-rest-api &#94;</a>
+   --name &quot;%FUNCTION_NAME%-rest-API&quot; ^
+   --endpoint-configuration &quot;{\&quot;types\&quot;:[\&quot;REGIONAL\&quot;]}&quot; ^
+   --region %REGION% ^
+   --query &quot;id&quot; ^
+   --output text'
+) do set GATEWAY_REST_API_ID=%I</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Retrieve the root resource ID for the REST API</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-resources.html" class="external" target="_blank" rel="noopener">export PARENT_RESOURCE_ID=$(aws apigateway get-resources \</a>
+  --rest-api-id &quot;$GATEWAY_REST_API_ID&quot; \
+  --region $REGION \
+  --query 'items[0].id' \
+  --output text)</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-dos hljs" data-lang="dos">FOR /F &quot;tokens=*&quot; %I IN (
+<a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-resources.html" class="external" target="_blank" rel="noopener">'aws apigateway get-resources &#94;</a>
+   --rest-api-id %GATEWAY_REST_API_ID% ^
+   --region %REGION% ^
+   --query &quot;items[0].id&quot; ^
+   --output text'
+) so set PARENT_RESOURCE_ID=%I</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Create a new {proxy+} resource under the root of the REST API</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-resource.html" class="external" target="_blank" rel="noopener">export RESOURCE_ID=$(aws apigateway create-resource \</a>
+  --rest-api-id &quot;$GATEWAY_REST_API_ID&quot; \
+  --parent-id &quot;$PARENT_RESOURCE_ID&quot; \
+  --path-part &quot;{proxy+}&quot; \
+  --region &quot;${REGION}&quot; \
+  --query 'id' \
+  --output text)</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-dos hljs" data-lang="dos">FOR /F &quot;tokens=*&quot; %I IN (
+<a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-resource.html" class="external" target="_blank" rel="noopener">'aws apigateway create-resource &#94;</a>
+   --rest-api-id %GATEWAY_REST_API_ID% ^
+   --parent-id %PARENT_RESOURCE_ID% ^
+   --path-part &quot;{proxy+}&quot; ^
+   --region %REGION% ^
+   --query &quot;id&quot; ^
+   --output text'
+) do set RESOURCE_ID=%I</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="4">
+<li>
+<p>Add an <em>ANY</em> HTTP method to the {proxy+} resource</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/put-method.html" class="external" target="_blank" rel="noopener">aws apigateway put-method \</a>
+  --rest-api-id &quot;$GATEWAY_REST_API_ID&quot; \
+  --resource-id &quot;$RESOURCE_ID&quot; \
+  --http-method ANY \
+  --authorization-type 'NONE' \
+  --region $REGION \
+  --request-parameters method.request.path.proxy=true</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-dos hljs" data-lang="dos"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/put-method.html" class="external" target="_blank" rel="noopener">aws apigateway put-method &#94;</a>
+  --rest-api-id %GATEWAY_REST_API_ID% ^
+  --resource-id %RESOURCE_ID% ^
+  --http-method ANY ^
+  --authorization-type &quot;NONE&quot; ^
+  --region %REGION% ^
+  --request-parameters method.request.path.proxy=true</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="5">
+<li>
+<p>Route all <em>ANY</em> HTTP methods to the Lambda function using a proxy integration.</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/put-integration.html" class="external" target="_blank" rel="noopener">aws apigateway put-integration \</a>
+  --rest-api-id &quot;$GATEWAY_REST_API_ID&quot; \
+  --resource-id &quot;$RESOURCE_ID&quot; \
+  --http-method ANY \
+  --type AWS_PROXY \
+  --integration-http-method POST \
+  --region $REGION \
+  --uri &quot;arn:aws:apigateway:${REGION}:lambda:path/2015-03-31/functions/$FUNCTION_ARN/invocations&quot;</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-dos hljs" data-lang="dos"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/put-integration.html" class="external" target="_blank" rel="noopener">aws apigateway put-integration &#94;</a>
+  --rest-api-id %GATEWAY_REST_API_ID% ^
+  --resource-id %RESOURCE_ID% ^
+  --region %REGION% ^
+  --http-method ANY ^
+  --type AWS_PROXY ^
+  --integration-http-method POST ^
+  --uri &quot;arn:aws:apigateway:%REGION%:lambda:path/2015-03-31/functions/%FUNCTION_ARN%/invocations&quot;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="6">
+<li>
+<p>Add a permission allowing API Gateway to invoke the Lambda function</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/lambda/add-permission.html" class="external" target="_blank" rel="noopener">aws lambda add-permission \</a>
+  --function-name &quot;${FUNCTION_NAME}&quot; \
+  --region $REGION \
+  --action lambda:InvokeFunction \
+  --statement-id PERMISSION-STMT \
+  --principal apigateway.amazonaws.com</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-dos hljs" data-lang="dos"><a href="https://docs.aws.amazon.com/cli/latest/reference/lambda/add-permission.html" class="external" target="_blank" rel="noopener">aws lambda add-permission &#94;</a>
+  --function-name %FUNCTION_NAME% ^
+  --region %REGION% ^
+  --action lambda:InvokeFunction ^
+  --statement-id PERMISSION-STMT ^
+  --principal apigateway.amazonaws.com</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="7">
+<li>
+<p>Deploy the API</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-deployment.html" class="external" target="_blank" rel="noopener">aws apigateway create-deployment \</a>
+  --rest-api-id &quot;$GATEWAY_REST_API_ID&quot; \
+  --stage-name &quot;default&quot; \
+  --region ${REGION}</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-dos hljs" data-lang="dos"><a href="https://docs.aws.amazon.com/cli/latest/reference/lambda/add-permission.html" class="external" target="_blank" rel="noopener">aws apigateway create-deployment &#94;</a>
+  --rest-api-id %GATEWAY_REST_API_ID% ^
+  --stage-name &quot;default&quot; ^
+  --region %REGION% ^</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>

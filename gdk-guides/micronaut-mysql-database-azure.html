@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -320,10 +327,10 @@
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_database_azure-db-demo-java-gradle.zip">Gradle Azure Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_database_azure-db-demo-java-gradle.zip">Gradle Azure Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_database_azure-db-demo-java-maven.zip">Maven Azure Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_database_azure-db-demo-java-maven.zip">Maven Azure Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -503,36 +510,50 @@ CREATE TABLE genre (
 <p>First define the following environment variables. You can customize the values as needed:</p>
 </div>
 <div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
-    <div data-value="linux" data-label="Linux &amp; macOS" id="linux" aria-labelledby="ui-id-11" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">export</span> LOCATION=<span class="hljs-string">eastus</span>
-<span class="hljs-built_in">export</span> DB_INSTANCE_NAME=<span class="hljs-string">gdkmysql</span>
-<span class="hljs-built_in">export</span> ADMIN_PASSWORD=<span class="hljs-string">Passw0rd1234!;</span>
-<span class="hljs-built_in">export</span> DB_GROUP_NAME=<span class="hljs-string">gdkguides</span>
-<span class="hljs-built_in">export</span> RESOURCE_GROUP_NAME=<span class="hljs-string">gdkguidelogging</span>
-<span class="hljs-built_in">export</span> DB_NAME=<span class="hljs-string">azuredb</span>
-<span class="hljs-built_in">export</span> ADMIN_USERNAME=<span class="hljs-string">gdkadmin</span>
-</code><button>Copy</button></pre>
-    </div>
-    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> LOCATION=<span class="hljs-string">eastus</span>
-<span class="hljs-built_in">set</span> DB_INSTANCE_NAME=<span class="hljs-string">gdkmysql</span>
-<span class="hljs-built_in">set</span> ADMIN_PASSWORD=<span class="hljs-string">Passw0rd1234!;</span>
-<span class="hljs-built_in">set</span> DB_GROUP_NAME=<span class="hljs-string">gdkguides</span>
-<span class="hljs-built_in">set</span> RESOURCE_GROUP_NAME=<span class="hljs-string">gdkguidelogging</span>
-<span class="hljs-built_in">set</span> DB_NAME=<span class="hljs-string">azuredb</span>
-<span class="hljs-built_in">set</span> ADMIN_USERNAME=<span class="hljs-string">gdkadmin</span>
-</code><button>Copy</button></pre>
-    </div>
-    <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> LOCATION=<span class="hljs-string">eastus</span>
-<span class="hljs-variable">$ENV:</span> DB_INSTANCE_NAME=<span class="hljs-string">gdkmysql</span>
-<span class="hljs-variable">$ENV:</span> ADMIN_PASSWORD=<span class="hljs-string">Passw0rd1234!;</span>
-<span class="hljs-variable">$ENV:</span> DB_GROUP_NAME=<span class="hljs-string">gdkguides</span>
-<span class="hljs-variable">$ENV:</span> RESOURCE_GROUP_NAME=<span class="hljs-string">gdkguidelogging</span>
-<span class="hljs-variable">$ENV:</span> DB_NAME=<span class="hljs-string">azuredb</span>
-<span class="hljs-variable">$ENV:</span> ADMIN_USERNAME=<span class="hljs-string">gdkadmin</span>
-</code><button>Copy</button></pre>
-    </div>
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export RESOURCE_GROUP_NAME=&lt;MySqlResourceGroupName&gt;   <i class="conum" data-value="1"></i><b>(1)</b>
+export LOCATION=&lt;Location&gt;    <i class="conum" data-value="2"></i><b>(2)</b>
+export DB_INSTANCE_NAME=&lt;DbInstanceName&gt;   <i class="conum" data-value="3"></i><b>(3)</b>
+export ADMIN_USERNAME=&lt;AdminUserName&gt;   <i class="conum" data-value="4"></i><b>(4)</b>
+export ADMIN_PASSWORD=&lt;AdminPassword&gt;   <i class="conum" data-value="5"></i><b>(5)</b>
+export DB_NAME=&lt;DbName&gt;   <i class="conum" data-value="6"></i><b>(6)</b></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">set RESOURCE_GROUP_NAME="&lt;MySqlResourceGroupName&gt;"  <i class="conum" data-value="1"></i><b>(1)</b>
+set LOCATION="&lt;Location&gt;"  <i class="conum" data-value="2"></i><b>(2)</b>
+set DB_INSTANCE_NAME="&lt;DbInstanceName&gt;"  <i class="conum" data-value="3"></i><b>(3)</b>
+set ADMIN_USERNAME="&lt;AdminUserName&gt;"  <i class="conum" data-value="4"></i><b>(4)</b>
+set ADMIN_PASSWORD="&lt;AdminPassword&gt;"  <i class="conum" data-value="5"></i><b>(5)</b>
+set DB_NAME="&lt;DbName&gt;"  <i class="conum" data-value="6"></i><b>(6)</b></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1</strong> Set resource group name Ex. <em>gdkguides</em></p>
+</div>
+<div class="paragraph">
+<p><strong>2</strong> Set location Ex. <em>eastus</em></p>
+</div>
+<div class="paragraph">
+<p><strong>3</strong> Set database instance name Ex. <em>gdkmysql</em></p>
+</div>
+<div class="paragraph">
+<p><strong>4</strong> Set admin username Ex. <em>gdkadmin</em></p>
+</div>
+<div class="paragraph">
+<p><strong>5</strong> Set admin password Ex. <em>Passw0rd1234!;</em></p>
+</div>
+<div class="paragraph">
+<p><strong>6</strong> Set database name Ex. <em>azuredb</em></p>
 </div>
 <div class="sect2">
 <h3 id="create-a-resource-group">3.1. Create a Resource Group</h3>
@@ -543,19 +564,23 @@ CREATE TABLE genre (
 </div>
 </blockquote>
 </div>
-<div class="paragraph">
-<p>We recommend that you create a new <a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview#resource-groups">resource group</a> for this guide, but you can use an existing resource group instead.</p>
-</div>
-<div class="paragraph">
-<p>Run the <a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create">az group create</a> command to create a resource group named <em>gdkguides</em> in the <em>eastus</em> region:</p>
-</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az group create --location $LOCATION --name $RESOURCE_GROUP_NAME</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create" class="external" target="_blank" rel="noopener">az group create --location $LOCATION --name $RESOURCE_GROUP_NAME</a></code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>If you prefer using the region geographically closer to you, run <code>az account list-locations</code> to list all available regions.</p>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create" class="external" target="_blank" rel="noopener">az group create --location $LOCATION --name $RESOURCE_GROUP_NAME</a></code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -563,17 +588,38 @@ CREATE TABLE genre (
 <div class="paragraph">
 <p>Run the <a href="https://learn.microsoft.com/en-us/cli/azure/mysql/flexible-server?view=azure-cli-latest#az-mysql-flexible-server-create"><code>az mysql flexible-server create</code></a> command to create a MySQL flexible server and a database named <strong>azuredb</strong>:</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export MYSQL_HOST=$(az mysql flexible-server create \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/mysql/flexible-server?view=azure-cli-latest#az-mysql-flexible-server-create" class="external" target="_blank" rel="noopener">export MYSQL_HOST=$(az mysql flexible-server create \</a>
     --admin-password $ADMIN_PASSWORD \
     --admin-user $ADMIN_USERNAME \
     --database-name $DB_NAME \
     --location $LOCATION \
     --name $DB_INSTANCE_NAME \
     --public-access All \
-    --resource-group $DB_GROUP_NAME \
+    --resource-group $RESOURCE_GROUP_NAME \
     --version 8.0.21 | jq -r '.host')</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/mysql/flexible-server?view=azure-cli-latest#az-mysql-flexible-server-create" class="external" target="_blank" rel="noopener">az mysql flexible-server create --admin-password %ADMIN_PASSWORD%  &#94;</a>
+        --admin-user %ADMIN_USERNAME%   ^
+        --database-name %DB_NAME%  ^
+        --name %DB_INSTANCE_NAME%  ^
+        --location %LOCATION% --public-access All   ^
+        --resource-group %DB_GROUP_NAME%  ^
+        --version 8.0.21   ^
+        --output json | jq -r &quot;.host&quot; &gt; tmp.txt
+set /p MYSQL_HOST=&lt;tmp.txt</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -605,7 +651,7 @@ CREATE TABLE genre (
 <p>Connect to the database using the MySQL client CLI:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mysql -h $MYSQL_HOST -u gdkadmin -p</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://dev.mysql.com/doc/refman/8.4/en/connecting.html" class="external" target="_blank" rel="noopener">mysql -h $MYSQL_HOST -u $ADMIN_USERNAME -p</a></code></pre>
 </div>
 </div>
 </li>
@@ -672,15 +718,15 @@ datasources.default.driver-class-name=com.mysql.cj.jdbc.Driver</code></pre>
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">M1cr0n4ut!</span>
-<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://$MYSQL_HOST:3306/azuredb</span>
-<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">azuredb_user</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_PASSWORD=<span>M1cr0n4ut!</span>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_URL=<span>jdbc:mysql://%MYSQL_HOST%:3306/azuredb</span>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_USERNAME=<span>azuredb_user</span>
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">M1cr0n4ut!</span>
-<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://$MYSQL_HOST:3306/azuredb</span>
-<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">azuredb_user</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span>DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">"M1cr0n4ut!"</span>
+<span class="hljs-variable">$ENV:</span>DATASOURCES_DEFAULT_URL=<span class="hljs-string">"jdbc:mysql://$MYSQL_HOST:3306/azuredb"</span>
+<span class="hljs-variable">$ENV:</span>DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">"azuredb_user"</span>
 </code><button>Copy</button></pre>
     </div>
 </div>
@@ -800,15 +846,12 @@ echo "Result: $TEST_RES"</code></pre>
 <div class="sect1">
 <h2 id="clean-up-cloud-resources">6. Clean up Cloud Resources</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Once you are done with this guide, you can delete the Azure resources created to avoid incurring unnecessary charges.</p>
-</div>
-<div class="paragraph">
-<p>Delete the resource group and all of its resources with:</p>
-</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az group delete --name $RESOURCE_GROUP_NAME</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name $RESOURCE_GROUP_NAME --yes</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -816,12 +859,27 @@ echo "Result: $TEST_RES"</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az mysql flexible-server delete --resource-group $RESOURCE_GROUP_NAME --name $DB_INSTANCE_NAME</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/mysql/flexible-server?view=azure-cli-latest#az-mysql-flexible-server-delete" class="external" target="_blank" rel="noopener">az mysql flexible-server delete --resource-group $RESOURCE_GROUP_NAME --name  $DB_INSTANCE_NAME --yes</a>
+<a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name $DB_GROUP_NAME --yes</a></code></pre>
 </div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name $DB_GROUP_NAME --yes</a></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively, run these commands to delete resources individually:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">az group delete --name $RESOURCE_GROUP_NAME</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://learn.microsoft.com/en-us/cli/azure/mysql/flexible-server?view=azure-cli-latest#az-mysql-flexible-server-delete" class="external" target="_blank" rel="noopener">az mysql flexible-server delete --resource-group %DB_GROUP_NAME% --name %DB_INSTANCE_NAME% --yes</a>
+<a href="https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete" class="external" target="_blank" rel="noopener">az group delete --name $DB_GROUP_NAME --yes</a></code></pre>
+</div>
+</div>
 </div>
 </div>
 <h3 id="summary" class="discrete">Summary</h3>

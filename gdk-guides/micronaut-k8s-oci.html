@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -401,10 +408,10 @@
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_kubernetes_oci-kubernetes-demo-java-gradle.zip">Gradle Micronaut OKE Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_kubernetes_oci-kubernetes-demo-java-gradle.zip">Gradle Micronaut OKE Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_kubernetes_oci-kubernetes-demo-java-maven.zip">Maven Micronaut OKE Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_kubernetes_oci-kubernetes-demo-java-maven.zip">Maven Micronaut OKE Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -435,9 +442,6 @@ Alternatively, you can specify the <code>oraclecloud</code> environment passing 
 </li>
 <li>
 <p>A <a href="https://docs.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm">Container Repository in Oracle Cloud Infrastructure Registry</a> for each of the services, named "gdk-k8s/users-oci", "gdk-k8s/orders-oci", and "gdk-k8s/api-oci&quot;.</p>
-</li>
-<li>
-<p>A <a href="https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm">Compute instance</a> to build your application, named "gdk_guide_instance&quot;.</p>
 </li>
 </ul>
 </div>
@@ -477,9 +481,6 @@ Alternatively, you can specify the <code>oraclecloud</code> environment passing 
 <div class="ulist">
 <ul>
 <li>
-<p><code>compute_instance_public_ip</code> (the public IP address of the Compute instance)</p>
-</li>
-<li>
 <p><code>tenancy-namespace</code> (the namespace of the tenancy)</p>
 </li>
 <li>
@@ -489,26 +490,6 @@ Alternatively, you can specify the <code>oraclecloud</code> environment passing 
 <p><code>cluster-id</code> (the OCID of the cluster you created)</p>
 </li>
 </ul>
-</div>
-</li>
-<li>
-<p>Define an environment variable for the public IP address of the compute instance:</p>
-<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
-    <div data-value="linux" data-label="Linux &amp; macOS" id="linux" aria-labelledby="ui-id-11" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">export</span> COMPUTE_INSTANCE_PUBLIC_IP=<span class="hljs-string">&lt;compute_instance_public_ip&gt;</span>
-</code><button>Copy</button></pre>
-    </div>
-    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> COMPUTE_INSTANCE_PUBLIC_IP=<span class="hljs-string">&lt;compute_instance_public_ip&gt;</span>
-</code><button>Copy</button></pre>
-    </div>
-    <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> COMPUTE_INSTANCE_PUBLIC_IP=<span class="hljs-string">&lt;compute_instance_public_ip&gt;</span>
-</code><button>Copy</button></pre>
-    </div>
-</div>
-<div class="paragraph">
-<p>Replacing <code>&lt;compute_instance_public_ip&gt;</code> with its value.</p>
 </div>
 </li>
 </ol>
@@ -521,28 +502,6 @@ Alternatively, you can specify the <code>oraclecloud</code> environment passing 
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>From your local terminal, copy the ZIP file to the Compute instance using <code>scp</code>:</p>
-<div class="gradle-maven-tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
-    <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
-        <li class="tabs-gradle ui-tabs-tab ui-corner-top ui-state-default ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="gradle" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a name="gradle" href="#gradle" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Gradle</a></li>
-        <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
-    </ul>
-    <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <pre><code class="language-bash hljs" data-highlighted="yes">scp -i /path/to/ssh-key \
- /path/to/downloads/oci-kubernetes-demo-java-gradle.zip \
- opc@$COMPUTE_INSTANCE_PUBLIC_IP:</code><button>Copy</button></pre>
-    </div>
-    <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <pre><code class="language-bash hljs" data-highlighted="yes">scp -i /path/to/ssh-key \
- /path/to/downloads/oci-kubernetes-demo-java-maven.zip \
- opc@$COMPUTE_INSTANCE_PUBLIC_IP:</code><button>Copy</button></pre>
-    </div>
-</div>
-</li>
-<li>
-<p>From the same terminal, use <code>ssh</code> to connect to your Compute instance (<code>ssh -i /path/to/ssh-key opc@$COMPUTE_INSTANCE_PUBLIC_IP</code>) and unzip the ZIP file using <code>unzip</code>, then <code>cd</code> into the newly created directory.</p>
-</li>
-<li>
 <p>Define some environment variables to make the deploying process easier:</p>
 <div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
     <div data-value="linux" data-label="Linux &amp; macOS" id="linux" aria-labelledby="ui-id-11" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
@@ -552,15 +511,15 @@ Alternatively, you can specify the <code>oraclecloud</code> environment passing 
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> OCI_CLUSTER_ID=<span class="hljs-string">&lt;cluster-id&gt;</span>
-<span class="hljs-built_in">set</span> OCI_TENANCY_NAMESPACE=<span class="hljs-string">&lt;tenancy-namespace&gt;</span>
-<span class="hljs-built_in">set</span> OCI_REGION=<span class="hljs-string">&lt;region&gt;</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> OCI_CLUSTER_ID=<span>&lt;cluster-id&gt;</span>
+<span class="hljs-built_in">set</span> OCI_TENANCY_NAMESPACE=<span>&lt;tenancy-namespace&gt;</span>
+<span class="hljs-built_in">set</span> OCI_REGION=<span>&lt;region&gt;</span>
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> OCI_CLUSTER_ID=<span class="hljs-string">&lt;cluster-id&gt;</span>
-<span class="hljs-variable">$ENV:</span> OCI_TENANCY_NAMESPACE=<span class="hljs-string">&lt;tenancy-namespace&gt;</span>
-<span class="hljs-variable">$ENV:</span> OCI_REGION=<span class="hljs-string">&lt;region&gt;</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span>OCI_CLUSTER_ID=<span class="hljs-string">"&lt;cluster-id&gt;"</span>
+<span class="hljs-variable">$ENV:</span>OCI_TENANCY_NAMESPACE=<span class="hljs-string">"&lt;tenancy-namespace&gt;"</span>
+<span class="hljs-variable">$ENV:</span>OCI_REGION=<span class="hljs-string">"&lt;region&gt;"</span>
 </code><button>Copy</button></pre>
     </div>
 </div>
@@ -570,9 +529,25 @@ Alternatively, you can specify the <code>oraclecloud</code> environment passing 
 </li>
 <li>
 <p>Authenticate with <code>docker</code> to Container Registry with your region identifier:</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker login $OCI_REGION.ocir.io</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker login %OCI_REGION%.ocir.io</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="ulist">
@@ -584,9 +559,6 @@ Alternatively, you can specify the <code>oraclecloud</code> environment passing 
 <p>When asked for a password, provide the Auth token.</p>
 </li>
 </ul>
-</div>
-</li>
-</ol>
 </div>
 <div class="paragraph">
 <p>The command should complete by printing "Login Succeeded". (It may take some time before your authentication token activates.)</p>
@@ -640,6 +612,9 @@ Alternatively, you can specify the <code>oraclecloud</code> environment passing 
 <div class="paragraph">
 <p>The Terraform job created a container repository named <em>gdk-k8s/users-oci</em>.</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -655,6 +630,31 @@ Alternatively, you can specify the <code>oraclecloud</code> environment passing 
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push $OCI_REGION.ocir.io/$OCI_TENANCY_NAMESPACE/gdk-k8s/users-oci:latest</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Tag the existing <em>users</em> microservice container image with details of the container repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker tag users-oci:latest %OCI_REGION%.ocir.io/%OCI_TENANCY_NAMESPACE%/gdk-k8s/users-oci:latest</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push the tagged <em>users</em> microservice container image to the remote repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push %OCI_REGION%.ocir.io/%OCI_TENANCY_NAMESPACE%/gdk-k8s/users-oci:latest</code></pre>
+</div>
+</div>
 </div>
 </div>
 </li>
@@ -782,6 +782,9 @@ spec:
 <div class="paragraph">
 <p>The Terraform job created a container repository named <em>gdk-k8s/orders-oci</em>.</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -797,6 +800,31 @@ spec:
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push $OCI_REGION.ocir.io/$OCI_TENANCY_NAMESPACE/gdk-k8s/orders-oci:latest</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Tag the existing <em>orders</em> microservice container image with details of the container repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker tag orders-oci:latest %OCI_REGION%.ocir.io/%OCI_TENANCY_NAMESPACE%/gdk-k8s/orders-oci:latest</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push the tagged <em>orders</em> microservice container image to the remote repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push %OCI_REGION%.ocir.io/%OCI_TENANCY_NAMESPACE%/gdk-k8s/orders-oci:latest</code></pre>
+</div>
+</div>
 </div>
 </div>
 </li>
@@ -924,6 +952,9 @@ spec:
 <div class="paragraph">
 <p>The Terraform job created a container repository named <em>gdk-k8s/api-oci</em>.</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -939,6 +970,31 @@ spec:
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push $OCI_REGION.ocir.io/$OCI_TENANCY_NAMESPACE/gdk-k8s/api-oci:latest</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Tag the existing <em>api</em> microservice container image with details of the container repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker tag api-oci:latest %OCI_REGION%.ocir.io/%OCI_TENANCY_NAMESPACE%/gdk-k8s/api-oci:latest</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push the tagged <em>api</em> microservice container image to the remote repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push %OCI_REGION%.ocir.io/%OCI_TENANCY_NAMESPACE%/gdk-k8s/api-oci:latest</code></pre>
+</div>
+</div>
 </div>
 </div>
 </li>
@@ -1027,6 +1083,9 @@ spec:
 <div class="sect1">
 <h2 id="deploy-microservices-to-oke">4. Deploy Microservices to OKE</h2>
 <div class="sectionbody">
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1091,6 +1150,80 @@ spec:
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl apply -f api/k8s-oci.yml</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a directory for a <code>kubectl</code> configuration:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mkdir -p %USERPROFILE%/.kube</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Generate a <code>kubectl</code> configuration for authentication to OKE:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci ce cluster create-kubeconfig ^
+      --cluster-id %OCI_CLUSTER_ID% ^
+      --file %USERPROFILE%/.kube/config ^
+      --region %OCI_REGION% ^
+      --token-version 2.0.0 ^
+      --kube-endpoint PUBLIC_ENDPOINT</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Deploy the <em>auth.yml</em> file that you created in the <a href="/gdk/gdk-modules/kubernetes/micronaut-k8s/">Deploy a Micronaut Microservices Application to a Local Kubernetes Cluster</a> guide:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl apply -f auth.yml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create an <code>ocirsecret</code> secret for authentication to Container Registry using the command below. The secret is a object to store user credential data (encrypted data), for example, the database username and password. In this case, OKE uses it to authenticate to Container Registry to be able to pull microservices container images.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl create secret docker-registry ocirsecret ^
+      --docker-server=%OCI_REGION%.ocir.io ^
+      --docker-username=&lt;username&gt; ^
+      --docker-password=&lt;auth-token&gt; ^
+      --namespace=gdk-k8s</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Deploy the <em>users</em> microservice:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl apply -f users/k8s-oci.yml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Deploy the <em>orders</em> microservice:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl apply -f orders/k8s-oci.yml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the next command to deploy the <em>api</em> microservice:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl apply -f api/k8s-oci.yml</code></pre>
+</div>
+</div>
 </div>
 </div>
 </li>
@@ -1181,20 +1314,38 @@ If the quota limit has been reached, request a quota increase or delete unused L
 </li>
 <li>
 <p>Retrieve the URL of the <em>api</em> microservice and set it as the value of the <code>$API_URL</code> environment variable:</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export API_URL=http://$(kubectl get svc api -n=gdk-k8s -o json | jq -r '.status.loadBalancer.ingress[0].ip'):8080</code></pre>
 </div>
 </div>
-</li>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl get svc api -n=gdk-k8s -o json | jq -r '.status.loadBalancer.ingress[0].ip' &gt; temp.txt
+set /p IP_ADDRESS=&lt;temp.txt
+API_URL=http://%IP_ADDRESS%:8080</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>Run a <code>curl</code> command to create a new user via the <em>api</em> microservice:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X "POST" "{url}/api/users" \
      -H 'Content-Type: application/json; charset=utf-8' \
-     -d '{ "first_name": "Nemanja", "last_name": "Mikic", "username": "nmikic" }' \
-     | jq</code></pre>
+     -d '{ "first_name": "Nemanja", "last_name": "Mikic", "username": "nmikic" }'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1217,8 +1368,7 @@ If the quota limit has been reached, request a quota increase or delete unused L
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X "POST" "{url}/api/orders" \
      -H 'Content-Type: application/json; charset=utf-8' \
-     -d '{ "user_id": 1, "item_ids": [1,2] }' \
-     | jq</code></pre>
+     -d '{ "user_id": 1, "item_ids": [1,2] }'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1256,8 +1406,7 @@ If the quota limit has been reached, request a quota increase or delete unused L
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl "{url}/api/orders" \
-     -H 'Content-Type: application/json; charset=utf-8' \
-     | jq</code></pre>
+     -H 'Content-Type: application/json; charset=utf-8'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1298,8 +1447,7 @@ If the quota limit has been reached, request a quota increase or delete unused L
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -X "POST" "{url}/api/orders" \
      -H 'Content-Type: application/json; charset=utf-8' \
-     -d '{ "user_id": 100, "item_ids": [1,2] }' \
-     | jq</code></pre>
+     -d '{ "user_id": 100, "item_ids": [1,2] }'</code></pre>
 </div>
 </div>
 <div class="paragraph">

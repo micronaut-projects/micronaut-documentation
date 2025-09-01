@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -408,10 +415,10 @@
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_kubernetes_oci-kubernetes-demo-java-gradle.zip">Gradle OCI Kubernetes Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_kubernetes_oci-kubernetes-demo-java-gradle.zip">Gradle OCI Kubernetes Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_kubernetes_oci-kubernetes-demo-java-maven.zip">Maven OCI Kubernetes Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_kubernetes_oci-kubernetes-demo-java-maven.zip">Maven OCI Kubernetes Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -447,7 +454,7 @@ Alternatively, you can specify the <code>oraclecloud</code> environment passing 
 <p>Click <strong>Create cluster</strong> and select the <strong>Quick create</strong> option. Click <strong>Submit</strong>.</p>
 </li>
 <li>
-<p>Enter the name for your cluster, for example, <em>gdk-k8s</em>. Select <strong>Public Endpoint</strong> for the Kubernetes API endpoint; <strong>Private Workers</strong> for worker nodes; select the default the shape, and change the number of <strong>Node count</strong> to 1. Click <strong>Next</strong>.</p>
+<p>Enter the name for your cluster, for example, <em>gdk-k8s</em>. Select <strong>Public Endpoint</strong> for the Kubernetes API endpoint; <strong>Private Workers</strong> for worker nodes; select the default shape, and change the number of <strong>Node count</strong> to 1. Click <strong>Next</strong>.</p>
 </li>
 <li>
 <p>Click <strong>Create cluster</strong>.</p>
@@ -495,6 +502,9 @@ Alternatively, you can specify the <code>oraclecloud</code> environment passing 
 <div class="paragraph">
 <p>For example:</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export OCI_USER_ID="ocid1.user.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -503,6 +513,22 @@ export OCIR_USERNAME="$OCI_TENANCY_NAMESPACE/&lt;username&gt;"
 export OCI_REGION="&lt;region&gt;"
 export OCI_CLUSTER_ID="ocid1.cluster.oc1.iad.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 export OCI_COMPARTMENT_ID="ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">set OCI_USER_ID="ocid1.user.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+oci os ns get | jq -r .data &gt; temp.txt
+set /p OCI_TENANCY_NAMESPACE=&lt;temp.txt
+set OCIR_USERNAME=%OCI_TENANCY_NAMESPACE%/&lt;username&gt;
+set OCI_REGION="&lt;region&gt;"
+set OCI_CLUSTER_ID="ocid1.cluster.oc1.iad.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+set OCI_COMPARTMENT_ID="ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -591,6 +617,13 @@ export OCI_COMPARTMENT_ID="ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 </div>
 </div>
 </li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>Tag the existing <em>users</em> microservice container image with details of the container repository:</p>
 <div class="listingblock">
@@ -604,6 +637,31 @@ export OCI_COMPARTMENT_ID="ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push $OCI_REGION.ocir.io/$OCI_TENANCY_NAMESPACE/gdk-k8s/users-oci:latest</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Tag the existing <em>users</em> microservice container image with details of the container repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker tag users-oci:latest %OCI_REGION%.ocir.io/%OCI_TENANCY_NAMESPACE%/gdk-k8s/users-oci:latest</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push the tagged <em>users</em> microservice container image to the remote repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push %OCI_REGION%.ocir.io/%OCI_TENANCY_NAMESPACE%/gdk-k8s/users-oci:latest</code></pre>
+</div>
+</div>
 </div>
 </div>
 </li>
@@ -738,6 +796,13 @@ spec:
 </div>
 </div>
 </li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>Tag the existing <em>orders</em> microservice container image with details of the container repository:</p>
 <div class="listingblock">
@@ -751,6 +816,31 @@ spec:
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push $OCI_REGION.ocir.io/$OCI_TENANCY_NAMESPACE/gdk-k8s/orders-oci:latest</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Tag the existing <em>orders</em> microservice container image with details of the container repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker tag orders-oci:latest %OCI_REGION%.ocir.io/%OCI_TENANCY_NAMESPACE%/gdk-k8s/orders-oci:latest</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push the tagged <em>orders</em> microservice container image to the remote repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push %OCI_REGION%.ocir.io/%OCI_TENANCY_NAMESPACE%/gdk-k8s/orders-oci:latest</code></pre>
+</div>
+</div>
 </div>
 </div>
 </li>
@@ -885,6 +975,13 @@ spec:
 </div>
 </div>
 </li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>Tag the existing <em>api</em> microservice container image with details of the container repository:</p>
 <div class="listingblock">
@@ -898,6 +995,31 @@ spec:
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push $OCI_REGION.ocir.io/$OCI_TENANCY_NAMESPACE/gdk-k8s/api-oci:latest</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Tag the existing <em>api</em> microservice container image with details of the container repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker tag api-oci:latest %OCI_REGION%.ocir.io/%OCI_TENANCY_NAMESPACE%/gdk-k8s/api-oci:latest</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push the tagged <em>api</em> microservice container image to the remote repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker push %OCI_REGION%.ocir.io/%OCI_TENANCY_NAMESPACE%/gdk-k8s/api-oci:latest</code></pre>
+</div>
+</div>
 </div>
 </div>
 </li>

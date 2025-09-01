@@ -92,6 +92,13 @@
             color: #F68831;
             font-weight: bold;
         }
+        .language-bash a {
+            color: #d6d6d6 !important;
+        }
+        .language-bash a:hover {
+            color: white !important;
+            background-color: #1e2631 !important;
+        }
         a.external {
             color: #d6d6d6   !important;
         }
@@ -334,10 +341,10 @@
         <li class="tabs-maven ui-tabs-tab ui-corner-top ui-state-default" role="tab" tabindex="-1" aria-controls="maven" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a name="maven" href="#maven" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Maven</a></li>
     </ul>
     <div id="gradle" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_database_oci-db-demo-java-gradle.zip">Gradle Oracle Cloud Infrastructure MySQL Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_database_oci-db-demo-java-gradle.zip">Gradle Oracle Cloud Infrastructure MySQL Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
     <div id="maven" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.7.3.5/4.7.3.5_database_oci-db-demo-java-maven.zip">Maven Oracle Cloud Infrastructure MySQL Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
+        <a href="https://github.com/oracle/graal-dev-kit/releases/download/4.9.1.1/4.9.1.1_database_oci-db-demo-java-maven.zip">Maven Oracle Cloud Infrastructure MySQL Database Example <img src="https://graal.cloud/gdk/resources/img/gdk_modules/download-archive.png" alt="Download completed example" class="download-img-guides"/></a>
     </div>
 </div>
 <div class="paragraph">
@@ -524,7 +531,7 @@ CREATE TABLE genre (
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci iam compartment list</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/iam/compartment/list.html" class="external" target="_blank" rel="noopener">oci iam compartment list</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -558,11 +565,11 @@ CREATE TABLE genre (
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> C=<span class="hljs-string">ocid1.compartment.oc1.aaaaaaaarkh3s2wcxbbm...</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> C=<span>ocid1.compartment.oc1.aaaaaaaarkh3s2wcxbbm...</span>
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> C=<span class="hljs-string">ocid1.compartment.oc1.aaaaaaaarkh3s2wcxbbm...</span>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span>C=<span class="hljs-string">"ocid1.compartment.oc1.aaaaaaaarkh3s2wcxbbm..."</span>
 </code><button>Copy</button></pre>
     </div>
 </div>
@@ -577,7 +584,7 @@ CREATE TABLE genre (
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci mysql shape list -c $C</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/mysql/shape/list.html" class="external" target="_blank" rel="noopener">oci mysql shape list -c $C</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -603,7 +610,7 @@ CREATE TABLE genre (
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci mysql configuration list -c $C</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/mysql/configuration/list.html" class="external" target="_blank" rel="noopener">oci mysql configuration list -c $C</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -637,7 +644,7 @@ CREATE TABLE genre (
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci network vcn list -c $C</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/network/vcn/list.html" class="external" target="_blank" rel="noopener">oci network vcn list -c $C</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -671,7 +678,7 @@ CREATE TABLE genre (
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci network subnet list -c $C \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/network/subnet/list.html" class="external" target="_blank" rel="noopener">oci network subnet list -c $C \</a>
     --vcn-id ocid1.vcn.oc1.iad.amaaaaaabnqp5kqam6cm...</code></pre>
 </div>
 </div>
@@ -697,7 +704,7 @@ CREATE TABLE genre (
 </div>
 </div>
 <div class="paragraph">
-<p>Save the OCID of the subnet in the response&mdash;you will need it in a later step.</p>
+<p>Save the ID of the subnet from the response, along with one of the security list IDs — you will need them in a later step.</p>
 </div>
 </div>
 <div class="sect2">
@@ -707,7 +714,7 @@ CREATE TABLE genre (
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci iam availability-domain list -c $C</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/iam/availability-domain/list.html" class="external" target="_blank" rel="noopener">oci iam availability-domain list -c $C</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -724,35 +731,117 @@ CREATE TABLE genre (
 </div>
 </div>
 <div class="sect2">
-<h3 id="create-a-mysql-db-system">2.6. Create a MySQL DB System</h3>
+<h3 id="setup-all-variables">2.6. Setup All Variables</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Expose the values on the command line or save them in a <em>settings</em> file, then run it:</p>
+</li>
+</ol>
+</div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export SHAPE_NAME="&lt;DbShapeName&gt;" <i class="conum" data-value="1"></i><b>(1)</b>
+export MYSQL_CONF="&lt;MysqlConf&gt;"  <i class="conum" data-value="2"></i><b>(2)</b>
+export SUBNET_ID="&lt;SubnetId&gt;"  <i class="conum" data-value="3"></i><b>(3)</b>
+export AVAILABILITY_DOMAIN="&lt;AvailabilityDomain&gt;"  <i class="conum" data-value="4"></i><b>(4)</b>
+export SECURITY_LIST="&lt;SecurityListId&gt;"  <i class="conum" data-value="5"></i><b>(5)</b>
+export STORAGE_SIZE=50 <i class="conum" data-value="6"></i><b>(6)</b>
+export DB_SYSTEM_NAME="&lt;DbSystemName&gt;"  <i class="conum" data-value="7"></i><b>(7)</b>
+export ADMIN_USERNAME="&lt;AdminUsername&gt;"  <i class="conum" data-value="8"></i><b>(8)</b>
+export ADMIN_PASSWORD="&lt;AdminPassword&gt;"  <i class="conum" data-value="9"></i><b>(9)</b></code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">set SHAPE_NAME="&lt;DbShapeName&gt;"   <i class="conum" data-value="1"></i><b>(1)</b>
+set MYSQL_CONF="&lt;MysqlConf&gt;"   <i class="conum" data-value="2"></i><b>(2)</b>
+set SUBNET_ID="&lt;SubnetId&gt;"   <i class="conum" data-value="3"></i><b>(3)</b>
+set AVAILABILITY_DOMAIN="&lt;AvailabilityDomain&gt;"   <i class="conum" data-value="4"></i><b>(4)</b>
+set SECURITY_LIST="&lt;SecurityListId&gt;"   <i class="conum" data-value="5"></i><b>(5)</b>
+set STORAGE_SIZE=50    <i class="conum" data-value="6"></i><b>(6)</b>
+set DB_SYSTEM_NAME="&lt;DbSystemName&gt;" <i class="conum" data-value="7"></i><b>(7)</b>
+set ADMIN_USERNAME="&lt;AdminUsername&gt;" <i class="conum" data-value="8"></i><b>(8)</b>
+set ADMIN_PASSWORD="&lt;AdminPassword&gt;" <i class="conum" data-value="9"></i><b>(9)</b></code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
-<p>The last required parameters are the admin username and password.</p>
-</div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>Note: The username must be 1-32 characters, and it must not contain <code>'</code>, <code> ` </code>, <code>"</code>, or any of the following reserved names: <code>ocirpl</code>, <code>ociadmin</code>, <code>administrator</code>, <code>mysql.sys</code>, <code>mysql.session</code>, or <code>mysql.infoschema</code>. The password must be 8-32 characters and contain at least one uppercase, one lowercase, one numeric, and one special character.</p>
-</div>
-</blockquote>
+<p><strong>1</strong> Replace the value with your Database Shape Name.</p>
 </div>
 <div class="paragraph">
-<p>Additionally, specify the display name (because the generated name will be something like <code>mysqldbsystem20220203163902</code>). Choose a name such as "GDK\_Guide\_MySQL".
-Also specify the initial database size; it must be at least 50 GB.</p>
+<p><strong>2</strong> Replace the value with your Database System Configuration OCID.</p>
 </div>
+<div class="paragraph">
+<p><strong>3</strong> Replace the value with your Subnet OCID.</p>
+</div>
+<div class="paragraph">
+<p><strong>4</strong> Replace the value with your Availability Domain name.</p>
+</div>
+<div class="paragraph">
+<p><strong>5</strong> Replace the value with one of your Security List OCIDs.</p>
+</div>
+<div class="paragraph">
+<p><strong>6</strong> Specify the initial database size in GB (must be at least 50 GB).</p>
+</div>
+<div class="paragraph">
+<p><strong>7</strong> Specify the Database System Display Name. (The generated name may look like <code>mysqldbsystem20220203163902</code>. Use a readable name, such as "GDK_Guide_MySQL".)</p>
+</div>
+<div class="paragraph">
+<p><strong>8</strong> Replace the value with your Admin Username. The username must be 1-32 characters, and it must not contain <code>'</code>, <code> ` </code>, <code>"</code>, or any of the following reserved names:`ocirpl`, <code>ociadmin</code>, <code>administrator</code>, <code>mysql.sys</code>, <code>mysql.session</code>, or <code>mysql.infoschema</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>9</strong> Replace the value with your Admin Password. The password must be 8-32 characters and contain at least one uppercase, one lowercase, one numeric, and one special character.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-a-mysql-db-system">2.7. Create a MySQL DB System</h3>
 <div class="paragraph">
 <p>Run the <code>create</code> command with your OCIDs and other parameters substituted:</p>
 </div>
+<div class="tabs-doc ui-tabs ui-corner-all ui-widget ui-widget-content" data-name="system">
+<div data-value="linux" data-label="Linux and macOS" id="linux" aria-labelledby="ui-id-9" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci mysql db-system create -c $C \
-    --shape-name MySQL.VM.Standard.E3.1.8GB \
-    --configuration-id ocid1.mysqlconfiguration.oc1..aaaaaaaalwzc2a22xqm5... \
-    --subnet-id ocid1.subnet.oc1.iad.aaaaaaaaxgumfzpn6sul... \
-    --admin-username &lt;your username&gt; \
-    --admin-password &lt;your password&gt; \
-    --availability-domain nFuS:US-ASHBURN-AD-1 \
-    --data-storage-size-in-gbs 50 \
-    --display-name GDK_Guide_MySQL</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/mysql/db-system/create.html" class="external" target="_blank" rel="noopener">export DB_SYSTEM_ID=$(oci mysql db-system create \</a>
+    --compartment-id $C \
+    --shape-name $SHAPE_NAME \
+    --configuration-id $MYSQL_CONF \
+    --subnet-id $SUBNET_ID \
+    --admin-username $ADMIN_USERNAME \
+    --admin-password $ADMIN_PASSWORD \
+    --availability-domain $AVAILABILITY_DOMAIN \
+    --data-storage-size-in-gbs $STORAGE_SIZE \
+    --display-name $DB_SYSTEM_NAME \
+    | jq -r '.data.id')</code></pre>
+</div>
+</div>
+</div>
+    <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-10" role="tabpanel"
+         class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/mysql/db-system/create.html" class="external" target="_blank" rel="noopener">oci mysql db-system create -c %C% &#94;</a>
+    --shape-name %SHAPE_NAME% ^
+    --configuration-id %MYSQL_CONF% ^
+    --subnet-id %SUBNET_ID% ^
+    --admin-username %ADMIN_USERNAME% ^
+    --admin-password %ADMIN_PASSWORD% ^
+    --availability-domain %AVAILABILITY_DOMAIN% ^
+    --data-storage-size-in-gbs %STORAGE_SIZE% ^
+    --display-name %DB_SYSTEM_NAME% ^
+    | jq -r &quot;.data.id&quot; &gt; oci-db.txt
+set /p DB_SYSTEM_ID=&lt;oci-db.txt</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -817,13 +906,13 @@ Save the database OCID from the <code>id</code> property in the response.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="retrieve-information-describing-the-mysql-db-system">2.7. Retrieve Information Describing the MySQL DB System</h3>
+<h3 id="retrieve-information-describing-the-mysql-db-system">2.8. Retrieve Information Describing the MySQL DB System</h3>
 <div class="paragraph">
 <p>Wait for the MySQL DB System to be provisioned, then run the <a href="https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/mysql/db-system/get.html">get</a> command with the OCID  of the MySQL DB System as the argument to the <code>--db-system-id</code> option:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci mysql db-system get \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/mysql/db-system/get.html" class="external" target="_blank" rel="noopener">oci mysql db-system get \</a>
     --db-system-id ocid1.mysqldbsystem.oc1.iad.aaaaaaaa2pq3a37hftut...</code></pre>
 </div>
 </div>
@@ -840,7 +929,7 @@ Save the database OCID from the <code>id</code> property in the response.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="create-an-ingress-rule">2.8. Create an Ingress Rule</h3>
+<h3 id="create-an-ingress-rule">2.9. Create an Ingress Rule</h3>
 <div class="paragraph">
 <p>To allow your application to connect to the MySQL DB System, <a href="https://docs.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/network/security-list/update.html">create an ingress rule</a> for port 3306 in the subnet.</p>
 </div>
@@ -849,7 +938,7 @@ Save the database OCID from the <code>id</code> property in the response.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci network security-list get --security-list-id ocid1.securitylist.oc1.iad.aaaaaaaadlkscc7uktdd...</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/network/security-list/get.html" class="external" target="_blank" rel="noopener">oci network security-list get --security-list-id ocid1.securitylist.oc1.iad.aaaaaaaadlkscc7uktdd...</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -965,9 +1054,9 @@ Add a new object to the JSON list for the ingress rule on port 3306:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci network security-list update \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/network/security-list/update.html" class="external" target="_blank" rel="noopener">oci network security-list update \</a>
     --security-list-id ocid1.securitylist.oc1.iad.aaaaaaaadlkscc7uktdd... \
-    --ingress-security-rules file://ingress.json</code></pre>
+    --ingress-security-rules <a href="file://ingress.json" class="bare">file://ingress.json</a></code></pre>
 </div>
 </div>
 </div>
@@ -1232,15 +1321,15 @@ Flyway will create the database tables the first time the application starts, bu
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows" data-label="Windows" id="windows" aria-labelledby="ui-id-12" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://$MYSQL_DB_SYSTEM_PRIVATE_IP:3306/db_name </span><i class="conum" data-value="1"/></i><b>(1)</b>
-<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">&lt;username&gt; </span><i class="conum" data-value="2"/></i><b>(2)</b>
-<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">&lt;password&gt; </span><i class="conum" data-value="3"/></i><b>(3)</b>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_URL=<span>jdbc:mysql://%MYSQL_DB_SYSTEM_PRIVATE_IP%:3306/db_name </span><i class="conum" data-value="1"/></i><b>(1)</b>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_USERNAME=<span>&lt;username&gt; </span><i class="conum" data-value="2"/></i><b>(2)</b>
+<span class="hljs-built_in">set</span> DATASOURCES_DEFAULT_PASSWORD=<span>&lt;password&gt; </span><i class="conum" data-value="3"/></i><b>(3)</b>
 </code><button>Copy</button></pre>
     </div>
     <div data-value="windows-powershell" data-label="Windows PowerShell" id="windows-powershell" aria-labelledby="ui-id-13" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
-      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_URL=<span class="hljs-string">jdbc:mysql://$MYSQL_DB_SYSTEM_PRIVATE_IP:3306/db_name </span><i class="conum" data-value="1"/></i><b>(1)</b>
-<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">&lt;username&gt; </span><i class="conum" data-value="2"/></i><b>(2)</b>
-<span class="hljs-variable">$ENV:</span> DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">&lt;password&gt; </span><i class="conum" data-value="3"/></i><b>(3)</b>
+      <pre><code class="language-bash hljs" data-highlighted="yes"><span class="hljs-variable">$ENV:</span>DATASOURCES_DEFAULT_URL=<span class="hljs-string">"jdbc:mysql://$MYSQL_DB_SYSTEM_PRIVATE_IP:3306/db_name "</span><i class="conum" data-value="1"/></i><b>(1)</b>
+<span class="hljs-variable">$ENV:</span>DATASOURCES_DEFAULT_USERNAME=<span class="hljs-string">"&lt;username&gt; "</span><i class="conum" data-value="2"/></i><b>(2)</b>
+<span class="hljs-variable">$ENV:</span>DATASOURCES_DEFAULT_PASSWORD=<span class="hljs-string">"&lt;password&gt; "</span><i class="conum" data-value="3"/></i><b>(3)</b>
 </code><button>Copy</button></pre>
     </div>
 </div>
@@ -1422,7 +1511,7 @@ docker rm container_temp</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oci mysql db-system delete \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><a href="https://docs.oracle.com/en-us/iaas/tools/oci-cli/3.56.0/oci_cli_docs/cmdref/mysql/db-system/delete.html" class="external" target="_blank" rel="noopener">oci mysql db-system delete \</a>
     --db-system-id ocid1.mysqldbsystem.oc1.iad.aaaaaaaa2pq3a37hftut...</code></pre>
 </div>
 </div>

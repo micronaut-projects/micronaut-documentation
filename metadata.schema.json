@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Metadata Schema",
+  "type": "object",
+  "properties": {
+    "metadataAttributes": {
+      "type": "object",
+      "properties": {
+        "customized_url_source": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https?://"
+        }
+      },
+      "required": [
+        "customized_url_source"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "metadataAttributes"
+  ],
+  "additionalProperties": false
+}
